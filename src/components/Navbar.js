@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Button } from "react-router-dom";
+import Register from './Register'
+import Sesion from './Sesion'
 import logo from './logo.png';
 
 class Navbar extends Component {
+  constuctor() {
+    this.changeRegister = this.changeRegister.bind(this);
+    this.changeSesion = this.changeSesion.bind(this);
+  }
+
+  changeRegister() {
+    this.props.history.push('/Register.js');
+  }
+
+  changeSesion() {
+    
+  }
 
   render() {
     return(
@@ -19,8 +35,8 @@ class Navbar extends Component {
           </ul>
             
         </div>
-        <button className="btn btn-outline-primary mr-sm-2" href="#">Registrarse</button>
-        <button className="btn btn-outline-primary" href="#">Iniciar sesión</button>    
+        <button to="/Register" className="btn btn-outline-primary mr-sm-2">Registrarse</button>
+        <button className="btn btn-outline-primary" href="#" onClick={this.changeSesion}>Iniciar sesión</button>    
       </nav>
     )
   }
