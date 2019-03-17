@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import Productos from './components/Productos';
 
 
 class App extends Component {
@@ -12,7 +13,7 @@ class App extends Component {
         <Sidebar/>
 
         <header className="App-header">
-  
+  			<Productos/>
         </header>
 
 
