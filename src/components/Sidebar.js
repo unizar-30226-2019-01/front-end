@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.png';
 import './sidebar.css';
+import moto from './moto.jpg'
+import coche from './coche.jpg'
+import Productos from './Productos';
 
 class Sidebar extends Component {
   constructor(props) {
@@ -22,20 +25,55 @@ class Sidebar extends Component {
   render() {
 
     return(
-      <div className="w3-sidebar w3-light-grey w3-bar-block" >
-        <h3 className="w3-bar-item">Filtros</h3>
+
+      <div className="sidebar" >
+
+        <h3>Filtros</h3>
 
         <a>Buscar por categoría</a>
-        <div class="btn-group dropright">
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+        <div className="btn-group dropright">
+          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categorias
           </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+          <div className="dropdown-menu">
+            <a className="dropright-item" href="#">&nbsp;&nbsp;Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropdown-item" href="#"></a>
+            <a>&nbsp;&nbsp;<img src={moto}></img></a>
+            <img src={moto}></img>
+            <img src={moto}></img>
+            <img src={moto}></img>
+            <img src={moto}></img>
+            <a className="dropright-item" href="#">&nbsp;&nbsp;Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropdown-item" href="#"></a>
+            <a>&nbsp;&nbsp;<img src={moto}></img></a>
+            <img src={moto}></img>
+            <img src={moto}></img>
+            <img src={moto}></img>
+            <img src={moto}></img>
           </div>
         </div>
+
+
+
 
         <br/><br/>
 
@@ -51,9 +89,7 @@ class Sidebar extends Component {
           <input type="text" className="trans-box" id="precioActual" size="1" value="" />
           <br/><br/>
 
-
-
-      </div>
+    </div>
     )
   }
 }

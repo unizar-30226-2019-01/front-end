@@ -7,12 +7,51 @@
     transition:height 1s;
     -webkit-transition:height 1s;
 }
-
 .card-title,.card-text{
   color:black;
 }
 .card{
   padding: 10px;
-  height: 500px;
-  weight:200px;
+  height: 350px;
+  width:250px;
+}
+
+.card:hover{
+  -webkit-box-shadow: 18px 25px 31px -2px rgba(0,0,0,0.59);
+-moz-box-shadow: 18px 25px 31px -2px rgba(0,0,0,0.59);
+box-shadow: 18px 25px 31px -2px rgba(0,0,0,0.59);
+bottom:10px;
+}
+.card-title{
+  font-size: 20px;
+}
+.card-text{
+  font-size:15px;
+}
+.card-footer{
+  font-size: 20px;
+}
+.sidebar{
+  display:block;
+  background-color: #E3EBEB;
+  float:left;
+  width:200px;
+  position: fixed;
+  z-index: 999;
+}
+.sidebar a{
+  text-decoration: none;
+  font-size: 15px;
+}
+.sidebar img{
+  height: 60px;
+  width:60px;
+  padding-right:15px;
+  left:10px;
+}
+.sidebar img:hover{
+  color:blue;
+}
+.sidebar .btn-group:hover ~ .App-header {
+  opacity:0.5;
 }
