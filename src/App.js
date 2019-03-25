@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Navbar from './components/Navbar';
+import NavLog from './components/NavLog';
 import Sidebar from './components/Sidebar';
 import Productos from './components/Productos';
 import Prueba from './components/Prueba';
@@ -17,7 +17,7 @@ class App extends Component {
     // const { children }  = this.props;
     return (
       <div className="App">
-        <Navbar/>
+        <NavLog/>
         <Sidebar/>
         <div className="App-header">
           <Productos/>
