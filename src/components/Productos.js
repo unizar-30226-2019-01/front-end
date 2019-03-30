@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
+import Button from 'react-bootstrap/Button';
 import logo from './logo.png';
-import bichardo from './bichardo.jpg'
+import bichardo from './bichardo.jpg';
+
+import VistaProducto from './VistaProducto';
 
 
 class Productos extends Component {
+
+  constructor(args) {
+    super(args);
+    this.state = { modalShow: false }; //Para gestionar vistaProducto (guille)
+  }
 
   handleClick() {
     alert("hola que tal");
   }
 
   render() {
+    let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
+
     return(
       <div className="card-deck">
       <div className="card">
@@ -18,9 +28,12 @@ class Productos extends Component {
           <h5 className="card-title">BICHO MOTIVADO</h5>
           <p className="card-text">Ez un jugador de furgol que lo está petando</p>
         </div>
-        <div className="card-footer">
-          <small className="text-muted">3 RUPIAS</small>
-        </div>
+        <div className="card-footer"> {/*Para gestionar vistaProducto (guille)*/}
+          <Button variant="outline-primary" onClick={() => this.setState({ modalShow: true })} >
+            Ver producto
+          </Button>
+          <VistaProducto show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} />
+        </div> {/* Fin para gestionar vistaProducto (guille)*/}
       </div>
       <div className="card">
         <img className="card-img-top" src="..." alt="Card image cap"/>
