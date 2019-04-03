@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import logo from './logo.png';
 import bichardo from './bichardo.jpg';
+import bixobasket from './bixobasket.jpg';
 
 import VistaProducto from './VistaProducto';
 
@@ -36,10 +37,10 @@ class Productos extends Component {
         </div> {/* Fin para gestionar vistaProducto (guille)*/}
       </div>
       <div className="card">
-        <img className="card-img-top" src="..." alt="Card image cap"/>
+        <img className="card-img-top" src={bixobasket} alt="Card image cap"/>
         <div className="card-body">
-          <h5 className="card-title">Card title</h5>
-          <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+          <h5 className="card-title"> </h5>
+          <p className="card-text">Cristiano Ronaldo Shows Off Basketball Skills at Real Madrid Training</p>
         </div>
         <div className="card-footer">
           <small className="text-muted">Last updated 3 mins ago</small>
