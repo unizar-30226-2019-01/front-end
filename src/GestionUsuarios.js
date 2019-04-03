@@ -30,20 +30,6 @@ export const login = user => {
     })
 }
 
-export const getProfile = user => {
-  return axios
-    .get('profile', {
-      //headers: { Authorization: ` ${this.getToken()}` }
-    })
-    .then(response => {
-      console.log(response)
-      return response.data
-    })
-    .catch(err => {
-      console.log(err)
-    })
-}
-
 export const actualizarInfo = user => {
   axios
       .post(`updateUsuario`, {
