@@ -38,7 +38,7 @@ class NavLog extends Component {
                 <br />
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
-                 <Button 
+                 <Button
                       href="/registro"
                       className=" mr-sm-4" variant="success">Registrarse</Button>
               <br />
@@ -74,7 +74,7 @@ class NavLog extends Component {
               </Button>
             </Form>
             <br />
-            <Button className=" ml-sm-4" variant="success">Subir producto</Button>
+            <Button className=" ml-sm-4" href="/subirProducto" variant="success">Subir producto</Button>
           </Navbar.Collapse>
         </Navbar.Collapse>
       </Navbar>
