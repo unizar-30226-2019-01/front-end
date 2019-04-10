@@ -44,7 +44,9 @@ class NavLog extends Component {
               <br />
             <br />
             <Button className=" mr-md-4" variant="success">Subir producto</Button>
-            <img src={icono} width="70" height="70"></img>
+            <Link to="/perfil">
+               <img src={icono} width="70" height="70"></img>
+            </Link>
           </Navbar.Collapse>
         </Navbar.Collapse>
       </Navbar>
