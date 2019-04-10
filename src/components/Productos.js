@@ -11,7 +11,6 @@ import { getProductos } from '../GestionPublicaciones';
 class Productos extends Component {
 
   constructor(args) {
-    console.log("YES")
     super(args);
     this.state = { 
         modalShow: false,
@@ -43,21 +42,23 @@ class Productos extends Component {
     return(
       <div className="card-deck">
         {this.state.productos.map((productos, index) => (
-      <div className="card">
-        <img className="card-img-top" src={bichardo} />
-        <div className="card-body">
-          <h5 className="card-title">{productos[0]}</h5>
-          <p className="card-text">Vendedor: {productos[3]}</p>
-        </div>
-        <div className="card-footer"> {/*Para gestionar vistaProducto (guille)*/}
-          <Button variant="outline-primary" onClick={() => this.setState({ modalShow: true })} >
-            Ver producto
-          </Button>
-          <VistaProducto producto={productos} show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} />
-        </div> {/* Fin para gestionar vistaProducto (guille)*/}
+        <div className="card-deck" rows="4" columns="4">
+          <div className="card">
+            <img className="card-img-top" src={bichardo} />
+            <div className="card-body">
+              <h5 className="card-title">{productos[0]}</h5>
+              <p className="card-text">Vendedor: {productos[3]}</p>
+            </div>
+            <div className="card-footer"> {/*Para gestionar vistaProducto (guille)*/}
+              <Button variant="outline-primary" onClick={() => this.setState({ modalShow: true })} >
+                Ver producto
+              </Button>
+              <VistaProducto producto={productos} show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} />
+            </div> {/* Fin para gestionar vistaProducto (guille)*/}
+          </div>
+          </div>
+        ))}
       </div>
-       ))}
-    </div>
     )
   }
 }
