@@ -7,18 +7,14 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Registro from './Registro';
 import ReactDOM from 'react-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 
 class NavLog extends Component {
-
-    registro = e => {
-    e.preventDefault()
-    ReactDOM.render(<Registro />, document.getElementById('root'));
-  }
 
   render() {
     return (
       <Navbar collapseOnSelect expand="md" bg="light" variant="light" sticky="top" fixed="top">
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
            <h2>
             <img
               alt=""
@@ -42,8 +38,9 @@ class NavLog extends Component {
                 <br />
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
-              <Button onClick={this.registro.bind(this)}
-                     className=" mr-sm-4" variant="success">Registrarse</Button>
+                 <Button 
+                      href="/registro"
+                      className=" mr-sm-4" variant="success">Registrarse</Button>
               <br />
               <br />
               <Form inline onSubmit={this.onSubmit}>
