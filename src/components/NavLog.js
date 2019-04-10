@@ -7,8 +7,40 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Registro from '../Registro';
 import ReactDOM from 'react-dom';
+import { login } from '../GestionUsuarios';
 
 class NavLog extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      login: '',
+      password: ''
+    }
+
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  onSubmit(e) {
+    e.preventDefault()
+
+    const user = {
+      login: this.state.login,
+      password: this.state.password
+    }
+
+    login(user).then(res => {
+      if (!res.error) {
+      }
+      else{
+        
+      }
+    })
+  }
 
     registro = e => {
     e.preventDefault()
@@ -56,6 +88,8 @@ class NavLog extends Component {
                   name="login"
                   aria-label="Usuario"
                   aria-describedby="basic-addon1"
+                  value={this.state.login}
+                  onChange={this.onChange}  
                 />
               </InputGroup>
               <br />
@@ -69,6 +103,8 @@ class NavLog extends Component {
                   placeholder="Contraseña"
                   aria-label="Contraseña"
                   aria-describedby="basic-addon1"
+                  value={this.state.password}
+              onChange={this.onChange} 
                 />
               </InputGroup>
               <br />
