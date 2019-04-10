@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './css/App.css';
 import NavLog from './components/NavLog';
+import NavLogReg from './components/NavLogReg';
 import Sidebar from './components/Sidebar';
 import Productos from './components/Productos';
 import Prueba from './components/Prueba';

@@ -22,7 +22,8 @@ class Productos extends Component {
     let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
 
     return(
-      <div className="card-deck">
+
+      <div className="card-deck" rows="4" columns="4">
       <div className="card">
         <img className="card-img-top" src={bichardo} />
         <div className="card-body">
@@ -66,6 +67,7 @@ class Productos extends Component {
           <small className="text-muted">Last updated 3 mins ago</small>
         </div>
       </div>
+
     </div>
 
 
