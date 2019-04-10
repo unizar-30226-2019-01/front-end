@@ -4,7 +4,6 @@ import NavLog from './components/NavLog';
 import NavLogReg from './components/NavLogReg';
 import Sidebar from './components/Sidebar';
 import Productos from './components/Productos';
-import Prueba from './components/Prueba';
 import { Link } from 'react-router-dom';
 
 
