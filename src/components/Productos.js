@@ -5,19 +5,37 @@ import bichardo from '../images/bichardo.jpg';
 import bixobasket from '../images/bixobasket.jpg';
 
 import VistaProducto from './VistaProducto';
+import { getProductos } from '../GestionPublicaciones';
 
 
 class Productos extends Component {
 
   constructor(args) {
     super(args);
-    this.state = { modalShow: false }; //Para gestionar vistaProducto (guille)
+    this.state = { 
+        modalShow: false,
+        id: '',
+        usuario: this.props.usuario,
+        productos: []
+    };
+}
+
+  componentDidMount () {
+      this.getAll()
   }
 
-  handleClick() {
-    alert("hola que tal");
-  }
 
+  getAll = () => {
+      getProductos().then(data => {
+          this.setState({
+              productos: [...data]
+          },
+              () => {
+                  console.log(this.state.term)
+              })
+      })
+  }
+  
   render() {
     let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
 
