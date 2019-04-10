@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { register } from '../GestionUsuarios';
-
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 class Register extends Component {
 
@@ -36,20 +36,16 @@ class Register extends Component {
       telefono: this.state.telefono,
       email: this.state.email
     }
-    register(newUser).then(res => {
-      if (!res.error) {
-        console.log("registrado")
-        //ReactDOM.render(<Actividades usuario={this.state.login}/>, document.getElementById('root'));
-      }
-      else{
-        //ReactDOM.render(<App />, document.getElementById('root'));
-      }
-    })
+    register(newUser)
+    this.setState({redirect: true});
   }
 
 
 
   render(){
+    if (this.state.redirect){
+      return <Redirect push to="/" />;
+    }
     return (
     <div>
       <h1>

@@ -36,10 +36,8 @@ class NavLog extends Component {
     login(user).then(res => {
       if (!res.error) {
       }
-      else{
-        
-      }
-    })
+    login(user)
+    this.setState({redirect: true});
   }
 
     registro = e => {
@@ -50,7 +48,7 @@ class NavLog extends Component {
   render() {
     return (
       <Navbar collapseOnSelect expand="md" bg="light" variant="light" sticky="top" fixed="top">
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
            <h2>
             <img
               alt=""
@@ -74,8 +72,9 @@ class NavLog extends Component {
                 <br />
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
-              <Button onClick={this.registro.bind(this)}
-                     className=" mr-sm-4" variant="success">Registrarse</Button>
+                 <Button 
+                      href="/registro"
+                      className=" mr-sm-4" variant="success">Registrarse</Button>
               <br />
               <br />
               <Form inline onSubmit={this.onSubmit}>

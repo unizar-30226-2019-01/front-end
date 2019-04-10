@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const register = newUser => {
   return axios
+  
     .post('register', {
       login: newUser.login,
       password: newUser.password,
