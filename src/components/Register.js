@@ -59,7 +59,7 @@ class Register extends Component {
           <Row>
             <Col>
             <Form.Group controlId="nombre">
-              <Form.Control 
+              <Form.Control
                 placeholder="Nombre"
                 name="nombre"
                 value={this.state.nombre}
@@ -69,8 +69,8 @@ class Register extends Component {
             </Col>
             <Col>
             <Form.Group controlId="apellidos">
-              <Form.Control 
-                placeholder="Apellidos" 
+              <Form.Control
+                placeholder="Apellidos"
                 name="apellidos"
                 value={this.state.apellidos}
                 onChange={this.onChange}
@@ -78,10 +78,10 @@ class Register extends Component {
             </Form.Group>
             </Col>
           </Row>
-          
+
           <Form.Group controlId="login">
-              <Form.Control 
-                placeholder="Usuario" 
+              <Form.Control
+                placeholder="Usuario"
                 name="login"
                 value={this.state.login}
                 onChange={this.onChange}
@@ -89,8 +89,8 @@ class Register extends Component {
             </Form.Group>
 
           <Form.Group controlId="email">
-            <Form.Control 
-              type="email" 
+            <Form.Control
+              type="email"
               placeholder="Email"
               name="email"
               value={this.state.email}
@@ -99,8 +99,8 @@ class Register extends Component {
           </Form.Group>
 
           <Form.Group controlId="password">
-            <Form.Control 
-              type="password" 
+            <Form.Control
+              type="password"
               placeholder="Contraseña"
               name="password"
               value={this.state.password}
@@ -108,7 +108,7 @@ class Register extends Component {
               />
           </Form.Group>
 
-          <Button 
+          <Button
             type="submit"
             className="btn btn-lg btn-primary btn-block">
             Registrarte
