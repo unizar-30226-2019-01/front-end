@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Registro from './Registro';
 import ReactDOM from 'react-dom';
 import { login } from '../GestionUsuarios';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 class NavLog extends Component {
 
@@ -33,16 +34,8 @@ class NavLog extends Component {
       password: this.state.password
     }
 
-    login(user).then(res => {
-      if (!res.error) {
-      }
     login(user)
     this.setState({redirect: true});
-  }
-
-    registro = e => {
-    e.preventDefault()
-    ReactDOM.render(<Registro />, document.getElementById('root'));
   }
 
   render() {

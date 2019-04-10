@@ -12,9 +12,12 @@ import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 
 class VistaProducto extends Component {
-  constructor(args) {
-    super(args);
-    this.state = {rating: 4}; //Para conseguir la valoracion del vendedor
+  constructor(props) {
+    super(props);
+    this.state = {
+      rating: 4,
+      producto: this.props.producto
+    }; //Para conseguir la valoracion del vendedor
 
     this.changeRating = this.changeRating.bind(this);
   }
@@ -36,7 +39,7 @@ class VistaProducto extends Component {
       >
         <Modal.Header closeButton>
           <Modal.Title bsPrefix="modal-title w-100 text-center" id="contained-modal-title-vcenter">
-            ESTO ES EL BICHOOOOOO
+           {this.state.producto[0]}
           </Modal.Title>
         </Modal.Header>
 
@@ -45,7 +48,7 @@ class VistaProducto extends Component {
             <Row className="show-grid">
               <Col xs={6}>
                 <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
-                  VENDEDOR: JUVENTUS DE TURIN
+                  VENDEDOR: {this.state.producto[3]}
                 </Button>
               </Col>
               <Col xs={3}>
@@ -90,9 +93,9 @@ class VistaProducto extends Component {
             </div>
           </div>
 
-          <h4>Descripción (HAY QUE MEJORAR EL BOTON DE FAVORITO)</h4>
+          <h4>Descripción:</h4>
           <p>
-            Cristiano Ronaldo un crack dueño de la SR7 champions league
+            {this.state.producto[2]}
           </p>
         </Modal.Body>
 
