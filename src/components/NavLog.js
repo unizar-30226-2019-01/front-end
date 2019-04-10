@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../images/logo.png';
 import Navbar from 'react-bootstrap/Navbar';
+import NavLogReg from './NavLogReg';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
@@ -9,6 +10,8 @@ import Registro from './Registro';
 import ReactDOM from 'react-dom';
 import { login } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
+
+var logged=0;
 
 class NavLog extends Component {
 
@@ -33,12 +36,16 @@ class NavLog extends Component {
       login: this.state.login,
       password: this.state.password
     }
-
+    logged=1
     login(user)
     this.setState({redirect: true});
   }
 
   render() {
+    if (logged){
+      return <NavLogReg />
+    }
+
     return (
       <Navbar collapseOnSelect expand="md" bg="light" variant="light" sticky="top" fixed="top">
           <Navbar.Brand href="/">

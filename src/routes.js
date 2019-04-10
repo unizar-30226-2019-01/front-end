@@ -13,7 +13,7 @@ import SubirProducto from './components/SubirProducto';
 
 const AppRoutes = () =>
   <div>
-    <NavLogReg />
+    <NavLog />
     <Switch>
       <Route exact path="/registro" component={Registro} />
       <Route exact path="/subirProducto" component={SubirProducto} />
