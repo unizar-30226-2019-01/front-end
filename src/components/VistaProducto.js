@@ -79,7 +79,7 @@ class VistaProducto extends Component {
 
           <div className="row mt-4">
             <div className="col-md-3">
-              <h3>Precio: 3€</h3>
+              <h3>Precio: {this.state.producto[4]}</h3>
             </div>
             <div className="col-md-9 text-right">
               <ButtonGroup toggle>

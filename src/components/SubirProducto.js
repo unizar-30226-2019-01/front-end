@@ -4,13 +4,53 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { anadirProducto } from '../GestionPublicaciones';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 class SubirProducto extends Component {
   constructor(args) {
     super(args);
     this.state = {
-      venta: true
-    };
+      venta: true,
+      nombre: '',
+      fecha: '',
+			lugar: '',
+			categoria: '',
+      descripcion: '',
+      vendedor: '',
+      precio: ''
+    }
+
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  onSubmit(e) {
+    e.preventDefault()
+
+    var day = new Date();
+    var dd = day.getDate();
+    var mm = day.getMonth();
+    var yy = day.getFullYear();
+
+    var fecha = dd+'/'+mm+'/'+yy
+    
+
+    const newProducto = {
+      nombre: this.state.nombre,
+      fecha: fecha,
+			categoria: this.state.categoria,
+      descripcion: this.state.descripcion,
+      vendedor: this.state.vendedor,
+      precio: this.state.precio,
+      foto: this.state.foto,
+    }
+    anadirProducto(newProducto)
+    this.setState({redirect: true});
+
   }
 
   changeVentSubst (valor) {
@@ -19,7 +59,12 @@ class SubirProducto extends Component {
     })
   }
 
+
+
   render(){
+    if (this.state.redirect){
+      return <Redirect push to="/" />;
+    }
     let contenido
     if (this.state.venta) {
       contenido = <Form.Group controlId="productPrice">
@@ -54,16 +99,26 @@ class SubirProducto extends Component {
           <Row className="show-grid">
             <Col xs={3} />
             <Col xs={6}>
-              <Form>
+              <Form noValidate onSubmit={this.onSubmit}>
                 <Form.Group controlId="productName">
-                  <Form.Control placeholder="Nombre" />
+                  <Form.Control 
+                  placeholder="Nombre"
+                  name="nombre"
+										value={this.state.nombre}
+										onChange={this.onChange} />
                 </Form.Group>
                 <Form.Group controlId="productDescription">
-                  <Form.Control as="textarea" rows="5" placeholder="Descripcion" />
+                  <Form.Control as="textarea" rows="5" placeholder="Descripcion"
+                  name="descripcion"
+                  value={this.state.descripcion}
+                  onChange={this.onChange} />
                 </Form.Group>
                 <Form.Group controlId="categoryProduct">
                   <Form.Label>Categoría</Form.Label>
-                  <Form.Control as="select">
+                  <Form.Control as="select"
+                  name="categoria"
+                  value={this.state.categoria}
+                  onChange={this.onChange}>
                     <option>Choose...</option>
                     <option>...</option>
                     <option>...</option>
@@ -72,7 +127,10 @@ class SubirProducto extends Component {
                 </Form.Group>
                 <Form.Group controlId="photoProduct">
                   <Form.Label>Foto</Form.Label>
-                  <Form.Control type="file">
+                  <Form.Control type="file"
+                  name="foto"
+                  value={this.state.foto}
+                  onChange={this.onChange}>
                   </Form.Control>
                 </Form.Group>
                 <Form.Group>

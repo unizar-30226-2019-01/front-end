@@ -11,6 +11,7 @@ import { getProductos } from '../GestionPublicaciones';
 class Productos extends Component {
 
   constructor(args) {
+    console.log("YES")
     super(args);
     this.state = { 
         modalShow: false,
