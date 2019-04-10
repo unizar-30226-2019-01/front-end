@@ -7,9 +7,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import bichardo from './bichardo.jpg';
-import bixorobar from './bixorobar.jpg';
-import bixopolilla from './bixopolilla.jpg';
+import bichardo from '../images/bichardo.jpg';
+import bixorobar from '../images/bixorobar.jpg';
+import bixopolilla from '../images/bixopolilla.jpg';
 
 class VistaProducto extends Component {
   constructor(args) {

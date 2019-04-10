@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.png';
+import logo from '../images/logo.png';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import Registro from '../Registro';
+import Registro from './Registro';
 import ReactDOM from 'react-dom';
 import { login } from '../GestionUsuarios';
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.png';
-import './sidebar.css';
-import moto from './moto.jpg'
-import coche from './coche.jpg'
+import logo from '../images/logo.png';
+import '../css/sidebar.css';
+import moto from '../images/moto.jpg'
+import coche from '../images/coche.jpg'
 import Productos from './Productos';
 
 class Sidebar extends Component {

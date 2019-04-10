@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import NavLog from './components/NavLog';
-import Register from './components/Register';
+import NavLog from './NavLog';
+import Register from './Register';
 
 class Registro extends Component {
 
