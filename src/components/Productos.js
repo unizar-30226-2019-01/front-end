@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
-import logo from './logo.png';
-import bichardo from './bichardo.jpg';
-import bixobasket from './bixobasket.jpg';
+import logo from '../images/logo.png';
+import bichardo from '../images/bichardo.jpg';
+import bixobasket from '../images/bixobasket.jpg';
 
 import VistaProducto from './VistaProducto';
 
