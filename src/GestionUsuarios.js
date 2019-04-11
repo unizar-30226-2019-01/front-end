@@ -35,10 +35,11 @@ export const actualizarInfo = user => {
   axios
       .post(`updateUsuario`, {
         login: user.login,
-        password: user.password,
         nombre: user.nombre,
         apellidos: user.apellidos,
-        email: user.email
+        telefono: user.telefono,
+        email: user.email,
+        biografia: user.biografia
       })
       .then(response => {
         localStorage.setItem('usertoken', response.data)

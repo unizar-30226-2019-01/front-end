@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
-import { deleteUser } from '../GestionUsuarios';
-import { Redirect } from 'react-router-dom';
 
 class Perfil extends Component {
   constructor() {
@@ -38,20 +36,16 @@ class Perfil extends Component {
       login: this.state.login
     }
 
-   deleteUser(user)
-   this.setState({redirect: true});
+   // deleteUser(user)
+   // ReactDOM.render(<App />, document.getElementById('root'));
   }
 
   cerrarSesion = e => {
     e.preventDefault()
-    this.setState({redirect: true});
-
+ //   ReactDOM.render(<App />, document.getElementById('root'));
   }
 
   render() {
-    if (this.state.redirect){
-      return <Redirect push to="/" />;
-    }
     return (
       <div className="Perfil">
       <div className="row">
