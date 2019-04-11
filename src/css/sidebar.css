@@ -10,16 +10,13 @@
 .card-title,.card-text{
   color:black;
 }
-
-.card-deck{
-  padding-bottom: 20px;
-  
-}
-
 .card{
   padding: 10px;
   height: 350px;
   width:250px;
+}
+.card-deck{
+  padding-bottom: 30px;
 }
 
 .card:hover{

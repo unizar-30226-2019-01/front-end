@@ -47,7 +47,8 @@ class NavLog extends Component {
     }
 
     return (
-      <Navbar collapseOnSelect expand="md" bg="light" variant="light" sticky="top" fixed="top">
+      <div className="Navbar">
+      <Navbar collapseOnSelect expand="md" bg="light" variant="light" fixed="top">
           <Navbar.Brand href="/">
            <h2>
             <img
@@ -116,6 +117,8 @@ class NavLog extends Component {
           </Navbar.Collapse>
         </Navbar.Collapse>
       </Navbar>
+      <br /> <br /> <br />
+      </div>
     );
   }
 }

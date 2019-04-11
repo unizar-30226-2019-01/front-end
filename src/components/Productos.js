@@ -10,8 +10,8 @@ import { getProductos } from '../GestionPublicaciones';
 
 class Productos extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor(args) {
+    super(args);
     this.state = { 
         modalShow: false,
         id: '',
@@ -43,7 +43,7 @@ class Productos extends Component {
       <div className="card-deck">
         {this.state.productos.map((productos, index) => (
         <div className="card-deck" rows="4" columns="4">
-          <div className="card">
+          <div className="card ml-md-4 mr-md-4">
             <img className="card-img-top" src={bichardo} />
             <div className="card-body">
               <h5 className="card-title">{productos[0]}</h5>

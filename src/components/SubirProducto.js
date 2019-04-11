@@ -91,6 +91,7 @@ class SubirProducto extends Component {
     return(
       <div>
         <Container>
+        <br />
           <Row>
             <div class="w-100 text-center">
               <h1>Subir Producto</h1>

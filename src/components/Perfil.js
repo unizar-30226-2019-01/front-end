@@ -12,7 +12,9 @@ class Perfil extends Component {
       login: '',
       nombre: '',
       apellidos: '',
-      email: ''
+      telefono: '',
+      email: '',
+      biografia: ''
     }
   }
 
@@ -23,7 +25,9 @@ class Perfil extends Component {
       login: decoded.identity.login,
       nombre: decoded.identity.nombre,
       apellidos: decoded.identity.apellidos,
-      email: decoded.identity.email
+      telefono: decoded.identity.telefono,
+      email: decoded.identity.email,
+      biografia: decoded.identity.biografia
     })
   }
 
@@ -73,8 +77,16 @@ class Perfil extends Component {
                 <td>{this.state.apellidos}</td>
               </tr>
               <tr>
+                <td>Teléfono</td>
+                <td>{this.state.telefono}</td>
+              </tr>
+              <tr>
                 <td>Email</td>
                 <td>{this.state.email}</td>
+              </tr>
+              <tr>
+                <td>Biografía</td>
+                <td>{this.state.biografia}</td>
               </tr>
             </tbody>
           </table>

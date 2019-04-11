@@ -14,7 +14,8 @@ class NavLog extends Component {
 
   render() {
     return (
-      <Navbar collapseOnSelect expand="md" bg="light" variant="light" sticky="top" fixed="top">
+      <div>
+      <Navbar collapseOnSelect expand="md" bg="light" variant="light" fixed="top">
           <Navbar.Brand href="/">
            <h2>
             <img
@@ -39,7 +40,6 @@ class NavLog extends Component {
                 <br />
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
-
               <br />
               <br />
             <br />
@@ -50,6 +50,8 @@ class NavLog extends Component {
           </Navbar.Collapse>
         </Navbar.Collapse>
       </Navbar>
+      <br /> <br /> <br />
+      </div>
     );
   }
 }
