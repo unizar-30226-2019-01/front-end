@@ -10,7 +10,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.vendedor, val.precio, val.categoria])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio, val.Categoria])
             })
   
             return data
@@ -32,4 +32,36 @@ export const getProductos = () => {
         console.log(res)
         return res.data
       })
+  }
+
+  export const actualizarProducto= (idP, producto) => {
+    axios
+        .post(`modificarVenta/${idP}`, {
+            nombre: producto.nombre,
+            fecha: producto.fecha,
+            categoria: producto.categoria,
+            descripcion: producto.descripcion,
+            foto: producto.foto,
+            precio: producto.precio
+        })
+        .then(response => {
+          return response.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+  }
+
+  export const eliminarProducto = producto => {
+    axios
+        .post(
+            `eliminarVenta/${producto}`, {
+                headers: { "Content-type": "application/json" }
+            })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((res) => {
+            console.log(res)
+        })
   }
