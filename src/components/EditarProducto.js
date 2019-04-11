@@ -13,6 +13,7 @@ class EditarProducto extends Component {
     this.state = {
       venta: true,
       producto: this.props.producto,
+      id: '',
       nombre: '',
       fecha: '',
 	    lugar: '',
@@ -29,6 +30,7 @@ class EditarProducto extends Component {
   componentDidMount() {
     this.setState({
         nombre: this.state.producto[0],
+        id: this.state.producto[1],
         categoria: this.state.producto[5],
         descripcion: this.state.producto[2],
         vendedor: this.state.producto[3],
@@ -52,6 +54,7 @@ class EditarProducto extends Component {
     
     const producto = {
       nombre: this.state.nombre,
+      id: this.state.id,
       fecha: fecha,
       categoria: this.state.categoria,
       descripcion: this.state.descripcion,
