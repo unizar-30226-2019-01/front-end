@@ -7,10 +7,9 @@
 .App-header {
   position:absolute;
   left:200px;
-background: #30E4F9;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #30E4F9, #30A4F9);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #30E4F9, #30A4F9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  background: #B4FFAB;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #B4FFAB, #12FFF7);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #B4FFAB, #12FFF7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   min-height: 100vh;
   display: flex;
   flex-direction: column;

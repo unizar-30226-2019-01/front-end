@@ -14,7 +14,7 @@ class NavLog extends Component {
 
   render() {
     return (
-      <div>
+      <div className="Navbar">
       <Navbar collapseOnSelect expand="md" bg="light" variant="light" fixed="top">
           <Navbar.Brand href="/">
            <h2>

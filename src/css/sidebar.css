@@ -34,9 +34,13 @@ bottom:10px;
 .card-footer{
   font-size: 20px;
 }
+
+.Navbar{
+  background-color: #E3EBEB;
+}
 .sidebar{
   display:block;
-  background-color: #E3EBEB;
+  background-color: #f9f9f9;
   float:left;
   width:200px;
   position: fixed;

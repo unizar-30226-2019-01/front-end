@@ -26,16 +26,14 @@ class Sidebar extends Component {
 
     return(
 
-      <div className="sidebar" >
-      <br /> <br />
-        <h3>Filtros</h3>
-
-        <a>Buscar por categoría</a>
-
+      <div className="sidebar">
+        <br />
+        <h2>Filtros</h2>
         <div className="btn-group dropright">
-          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categorias
           </button>
+
           <div className="dropdown-menu">
             <a className="dropright-item" href="#">&nbsp;&nbsp;Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -54,21 +52,31 @@ class Sidebar extends Component {
           </div>
         </div>
 
-
-
-
         <br/><br/>
 
-        <a>Ordenar por precio</a>
-        <div role="group" aria-label="Button group with nested dropdown">
-          <button type="button" className="btn btn-secondary" >De menor a mayor</button>
-          <button type="button" className="btn btn-secondary">De mayor a menor</button>
+        <div class="btn-group dropright">
+          <button type="button"  class="btn btn-primary dropdown-toggle"
+                  data-toggle="dropdown">
+            Ordenar <span class="caret"></span>
+          </button>
 
+          <ul class="dropdown-menu" role="menu">
+            <li><a className="dropright-item" href="#"> Menor a mayor precio</a></li>
+            <li><a className="dropright-item" href="#"> Mayor a menor precio</a></li>
+          </ul>
         </div>
+        
         <br/><br/>
           <label >Precio maximo</label>
+          <div className="row">
+          <div className="col"> </div>
+          <div className="col-8">
           <input type="range" className="custom-range" id="customRange1" onChange={this.precioMaximo}/>
           <input type="text" className="trans-box" id="precioActual" size="1" value="" />
+          </div>
+          <div className="col"> </div>
+          </div>
+
           <br/><br/>
 
     </div>
