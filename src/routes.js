@@ -10,6 +10,7 @@ import Registro from './components/Registro';
 import Perfil from './components/Perfil';
 import EditarPerfil from './components/EditarPerfil';
 import SubirProducto from './components/SubirProducto';
+import EditarProducto from './components/EditarProducto';
 
 const AppRoutes = () =>
   <div>
@@ -17,6 +18,7 @@ const AppRoutes = () =>
     <Switch>
       <Route exact path="/registro" component={Registro} />
       <Route exact path="/subirProducto" component={SubirProducto} />
+      <Route exact path="/EditarProducto" component={EditarProducto} />
       <Route exact path="/perfil" component={Perfil} />
       <Route exact path="/editarPerfil" component={EditarPerfil} />
       <Route exact path="/" component={App} />

@@ -62,10 +62,10 @@ class VistaProducto extends Component {
                 </Button>
               </Col>
               <Col xs={3}>
-                  <h6 class="w-100 text-right" id="exampleModalLabel">Valoracion vendedor:</h6>
+                  <h6 className="w-100 text-right" id="exampleModalLabel">Valoracion vendedor:</h6>
               </Col>
               <Col xs={3}>
-                <div class="w-100 text-left">
+                <div className="w-100 text-left">
                   <StarRatings rating={this.state.rating} changeRating={this.changeRating}
                     starRatedColor="yellow" numberOfStars={5} name='rating'
                     starDimension="20px" starSpacing="5px"
@@ -101,7 +101,7 @@ class VistaProducto extends Component {
                   Abrir chat vendedor
                 </Button>
 
-                <Button className="mr-sm-4" variant="info"> {/*onClick=() => aqui redirigir al chat*/}
+                <Button className="mr-sm-4" variant="info" href="/EditarProducto" producto={this.state.producto} > {/*onClick=() => aqui redirigir al chat*/}
                   Editar
                 </Button>
 
