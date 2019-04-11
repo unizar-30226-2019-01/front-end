@@ -1,5 +1,5 @@
 .trans-box {
-    background-color:rgba(0, 0, 0, 0);
+    background-color:#C4FFED;
     color:blue;
     border: none;
     outline:none;
@@ -36,15 +36,17 @@ bottom:10px;
 }
 
 .Navbar{
-  background-color: #E3EBEB;
+  background-color: #C4FFED;
+  padding-bottom: 20px;
 }
 .sidebar{
   display:block;
-  background-color: #f9f9f9;
+  background-color: #C4FFED;
   float:left;
   width:200px;
   position: fixed;
   z-index: 999;
+  height: 100%
 }
 .sidebar a{
   text-decoration: none;
