@@ -96,7 +96,7 @@ class VistaProducto extends Component {
                 <Button variant="outline-warning"> {/*onClick=() => aqui marcar favorito*/}
                   FAVORITO
                 </Button>
-                <Button variant="danger"> {/*onClick=() => aqui redirigir al chat*/}
+                <Button variant="success"> {/*onClick=() => aqui redirigir al chat*/}
                   Abrir chat vendedor
                 </Button>
                 <Button variant="danger"  onClick={this.eliminarProducto.bind(this, this.state.producto[1])}> 

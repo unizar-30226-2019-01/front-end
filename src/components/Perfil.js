@@ -3,6 +3,7 @@ import jwt_decode from 'jwt-decode'
 import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
 import { deleteUser } from '../GestionUsuarios';
+import { Redirect } from 'react-router-dom';
 
 class Perfil extends Component {
   constructor() {
@@ -34,14 +35,19 @@ class Perfil extends Component {
     }
 
    deleteUser(user)
+   this.setState({redirect: true});
   }
 
   cerrarSesion = e => {
     e.preventDefault()
+    this.setState({redirect: true});
 
   }
 
   render() {
+    if (this.state.redirect){
+      return <Redirect push to="/" />;
+    }
     return (
       <div className="Perfil">
       <div className="row">
