@@ -33,3 +33,17 @@ export const getProductos = () => {
         return res.data
       })
   }
+
+  export const eliminarProducto = producto => {
+    axios
+        .post(
+            `eliminarVenta/${producto}`, {
+                headers: { "Content-type": "application/json" }
+            })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
