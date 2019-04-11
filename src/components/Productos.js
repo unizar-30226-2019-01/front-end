@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import logo from '../images/logo.png';
 import bichardo from '../images/bichardo.jpg';
 import bixobasket from '../images/bixobasket.jpg';
+import jwt_decode from 'jwt-decode';
 
 import VistaProducto from './VistaProducto';
 import { getProductos } from '../GestionPublicaciones';
@@ -11,11 +12,13 @@ import { getProductos } from '../GestionPublicaciones';
 class Productos extends Component {
 
   constructor(args) {
-    super(args);
+    const token = localStorage.usertoken
+    const decoded = jwt_decode(token)
+    super(args)
     this.state = { 
         modalShow: false,
         id: '',
-        usuario: this.props.usuario,
+        usuario: decoded.identity.login,
         productos: []
     };
 }

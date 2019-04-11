@@ -6,9 +6,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { anadirProducto } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 class SubirProducto extends Component {
   constructor(args) {
+    const token = localStorage.usertoken
+    const decoded = jwt_decode(token)
     super(args);
     this.state = {
       venta: true,
@@ -17,7 +20,7 @@ class SubirProducto extends Component {
 			lugar: '',
 			categoria: '',
       descripcion: '',
-      vendedor: '',
+      vendedor: decoded.identity.login,
       precio: ''
     }
 

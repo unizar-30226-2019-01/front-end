@@ -26,6 +26,7 @@ export const getProductos = () => {
         descripcion: newProducto.descripcion,
         foto: newProducto.foto,
         precio: newProducto.precio,
+        vendedor: newProducto.vendedor
 
       })
       .then(res => {
