@@ -45,6 +45,7 @@ bottom:10px;
   width:200px;
   position: fixed;
   z-index: 999;
+  height: 100%;
 }
 .sidebar a{
   text-decoration: none;
