@@ -8,23 +8,26 @@ import jwt_decode from 'jwt-decode';
 import VistaProducto from './VistaProducto';
 import { getProductos } from '../GestionPublicaciones';
 
+import { eliminarProducto } from '../GestionPublicaciones';
 
 class Productos extends Component {
 
   constructor(args) {
-    const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
     super(args)
-    this.state = { 
+    this.state = {
         modalShow: false,
         id: '',
-        usuario: decoded.identity.login,
         productos: []
     };
 }
 
   componentDidMount () {
       this.getAll()
+  }
+
+  eliminarProductoPadre(val){
+    console.log("HOLAA")
+    //eliminarProducto(val)
   }
 
 
@@ -38,7 +41,7 @@ class Productos extends Component {
               })
       })
   }
-  
+
   render() {
     let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
 
@@ -56,7 +59,7 @@ class Productos extends Component {
               <Button variant="outline-primary" onClick={() => this.setState({ modalShow: true })} >
                 Ver producto
               </Button>
-              <VistaProducto producto={productos} show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} />
+              <VistaProducto producto={productos} show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} callback = {this.eliminarProductoPadre.bind(this)}/>
             </div> {/* Fin para gestionar vistaProducto (guille)*/}
           </div>
           </div>

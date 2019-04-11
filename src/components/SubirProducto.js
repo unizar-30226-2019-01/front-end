@@ -10,8 +10,6 @@ import jwt_decode from 'jwt-decode';
 
 class SubirProducto extends Component {
   constructor(args) {
-    const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
     super(args);
     this.state = {
       venta: true,
@@ -20,7 +18,7 @@ class SubirProducto extends Component {
 			lugar: '',
 			categoria: '',
       descripcion: '',
-      vendedor: decoded.identity.login,
+      vendedor: 'guti',
       precio: ''
     }
 
@@ -40,7 +38,7 @@ class SubirProducto extends Component {
     var yy = day.getFullYear();
 
     var fecha = dd+'/'+mm+'/'+yy
-    
+
 
     const newProducto = {
       nombre: this.state.nombre,
@@ -105,7 +103,7 @@ class SubirProducto extends Component {
             <Col xs={6}>
               <Form noValidate onSubmit={this.onSubmit}>
                 <Form.Group controlId="productName">
-                  <Form.Control 
+                  <Form.Control
                   placeholder="Nombre"
                   name="nombre"
 										value={this.state.nombre}
