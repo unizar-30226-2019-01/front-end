@@ -23,20 +23,26 @@ class Productos extends Component {
 }
 
   componentDidMount () {
+     console.log("HOLAaaa")
       this.getAll()
   }
 
+  mostrar(){
+    this.getAll()
+  }
+
   eliminarProductoPadre(val){
-    console.log("HOLAA")
     eliminarProducto(val)
     this.setState({
       modalShow: false
     });
+    this.mostrar()
   }
 
 
   getAll = () => {
       getProductos().then(data => {
+          console.log("HOLA2")
           this.setState({
               productos: [...data]
           },
