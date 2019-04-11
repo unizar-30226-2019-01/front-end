@@ -48,6 +48,7 @@ class Register extends Component {
     }
     return (
     <div>
+    <br />
       <h1>
       ¡ Regístrate !
       </h1>

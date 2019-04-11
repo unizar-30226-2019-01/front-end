@@ -40,33 +40,15 @@ class Sidebar extends Component {
             <a className="dropright-item" href="#">&nbsp;&nbsp;Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropdown-item" href="#"></a>
             <a>&nbsp;&nbsp;<img src={moto}></img></a>
-            <img src={moto}></img>
-            <img src={moto}></img>
             <img src={moto}></img>
             <img src={moto}></img>
             <a className="dropright-item" href="#">&nbsp;&nbsp;Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropdown-item" href="#"></a>
             <a>&nbsp;&nbsp;<img src={moto}></img></a>
-            <img src={moto}></img>
-            <img src={moto}></img>
             <img src={moto}></img>
             <img src={moto}></img>
           </div>
