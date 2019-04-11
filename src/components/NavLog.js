@@ -48,7 +48,7 @@ class NavLog extends Component {
 
     return (
       <div className="Navbar">
-      <Navbar collapseOnSelect expand="md" bg="light" variant="light" fixed="top">
+      <Navbar collapseOnSelect expand="md"  variant="light" fixed="top">
           <Navbar.Brand href="/">
            <h2>
             <img
@@ -89,7 +89,7 @@ class NavLog extends Component {
                   aria-label="Usuario"
                   aria-describedby="basic-addon1"
                   value={this.state.login}
-                  onChange={this.onChange}  
+                  onChange={this.onChange}
                 />
               </InputGroup>
               <br />
@@ -104,7 +104,7 @@ class NavLog extends Component {
                   aria-label="Contraseña"
                   aria-describedby="basic-addon1"
                   value={this.state.password}
-              onChange={this.onChange} 
+              onChange={this.onChange}
                 />
               </InputGroup>
               <br />

@@ -17,12 +17,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
   padding:40px;
+  right:0px;
 }
 
-
-.App-link {
-  color: #61dafb;
-}
 
 @keyframes App-logo-spin {
   from {
