@@ -11,7 +11,7 @@ import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
 class VistaProducto extends Component {
   constructor(props) {
@@ -98,7 +98,7 @@ class VistaProducto extends Component {
                   Hacer oferta
                 </Button>
 
-                <Button className="mr-sm-4" variant="info" href="/EditarProducto" producto={this.state.producto} > {/*onClick=() => aqui redirigir al chat*/}
+                <Button className="mr-sm-4" variant="info" > {/*onClick=() => aqui redirigir al chat*/}
                   Editar
                 </Button>
 
