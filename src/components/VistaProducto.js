@@ -13,8 +13,6 @@ import bixopolilla from '../images/bixopolilla.jpg';
 
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import { eliminarProducto } from '../GestionPublicaciones';
-
 class VistaProducto extends Component {
   constructor(props) {
     super(props);
@@ -33,16 +31,9 @@ class VistaProducto extends Component {
     });
   }
 
-  
-
-  eliminarProducto = (val, e) => {
-    e.preventDefault()
-    eliminarProducto(val)
-}
-
   render() {
     return (
-      
+
       <Modal
         {...this.props}
         size="lg"
@@ -111,7 +102,7 @@ class VistaProducto extends Component {
                   Editar
                 </Button>
 
-                <Button variant="danger"  onClick={this.eliminarProducto.bind(this, this.state.producto[1])}> 
+                <Button variant="danger"  onClick={() => this.props.callback(this.state.producto[1])}>
                   Eliminar
                 </Button>
               </ButtonGroup>

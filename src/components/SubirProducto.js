@@ -46,7 +46,7 @@ class SubirProducto extends Component {
     var yy = day.getFullYear();
 
     var fecha = dd+'/'+mm+'/'+yy
-    
+
 
     const newProducto = {
       nombre: this.state.nombre,
@@ -111,7 +111,7 @@ class SubirProducto extends Component {
             <Col xs={6}>
               <Form noValidate onSubmit={this.onSubmit}>
                 <Form.Group controlId="productName">
-                  <Form.Control 
+                  <Form.Control
                   placeholder="Nombre"
                   name="nombre"
 										value={this.state.nombre}
