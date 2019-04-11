@@ -33,7 +33,6 @@ class VistaProducto extends Component {
     });
   }
 
-
   
 
   eliminarProducto = (val, e) => {
@@ -102,6 +101,10 @@ class VistaProducto extends Component {
 
                 <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
                   Abrir chat vendedor
+                </Button>
+
+                <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
+                  Hacer oferta
                 </Button>
 
                 <Button className="mr-sm-4" variant="info" href="/EditarProducto" producto={this.state.producto} > {/*onClick=() => aqui redirigir al chat*/}
