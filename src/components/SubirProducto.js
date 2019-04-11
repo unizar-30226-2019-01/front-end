@@ -38,7 +38,7 @@ class SubirProducto extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
   onSubmit(e) {
-    e.preventDefault()
+    //e.preventDefault()
 
     var day = new Date();
     var dd = day.getDate();
