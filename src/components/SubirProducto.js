@@ -9,10 +9,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
 class SubirProducto extends Component {
-  constructor(args) {
-    const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
-    super(args);
+  constructor(props) {
+    super(props);
     this.state = {
       venta: true,
       nombre: '',
@@ -20,12 +18,20 @@ class SubirProducto extends Component {
 			lugar: '',
 			categoria: '',
       descripcion: '',
-      vendedor: decoded.identity.login,
+      vendedor: '',
       precio: ''
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  componentDidMount() {
+    const token = localStorage.usertoken
+    const decoded = jwt_decode(token)
+    this.setState({
+      vendedor: decoded.identity.login,
+    })
   }
 
   onChange(e) {

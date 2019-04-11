@@ -34,6 +34,7 @@ class VistaProducto extends Component {
   }
 
 
+  
 
   eliminarProducto = (val, e) => {
     e.preventDefault()

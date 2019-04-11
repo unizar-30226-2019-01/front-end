@@ -12,13 +12,11 @@ import { getProductos } from '../GestionPublicaciones';
 class Productos extends Component {
 
   constructor(args) {
-    const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
     super(args)
     this.state = { 
         modalShow: false,
         id: '',
-        usuario: decoded.identity.login,
+        usuario: '',
         productos: []
     };
 }
