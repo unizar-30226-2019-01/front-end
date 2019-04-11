@@ -4,6 +4,8 @@ import jwt_decode from 'jwt-decode'
 import ReactDOM from 'react-dom';
 import Perfil from './Perfil';
 import Form from 'react-bootstrap/Form';
+import { actualizarInfo } from '../GestionUsuarios';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 class EditarPerfil extends Component {
   constructor() {
@@ -12,9 +14,7 @@ class EditarPerfil extends Component {
       login: '',
       nombre: '',
       apellidos: '',
-      telefono: '',
-      email: '',
-      biografia: ''
+      email: ''
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -27,9 +27,7 @@ class EditarPerfil extends Component {
       login: decoded.identity.login,
       nombre: decoded.identity.nombre,
       apellidos: decoded.identity.apellidos,
-      telefono: decoded.identity.telefono,
-      email: decoded.identity.email,
-      biografia: decoded.identity.biografia
+      email: decoded.identity.email
     })
   }
 
@@ -44,19 +42,20 @@ class EditarPerfil extends Component {
       login: this.state.login,
       nombre: this.state.nombre,
       apellidos: this.state.apellidos,
-      telefono: this.state.telefono,
-      email: this.state.email,
-      biografia: this.state.biografia
+      email: this.state.email
     }
-    //actualizarInfo(user)
-   // ReactDOM.render(<Actividades usuario={this.state.login} />, document.getElementById('root'));
+    actualizarInfo(user)
+    this.setState({redirect: true});
   }
 
   volverMenu(e) {
-   // ReactDOM.render(<Perfil usuario={this.state.login}/>, document.getElementById('root'));
+    this.setState({redirect: true});
   }
 
   render() {
+    if (this.state.redirect){
+      return <Redirect push to="/" />;
+    }
     return (
       <div className="Perfil">
       <div className="row">
@@ -108,18 +107,6 @@ class EditarPerfil extends Component {
 				</td>
               </tr>
               <tr>
-                <td>Teléfono</td>
-                <td>       		      
-                	<Form.Group controlId="telefono">
-				      <Form.Control 
-				      	name="telefono"
-				      	value={this.state.telefono}
-                	    onChange={this.onChange}
-				      />
-				    </Form.Group>
-				</td>
-              </tr>
-              <tr>
                 <td>Email</td>
                 <td>				  
                 	<Form.Group controlId="email">
@@ -132,18 +119,6 @@ class EditarPerfil extends Component {
 				  </Form.Group>
 				</td>
         </tr>
-              <tr>
-                <td>Biografía</td>
-                <td>				  
-                	<Form.Group controlId="biografia">
-				    <Form.Control
-				    	name="biografia"
-				    	value={this.state.biografia}
-               		    onChange={this.onChange}
-				    	 />
-				  </Form.Group>
-				</td>
-              </tr>
             </tbody>
           </table>
           <div className="text-center">

@@ -17,6 +17,7 @@ class Productos extends Component {
     this.state = {
         modalShow: false,
         id: '',
+        usuario: '',
         productos: []
     };
 }
@@ -27,7 +28,10 @@ class Productos extends Component {
 
   eliminarProductoPadre(val){
     console.log("HOLAA")
-    //eliminarProducto(val)
+    eliminarProducto(val)
+    this.setState({
+      modalShow: false
+    });
   }
 
 

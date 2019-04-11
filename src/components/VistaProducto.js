@@ -98,7 +98,7 @@ class VistaProducto extends Component {
                   Editar
                 </Button>
 
-                <Button variant="danger"  onClick={this.props.callback(this.state.producto[1])}>
+                <Button variant="danger"  onClick={() => this.props.callback(this.state.producto[1])}>
                   Eliminar
                 </Button>
               </ButtonGroup>
