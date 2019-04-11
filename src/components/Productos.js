@@ -10,8 +10,8 @@ import { getProductos } from '../GestionPublicaciones';
 
 class Productos extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor(args) {
+    super(args);
     this.state = { 
         modalShow: false,
         id: '',

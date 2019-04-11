@@ -27,7 +27,7 @@ class Sidebar extends Component {
     return(
 
       <div className="sidebar" >
-
+      <br /> <br />
         <h3>Filtros</h3>
 
         <a>Buscar por categoría</a>

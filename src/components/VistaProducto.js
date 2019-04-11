@@ -11,10 +11,6 @@ import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 
-import { Route, Switch, Redirect } from 'react-router-dom';
-
-import { eliminarProducto } from '../GestionPublicaciones';
-
 class VistaProducto extends Component {
   constructor(props) {
     super(props);
@@ -33,14 +29,8 @@ class VistaProducto extends Component {
     });
   }
 
-  eliminarProducto = (val, e) => {
-    e.preventDefault()
-    eliminarProducto(val)
-}
-
   render() {
     return (
-      
       <Modal
         {...this.props}
         size="lg"
@@ -98,9 +88,6 @@ class VistaProducto extends Component {
                 </Button>
                 <Button variant="danger"> {/*onClick=() => aqui redirigir al chat*/}
                   Abrir chat vendedor
-                </Button>
-                <Button variant="danger"  onClick={this.eliminarProducto.bind(this, this.state.producto[1])}> 
-                  Eliminar
                 </Button>
               </ButtonGroup>
             </div>
