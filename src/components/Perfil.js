@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
+import { deleteUser } from '../GestionUsuarios';
 
 class Perfil extends Component {
   constructor() {
@@ -10,9 +11,7 @@ class Perfil extends Component {
       login: '',
       nombre: '',
       apellidos: '',
-      telefono: '',
-      email: '',
-      biografia: ''
+      email: ''
     }
   }
 
@@ -23,9 +22,7 @@ class Perfil extends Component {
       login: decoded.identity.login,
       nombre: decoded.identity.nombre,
       apellidos: decoded.identity.apellidos,
-      telefono: decoded.identity.telefono,
-      email: decoded.identity.email,
-      biografia: decoded.identity.biografia
+      email: decoded.identity.email
     })
   }
 
@@ -36,13 +33,12 @@ class Perfil extends Component {
       login: this.state.login
     }
 
-   // deleteUser(user)
-   // ReactDOM.render(<App />, document.getElementById('root'));
+   deleteUser(user)
   }
 
   cerrarSesion = e => {
     e.preventDefault()
- //   ReactDOM.render(<App />, document.getElementById('root'));
+
   }
 
   render() {
@@ -71,16 +67,8 @@ class Perfil extends Component {
                 <td>{this.state.apellidos}</td>
               </tr>
               <tr>
-                <td>Teléfono</td>
-                <td>{this.state.telefono}</td>
-              </tr>
-              <tr>
                 <td>Email</td>
                 <td>{this.state.email}</td>
-              </tr>
-              <tr>
-                <td>Biografía</td>
-                <td>{this.state.biografia}</td>
               </tr>
             </tbody>
           </table>
