@@ -11,15 +11,10 @@ import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 
-import { Route, Switch, Redirect } from 'react-router-dom';
-
 class VistaProducto extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rating: 4,
-      producto: this.props.producto
-    }; //Para conseguir la valoracion del vendedor
+  constructor(args) {
+    super(args);
+    this.state = {rating: 4}; //Para conseguir la valoracion del vendedor
 
     this.changeRating = this.changeRating.bind(this);
   }
@@ -33,7 +28,6 @@ class VistaProducto extends Component {
 
   render() {
     return (
-
       <Modal
         {...this.props}
         size="lg"
@@ -42,7 +36,7 @@ class VistaProducto extends Component {
       >
         <Modal.Header closeButton>
           <Modal.Title bsPrefix="modal-title w-100 text-center" id="contained-modal-title-vcenter">
-           {this.state.producto[0]}
+            ESTO ES EL BICHOOOOOO
           </Modal.Title>
         </Modal.Header>
 
@@ -51,14 +45,14 @@ class VistaProducto extends Component {
             <Row className="show-grid">
               <Col xs={6}>
                 <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
-                  VENDEDOR: {this.state.producto[3]}
+                  VENDEDOR: JUVENTUS DE TURIN
                 </Button>
               </Col>
               <Col xs={3}>
-                  <h6 className="w-100 text-right" id="exampleModalLabel">Valoracion vendedor:</h6>
+                  <h6 class="w-100 text-right" id="exampleModalLabel">Valoracion vendedor:</h6>
               </Col>
               <Col xs={3}>
-                <div className="w-100 text-left">
+                <div class="w-100 text-left">
                   <StarRatings rating={this.state.rating} changeRating={this.changeRating}
                     starRatedColor="yellow" numberOfStars={5} name='rating'
                     starDimension="20px" starSpacing="5px"
@@ -82,36 +76,23 @@ class VistaProducto extends Component {
 
           <div className="row mt-4">
             <div className="col-md-3">
-              <h3>Precio: {this.state.producto[4]}</h3>
+              <h3>Precio: 3€</h3>
             </div>
             <div className="col-md-9 text-right">
               <ButtonGroup toggle>
-                <Button className="mr-sm-4" variant="outline-warning"> {/*onClick=() => aqui marcar favorito*/}
+                <Button variant="outline-warning"> {/*onClick=() => aqui marcar favorito*/}
                   FAVORITO
                 </Button>
-
-                <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
+                <Button variant="danger"> {/*onClick=() => aqui redirigir al chat*/}
                   Abrir chat vendedor
-                </Button>
-
-                <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                  Hacer oferta
-                </Button>
-
-                <Button className="mr-sm-4" variant="info" href="/EditarProducto" producto={this.state.producto} > {/*onClick=() => aqui redirigir al chat*/}
-                  Editar
-                </Button>
-
-                <Button variant="danger"  onClick={() => this.props.callback(this.state.producto[1])}>
-                  Eliminar
                 </Button>
               </ButtonGroup>
             </div>
           </div>
 
-          <h4>Descripción:</h4>
+          <h4>Descripción (HAY QUE MEJORAR EL BOTON DE FAVORITO)</h4>
           <p>
-            {this.state.producto[2]}
+            Cristiano Ronaldo un crack dueño de la SR7 champions league
           </p>
         </Modal.Body>
 

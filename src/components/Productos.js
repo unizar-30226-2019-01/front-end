@@ -69,7 +69,7 @@ class Productos extends Component {
               <Button variant="outline-primary" onClick={() => this.setState({ modalShow: true })} >
                 Ver producto
               </Button>
-              <VistaProducto producto={productos} show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} callback = {this.eliminarProductoPadre.bind(this)}/>
+              <VistaProducto producto={productos} i={index} show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} callback = {this.eliminarProductoPadre.bind(this)}/>
             </div> {/* Fin para gestionar vistaProducto (guille)*/}
           </div>
           </div>
