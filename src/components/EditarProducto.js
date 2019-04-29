@@ -11,8 +11,7 @@ class EditarProducto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      venta: true,
-      producto: this.props.producto,
+      producto: this.props.params,
       id: '',
       nombre: '',
       fecha: '',

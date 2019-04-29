@@ -11,6 +11,8 @@ import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
+
 class VistaProducto extends Component {
   constructor(args) {
     super(args);
@@ -85,6 +87,18 @@ class VistaProducto extends Component {
                 </Button>
                 <Button variant="danger"> {/*onClick=() => aqui redirigir al chat*/}
                   Abrir chat vendedor
+                </Button>
+
+                <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
+                  Hacer oferta
+                </Button>
+
+                <Button className="mr-sm-4" variant="info" > {/*onClick=() => aqui redirigir al chat*/}
+                  Editar
+                </Button>
+
+                <Button variant="danger"  onClick={() => this.props.callback(this.state.producto[1])}>
+                  Eliminar
                 </Button>
               </ButtonGroup>
             </div>

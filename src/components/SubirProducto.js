@@ -78,13 +78,19 @@ class SubirProducto extends Component {
     if (this.state.venta) {
       contenido = <Form.Group controlId="productPrice">
                     <Form.Label>Precio</Form.Label>
-                    <Form.Control placeholder="Introduzca precio" />
+                    <Form.Control placeholder="Introduzca precio"
+                    name="precio"
+										value={this.state.precio}
+										onChange={this.onChange} />
                   </Form.Group>
     } else {
       contenido = <Form>
                   <Form.Group controlId="productPriceSub">
                     <Form.Label>Precio de salida</Form.Label>
-                    <Form.Control placeholder="Introduzca precio" />
+                    <Form.Control placeholder="Introduzca precio"
+                    name="precio"
+										value={this.state.precio}
+										onChange={this.onChange}  />
                   </Form.Group>
                   <Form.Group controlId="fechaLimite">
                       <Form.Label>Fecha límite</Form.Label>
