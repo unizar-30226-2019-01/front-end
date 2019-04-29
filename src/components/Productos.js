@@ -36,7 +36,14 @@ class Productos extends Component {
     this.setState({
       modalShow: false
     });
-    this.mostrar()
+    var data = [...this.state.productos]
+        data.filter((producto, index) => {
+            if (producto[1] === val) {
+                data.splice(index, 1)
+            }
+            return true
+    })
+    this.setState({ productos: [...data] })
   }
 
 
