@@ -12,11 +12,11 @@ export const getProductos = () => {
                 var val = res.data[key]
                 data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
             })
-  
+
             return data
         })
   }
-  
+
   export const anadirProducto = newProducto => {
     return axios
       .post('crearVenta', {
@@ -31,6 +31,7 @@ export const getProductos = () => {
       })
       .then(res => {
         console.log(res)
+        console.log("KK")
         return res.data
       })
   }

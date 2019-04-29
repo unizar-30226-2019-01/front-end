@@ -23,12 +23,7 @@ class Productos extends Component {
 }
 
   componentDidMount () {
-     console.log("HOLAaaa")
       this.getAll()
-  }
-
-  mostrar(){
-    this.getAll()
   }
 
   eliminarProductoPadre(val){

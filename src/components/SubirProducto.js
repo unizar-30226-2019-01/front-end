@@ -72,6 +72,7 @@ class SubirProducto extends Component {
 
   render(){
     if (this.state.redirect){
+      window.confirm("Subido correctamente");
       return <Redirect push to="/" />;
     }
     let contenido
