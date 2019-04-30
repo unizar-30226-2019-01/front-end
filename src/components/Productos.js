@@ -18,7 +18,13 @@ class Productos extends Component {
         modalShow: false,
         id: '',
         usuario: '',
-        productos: []
+        productos: [],
+        idMostrar: 0,
+        indiceMostrar:'',
+        nombreMostrar:'',
+        vendedorMostrar:'',
+        precioMostrar:0,
+        descripcionMostrar:''
     };
 }
 
@@ -26,19 +32,18 @@ class Productos extends Component {
       this.getAll()
   }
 
-  eliminarProductoPadre(val){
-    eliminarProducto(val)
+  eliminarProductoPadre(index){
+    eliminarProducto(this.state.id)
     this.setState({
-      modalShow: false
+      modalShow: false,
+      productos: this.state.productos.filter((elemento, i)=>{
+          return  i!==index
+          /*esto lo q hace es recorrer el vector productos,
+            y lo modifica eliminando todo aquel que NO cumpla
+            la condicion. en este caso, cuando encuentre la posicion
+            del elemento index, lo eliminara*/
+      })
     });
-    var data = [...this.state.productos]
-        data.filter((producto, index) => {
-            if (producto[1] === val) {
-                data.splice(index, 1)
-            }
-            return true
-    })
-    this.setState({ productos: [...data] })
   }
 
 
@@ -68,14 +73,31 @@ class Productos extends Component {
               <p className="card-text">Vendedor: {productos[3]}</p>
             </div>
             <div className="card-footer"> {/*Para gestionar vistaProducto (guille)*/}
-              <Button variant="outline-primary" onClick={() => this.setState({ modalShow: true })} >
+              <Button
+                variant="outline-primary"
+                onClick={() => this.setState({ modalShow: true,
+                                               id: productos[1],
+                                               indiceMostrar: index,
+                                               nombreMostrar: productos[0],
+                                               vendedorMostrar: productos[3],
+                                               precioMostrar: productos[4],
+                                               descripcionMostrar: productos[2]})} >
                 Ver producto
               </Button>
-              <VistaProducto producto={productos} show={this.state.modalShow} onHide={modalClose /*modalClose pone a false modalShow*/} callback = {this.eliminarProductoPadre.bind(this)}/>
             </div> {/* Fin para gestionar vistaProducto (guille)*/}
           </div>
           </div>
         ))}
+        <VistaProducto
+          show={this.state.modalShow}
+          indice={this.state.indiceMostrar}
+          nombre={this.state.nombreMostrar}
+          vendedor={this.state.vendedorMostrar}
+          precio={this.state.precioMostrar}
+          descripcion={this.state.descripcionMostrar}
+          onHide={modalClose /*modalClose pone a false modalShow*/}
+          callback = {this.eliminarProductoPadre.bind(this)}
+        />
       </div>
     )
   }

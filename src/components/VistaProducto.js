@@ -17,8 +17,7 @@ class VistaProducto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: 4,
-      producto: this.props.producto
+      rating: 4
     }; //Para conseguir la valoracion del vendedor
 
     this.changeRating = this.changeRating.bind(this);
@@ -33,16 +32,16 @@ class VistaProducto extends Component {
 
   render() {
     return (
-
       <Modal
-        {...this.props}
+        {...this.props /*si quitas esto no se muestra el producto
+        para obtener los parametros que pasa el padre es necesario*/}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
           <Modal.Title bsPrefix="modal-title w-100 text-center" id="contained-modal-title-vcenter">
-           {this.state.producto[0]}
+           {this.props.nombre /*con el props funciona*/}
           </Modal.Title>
         </Modal.Header>
 
@@ -51,7 +50,7 @@ class VistaProducto extends Component {
             <Row className="show-grid">
               <Col xs={6}>
                 <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
-                  VENDEDOR: {this.state.producto[3]}
+                  VENDEDOR: {this.props.vendedor}
                 </Button>
               </Col>
               <Col xs={3}>
@@ -82,7 +81,7 @@ class VistaProducto extends Component {
 
           <div className="row mt-4">
             <div className="col-md-3">
-              <h3>Precio: {this.state.producto[4]}</h3>
+              <h3>Precio: {this.props.precio}</h3>
             </div>
             <div className="col-md-9 text-right">
               <ButtonGroup toggle>
@@ -102,7 +101,7 @@ class VistaProducto extends Component {
                   Editar
                 </Button>
 
-                <Button variant="danger"  onClick={() => this.props.callback(this.state.producto[1])}>
+                <Button variant="danger"  onClick={() => this.props.callback(this.props.indice)}>
                   Eliminar
                 </Button>
               </ButtonGroup>
@@ -111,7 +110,7 @@ class VistaProducto extends Component {
 
           <h4>Descripción:</h4>
           <p>
-            {this.state.producto[2]}
+            {this.props.descripcion}
           </p>
         </Modal.Body>
 
