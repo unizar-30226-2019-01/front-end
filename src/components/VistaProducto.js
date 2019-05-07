@@ -97,9 +97,18 @@ class VistaProducto extends Component {
                   Hacer oferta
                 </Button>
 
-                <Button className="mr-sm-4" variant="info" > {/*onClick=() => aqui redirigir al chat*/}
+                <Link 
+                    to={{
+                        pathname: `/EditarProducto`, 
+                        prod:{id: this.props.id,
+                              nombre: this.props.nombre,
+                              descripcion: this.props.descripcion,
+                              categoria: this.props.categoria,
+                              precio: this.props.precio}}} >
+                <Button className="mr-sm-4" variant="info" >
                   Editar
                 </Button>
+                </Link>
 
                 <Button variant="danger"  onClick={() => this.props.callback(this.props.indice)}>
                   Eliminar
