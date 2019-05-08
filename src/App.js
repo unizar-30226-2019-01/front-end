@@ -15,10 +15,9 @@ class App extends Component {
       <div className="App">
         <Sidebar/>
         <div className="App-header">
-          <Productos/>
+          <Productos />
         </div>
       </div>
-
     );
   }
 }

@@ -1,5 +1,5 @@
 // Dependencies
-import React from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 // Components
@@ -12,17 +12,23 @@ import EditarPerfil from './components/EditarPerfil';
 import SubirProducto from './components/SubirProducto';
 import EditarProducto from './components/EditarProducto';
 
-const AppRoutes = () =>
-  <div>
-    <NavLog />
-    <Switch>
-      <Route exact path="/registro" component={Registro} />
-      <Route exact path="/subirProducto" component={SubirProducto} />
-      <Route exact path="/EditarProducto" component={EditarProducto} />
-      <Route exact path="/perfil" component={Perfil} />
-      <Route exact path="/editarPerfil" component={EditarPerfil} />
-      <Route exact path="/" component={App} />
-    </Switch>
-  </div>;
+class AppRoutes extends Component {
+
+  render(){
+    return(
+      <div>
+        <NavLog />
+        <Switch>
+          <Route exact path="/registro" component={Registro} />
+          <Route exact path="/subirProducto" component={SubirProducto} />
+          <Route exact path="/EditarProducto" component={EditarProducto} />
+          <Route exact path="/perfil" component={Perfil} />
+          <Route exact path="/editarPerfil" component={EditarPerfil} />
+          <Route exact path="/" component={App} />
+        </Switch>
+      </div>
+    );
+  }
+}
 
 export default AppRoutes;

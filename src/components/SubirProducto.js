@@ -21,7 +21,6 @@ class SubirProducto extends Component {
       vendedor: '',
       precio: ''
     }
-
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -58,6 +57,7 @@ class SubirProducto extends Component {
       foto: this.state.foto,
     }
     anadirProducto(newProducto)
+    //Aqui hay q anyadir q si se sube, pones el redirect true, si no false
     this.setState({redirect: true});
 
   }
@@ -71,9 +71,16 @@ class SubirProducto extends Component {
 
 
   render(){
-    if (this.state.redirect){
-      window.confirm("Subido correctamente");
-      return <Redirect push to="/" />;
+    if (this.state.redirect){ //A esto hay q darle una vuelta
+      if(window.confirm("Subido correctamente")){
+        /*return <Redirect to={{
+                    pathname: "/",
+                    state: {subidoCorrecto: true}
+                }}/>;*/
+      }
+      else{
+        window.confirm("Producto no subido")
+      }
     }
     let contenido
     if (this.state.venta) {

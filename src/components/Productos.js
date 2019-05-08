@@ -46,7 +46,6 @@ class Productos extends Component {
     });
   }
 
-
   getAll = () => {
       getProductos().then(data => {
           console.log("HOLA2")
@@ -96,7 +95,6 @@ class Productos extends Component {
           precio={this.state.precioMostrar}
           descripcion={this.state.descripcionMostrar}
           onHide={modalClose /*modalClose pone a false modalShow*/}
-          callback = {this.eliminarProductoPadre.bind(this)}
         />
       </div>
     )
