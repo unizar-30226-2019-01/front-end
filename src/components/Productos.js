@@ -89,6 +89,7 @@ class Productos extends Component {
         ))}
         <VistaProducto
           show={this.state.modalShow}
+          id={this.state.id}
           indice={this.state.indiceMostrar}
           nombre={this.state.nombreMostrar}
           vendedor={this.state.vendedorMostrar}

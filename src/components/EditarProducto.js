@@ -11,31 +11,22 @@ class EditarProducto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      producto: this.props.params,
-      id: '',
-      nombre: '',
+      venta: true,
+      id: props.location.prod.id,
+      nombre: props.location.prod.nombre,
       fecha: '',
 	    lugar: '',
-	    categoria: '',
-      descripcion: '',
+	    categoria: props.location.prod.categoria,
+      descripcion: props.location.prod.descripcion,
       vendedor: '',
-      precio: ''
+      precio: props.location.prod.precio
     }
-
+    
+    console.log(props.location.prod.id)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount() {
-    this.setState({
-        nombre: this.state.producto[0],
-        id: this.state.producto[1],
-        categoria: this.state.producto[5],
-        descripcion: this.state.producto[2],
-        vendedor: this.state.producto[3],
-        precio: this.state.producto[4]
-    })
-  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -59,10 +50,10 @@ class EditarProducto extends Component {
       descripcion: this.state.descripcion,
       vendedor: this.state.vendedor,
       precio: this.state.precio,
-      foto: this.state.foto,
+      foto: this.state.foto
     }
-
-    actualizarProducto(this.state.producto[1],producto)
+    console.log(this.state.id)
+    actualizarProducto(producto)
     this.setState({redirect: true});
   }
 
@@ -82,13 +73,18 @@ class EditarProducto extends Component {
     if (this.state.venta) {
       contenido = <Form.Group controlId="productPrice">
                     <Form.Label>Precio</Form.Label>
-                    <Form.Control placeholder="Introduzca precio" />
+                    <Form.Control placeholder="Introduzca precio"
+                    name="precio"
+										value={this.state.precio}
+										onChange={this.onChange} />
                   </Form.Group>
     } else {
       contenido = <Form>
                   <Form.Group controlId="productPriceSub">
                     <Form.Label>Precio de salida</Form.Label>
-                    <Form.Control placeholder="Introduzca precio" />
+                    <Form.Control placeholder="Introduzca precio"
+                    	value={this.state.precio}
+                      onChange={this.onChange} />
                   </Form.Group>
                   <Form.Group controlId="fechaLimite">
                       <Form.Label>Fecha límite</Form.Label>

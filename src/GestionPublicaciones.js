@@ -36,9 +36,10 @@ export const getProductos = () => {
       })
   }
 
-  export const actualizarProducto= (idP, producto) => {
+  export const actualizarProducto = producto => {
     axios
-        .post(`modificarVenta/${idP}`, {
+        .post(`modificarVenta`, {
+            idP: producto.id,
             nombre: producto.nombre,
             fecha: producto.fecha,
             categoria: producto.categoria,
