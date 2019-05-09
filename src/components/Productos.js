@@ -7,6 +7,8 @@ import jwt_decode from 'jwt-decode';
 
 import VistaProducto from './VistaProducto';
 import { getProductos } from '../GestionPublicaciones';
+import { getProductosMayorMenor } from '../GestionPublicaciones';
+import { getProductosMenorMayor } from '../GestionPublicaciones';
 
 import { eliminarProducto } from '../GestionPublicaciones';
 
@@ -32,6 +34,10 @@ class Productos extends Component {
       this.getAll()
   }
 
+  componentWillReceiveProps (){
+      this.getAll()
+  }
+
   eliminarProductoPadre(index){
     eliminarProducto(this.state.id)
     this.setState({
@@ -47,15 +53,39 @@ class Productos extends Component {
   }
 
   getAll = () => {
-      getProductos().then(data => {
-          console.log("HOLA2")
-          this.setState({
-              productos: [...data]
-          },
-              () => {
-                  console.log(this.state.term)
-              })
-      })
+      if(this.props.mostrar==0){
+        getProductos().then(data => {
+            console.log("HOLA2")
+            this.setState({
+                productos: [...data]
+            },
+                () => {
+                    console.log(this.state.term)
+                })
+        })
+      }
+      else if(this.props.mostrar==1){
+        getProductosMayorMenor().then(data => {
+            console.log("HOLA2")
+            this.setState({
+                productos: [...data]
+            },
+                () => {
+                    console.log(this.state.term)
+                })
+        })
+      }
+      else if(this.props.mostrar==2){
+        getProductosMenorMayor().then(data => {
+            console.log("HOLA2")
+            this.setState({
+                productos: [...data]
+            },
+                () => {
+                    console.log(this.state.term)
+                })
+        })
+      }
   }
 
   render() {
@@ -69,7 +99,7 @@ class Productos extends Component {
             <img className="card-img-top" src={bichardo} />
             <div className="card-body">
               <h5 className="card-title">{productos[0]}</h5>
-              <p className="card-text">Vendedor: {productos[3]}</p>
+              <p className="card-text">{productos[4]}€</p>
             </div>
             <div className="card-footer"> {/*Para gestionar vistaProducto (guille)*/}
               <Button
