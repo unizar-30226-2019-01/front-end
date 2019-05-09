@@ -4,6 +4,8 @@ import '../css/sidebar.css';
 import moto from '../images/moto.jpg'
 import coche from '../images/coche.jpg'
 import Productos from './Productos';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 class Sidebar extends Component {
   constructor(props) {
@@ -57,15 +59,16 @@ class Sidebar extends Component {
         <div class="btn-group dropright">
           <button type="button"  class="btn btn-primary dropdown-toggle"
                   data-toggle="dropdown">
-            Ordenar <span class="caret"></span>
+            Ordenar de<span class="caret"></span>
           </button>
 
           <ul class="dropdown-menu" role="menu">
-            <li><a className="dropright-item" href="#"> Menor a mayor precio</a></li>
-            <li><a className="dropright-item" href="#"> Mayor a menor precio</a></li>
+            <li><a className="dropright-item" href="#" onClick={() => this.props.callback(1)}> Mayor a menor precio</a></li>
+            <li><a className="dropright-item" href="#" onClick={() => this.props.callback(2)}> Menor a mayor precio</a></li>
           </ul>
+
         </div>
-        
+
         <br/><br/>
           <label >Precio maximo</label>
           <div className="row">

@@ -17,6 +17,39 @@ export const getProductos = () => {
         })
   }
 
+  export const getProductosMayorMenor = () => {
+      return axios
+          .get('listarVentasMayorMenor', {
+              headers: { "Content-type": "application/json" }
+          })
+          .then(res => {
+              var data = []
+              Object.keys(res.data).forEach((key) => {
+                  var val = res.data[key]
+                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+              })
+
+              return data
+          })
+    }
+
+    export const getProductosMenorMayor = () => {
+        return axios
+            .get('listarVentasMenorMayor', {
+                headers: { "Content-type": "application/json" }
+            })
+            .then(res => {
+                var data = []
+                Object.keys(res.data).forEach((key) => {
+                    var val = res.data[key]
+                    data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+                })
+
+                return data
+            })
+      }
+
+
   export const anadirProducto = newProducto => {
     return axios
       .post('crearVenta', {
