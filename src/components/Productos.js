@@ -96,6 +96,7 @@ class Productos extends Component {
           precio={this.state.precioMostrar}
           descripcion={this.state.descripcionMostrar}
           onHide={modalClose /*modalClose pone a false modalShow*/}
+          callback = {this.eliminarProductoPadre.bind(this)}
         />
       </div>
     )
