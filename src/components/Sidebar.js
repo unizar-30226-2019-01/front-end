@@ -6,22 +6,29 @@ import coche from '../images/coche.jpg'
 import Productos from './Productos';
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import {Input} from "mdbreact"; //npm install mdbreact
 
 class Sidebar extends Component {
   constructor(props) {
    super(props);
    //this.state = {isToggleOn: true};
-
+   this.state = {
+       precio:""
+   };
    // This binding is necessary to make `this` work in the callback
-   this.handleClick = this.handleClick.bind(this);
    this.precioMaximo = this.precioMaximo.bind(this);
+    //this.onChange = this.onChange.bind(this);
  }
 
-  handleClick() {
-    alert("hola que tal");
-  }
+  /*onChange(e) {
+    window.confirm("Sidebar onChange")
+    window.confirm(e.target.value)
+    this.props.callback2(e.target.value)
+  }*/
+
   precioMaximo(e) {
-     document.getElementById('precioActual').value=e.target.value;
+     //document.getElementById('precioActual').value=e.target.value;
+     this.setState({precio:e.target.value});
   }
 
   render() {
@@ -31,6 +38,7 @@ class Sidebar extends Component {
       <div className="sidebar">
         <br />
         <h2>Filtros</h2>
+
         <div className="btn-group dropright">
           <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categorias
@@ -74,8 +82,9 @@ class Sidebar extends Component {
           <div className="row">
           <div className="col"> </div>
           <div className="col-8">
-          <input type="range" className="custom-range" id="customRange1" onChange={this.precioMaximo}/>
-          <input type="text" className="trans-box" id="precioActual" size="1" value="" />
+          <input type="range" className="custom-range" id="customRange1" min="0" max="1000" step="10" onChange={this.precioMaximo}/>
+          <input type="text" className="trans-box" id="precioActual" size="1" value={this.state.precio} />
+          <Button variant="primary"className="mx-auto" onClick={()=>this.props.callback2(this.state.precio)}> MAX €</Button>
           </div>
           <div className="col"> </div>
           </div>

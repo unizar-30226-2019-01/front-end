@@ -10,26 +10,32 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect:false,
-      mostrar:0
+      mostrar:0,
+      precio:0
     }
+    this.ordenacion = this.ordenacion.bind(this);
+    this.maximoPrecio = this.maximoPrecio.bind(this);
   }
 
   ordenacion(index){
-    this.setState({mostrar: index});
+    this.setState({mostrar:index});
   }
+
+  maximoPrecio(numero){
+    this.setState({precio:numero});
+  }
+
 
   render() {
     return (
       <div className="App">
-        <Sidebar callback={this.ordenacion.bind(this)}/>
+        <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)}/>
         <div className="App-header">
-          <Productos mostrar={this.state.mostrar}/>
+          <Productos mostrar={this.state.mostrar} precio={this.state.precio}/>
         </div>
       </div>
     );

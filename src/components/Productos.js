@@ -12,6 +12,10 @@ import { getProductosMenorMayor } from '../GestionPublicaciones';
 
 import { eliminarProducto } from '../GestionPublicaciones';
 
+import {Input} from "mdbreact"; //npm install mdbreact
+import Form from 'react-bootstrap/Form';
+
+
 class Productos extends Component {
 
   constructor(args) {
@@ -26,16 +30,20 @@ class Productos extends Component {
         nombreMostrar:'',
         vendedorMostrar:'',
         precioMostrar:0,
-        descripcionMostrar:''
+        descripcionMostrar:'',
+        search:"",
+        precio:0
     };
+    this.renderProductos = this.renderProductos.bind(this);
 }
 
   componentDidMount () {
       this.getAll()
   }
 
-  componentWillReceiveProps (){
+componentWillReceiveProps (){
       this.getAll()
+      this.setState({precio:this.props.precio});
   }
 
   eliminarProductoPadre(index){
@@ -51,6 +59,48 @@ class Productos extends Component {
       })
     });
   }
+
+  onChange = e => {
+    this.setState({ search: e.target.value });
+  };
+
+  renderProductos = (productos,index) => {
+    const { search } = this.state;
+
+    //si el producto actual no contiene la subcadena buscada no se muestra
+    if( search !== "" && productos[0].toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
+        return null
+    }
+    if( this.state.precio !== 0 && productos[4] > this.state.precio) {
+      return null
+    }
+
+    //se llega aquí si contiene la subcadena buscada
+    return (
+      <div className="card-deck" rows="4" columns="4">
+        <div className="card ml-md-4 mr-md-4">
+          <img className="card-img-top" src={bichardo} />
+          <div className="card-body">
+            <h5 className="card-title">{productos[0]}</h5>
+            <p className="card-text">{productos[4]}€</p>
+          </div>
+          <div className="card-footer"> {}
+            <Button
+              variant="outline-primary"
+              onClick={() => this.setState({ modalShow: true,
+                                             id: productos[1],
+                                             indiceMostrar: index,
+                                             nombreMostrar: productos[0],
+                                             vendedorMostrar: productos[3],
+                                             precioMostrar: productos[4],
+                                             descripcionMostrar: productos[2]})} >
+              Ver producto
+            </Button>
+          </div> {}
+        </div>
+        </div>
+    );
+  };
 
   getAll = () => {
       if(this.props.mostrar==0){
@@ -93,30 +143,15 @@ class Productos extends Component {
 
     return(
       <div className="card-deck">
-        {this.state.productos.map((productos, index) => (
-        <div className="card-deck" rows="4" columns="4">
-          <div className="card ml-md-4 mr-md-4">
-            <img className="card-img-top" src={bichardo} />
-            <div className="card-body">
-              <h5 className="card-title">{productos[0]}</h5>
-              <p className="card-text">{productos[4]}€</p>
-            </div>
-            <div className="card-footer"> {/*Para gestionar vistaProducto (guille)*/}
-              <Button
-                variant="outline-primary"
-                onClick={() => this.setState({ modalShow: true,
-                                               id: productos[1],
-                                               indiceMostrar: index,
-                                               nombreMostrar: productos[0],
-                                               vendedorMostrar: productos[3],
-                                               precioMostrar: productos[4],
-                                               descripcionMostrar: productos[2]})} >
-                Ver producto
-              </Button>
-            </div> {/* Fin para gestionar vistaProducto (guille)*/}
-          </div>
-          </div>
-        ))}
+      <Form.Control className="xd"
+        placeholder="Buscar producto"
+        name="nombre"
+        onChange={this.onChange} />
+
+      {this.state.productos.map((productos, index) => {
+        return this.renderProductos(productos,index);
+      })}
+
         <VistaProducto
           show={this.state.modalShow}
           id={this.state.id}

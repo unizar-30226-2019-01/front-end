@@ -17,6 +17,7 @@
 }
 .card-deck{
   padding-bottom: 30px;
+  padding-top: 30px;
 }
 
 .card:hover{
@@ -62,4 +63,11 @@ bottom:10px;
 }
 .sidebar .btn-group:hover ~ .App-header {
   opacity:0.5;
+}
+
+.xd{
+  position:absolute;
+  top:42px;
+  left:500px;
+  width: 300px;
 }
