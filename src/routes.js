@@ -11,6 +11,7 @@ import Perfil from './components/Perfil';
 import EditarPerfil from './components/EditarPerfil';
 import SubirProducto from './components/SubirProducto';
 import EditarProducto from './components/EditarProducto';
+import Favoritos from './components/Favoritos';
 
 const AppRoutes = () =>
   <div>
@@ -21,6 +22,7 @@ const AppRoutes = () =>
       <Route exact path="/EditarProducto" component={EditarProducto} />
       <Route exact path="/perfil" component={Perfil} />
       <Route exact path="/editarPerfil" component={EditarPerfil} />
+      <Route exact path="/favoritos" component={Favoritos} />
       <Route exact path="/" component={App} />
     </Switch>
   </div>;

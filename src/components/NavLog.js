@@ -104,7 +104,7 @@ class NavLog extends Component {
                   aria-label="Contraseña"
                   aria-describedby="basic-addon1"
                   value={this.state.password}
-              onChange={this.onChange}
+                  onChange={this.onChange}
                 />
               </InputGroup>
               <br />

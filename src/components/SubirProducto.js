@@ -27,11 +27,19 @@ class SubirProducto extends Component {
   }
 
   componentDidMount() {
-    const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
-    this.setState({
-      vendedor: decoded.identity.login,
-    })
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+      console.log("no existe")
+      this.setState({registrar: true});
+    }
+    else{
+      console.log("existe")
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      this.setState({
+        vendedor: decoded.identity.login,
+      })
+      console.log(this.state.vendedor)
+    }
   }
 
   onChange(e) {
@@ -55,9 +63,13 @@ class SubirProducto extends Component {
       descripcion: this.state.descripcion,
       vendedor: this.state.vendedor,
       precio: this.state.precio,
-      foto: this.state.foto,
+      foto: this.state.foto
     }
-    anadirProducto(newProducto)
+    anadirProducto(newProducto).then(res => {
+      if (!res.error) {
+        //this.props.history.push(`/profile`)
+      }
+    })
     this.setState({redirect: true});
 
   }
@@ -71,6 +83,9 @@ class SubirProducto extends Component {
 
 
   render(){
+    if (this.state.registrar){
+      return <Redirect push to="/registro" />;
+    }
     if (this.state.redirect){
       window.confirm("Subido correctamente");
       return <Redirect push to="/" />;

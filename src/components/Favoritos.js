@@ -4,16 +4,17 @@ import logo from '../images/logo.png';
 import bichardo from '../images/bichardo.jpg';
 import bixobasket from '../images/bixobasket.jpg';
 import jwt_decode from 'jwt-decode';
+import Sidebar from '../components/Sidebar';
 
 import VistaProducto from './VistaProducto';
-import { getProductos } from '../GestionPublicaciones';
+import { listarVentasFavoritos } from '../GestionPublicaciones';
 
-import { eliminarProducto } from '../GestionPublicaciones';
+import { eliminarProducto, eliminarFavorito } from '../GestionPublicaciones';
 
 class Productos extends Component {
 
-  constructor(args) {
-    super(args)
+  constructor(props) {
+    super(props)
     this.state = {
         modalShow: false,
         id: '',
@@ -40,8 +41,11 @@ class Productos extends Component {
       this.setState({
         usuario: decoded.identity.login
       })
+        const usuario = {
+            login: decoded.identity.login
+        }
+        this.getAll(usuario)
     }
-    this.getAll()
   }
 
   eliminarProductoPadre(index){
@@ -59,8 +63,8 @@ class Productos extends Component {
   }
 
 
-  getAll = () => {
-      getProductos().then(data => {
+  getAll = (usuario) => {
+    listarVentasFavoritos(usuario.login).then(data => {
           console.log("HOLA2")
           this.setState({
               productos: [...data]
@@ -71,10 +75,30 @@ class Productos extends Component {
       })
   }
 
+  eliminarFavoritoPadre(index){
+    const fav = {
+        usuario: this.state.usuario
+      }
+    eliminarFavorito(fav,this.state.id)
+    this.setState({
+      modalShow: false,
+      productos: this.state.productos.filter((elemento, i)=>{
+          return  i!==index
+          /*esto lo q hace es recorrer el vector productos,
+            y lo modifica eliminando todo aquel que NO cumpla
+            la condicion. en este caso, cuando encuentre la posicion
+            del elemento index, lo eliminara*/
+      })
+    });
+  }
+
   render() {
     let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
 
     return(
+        <div className="App">
+        <Sidebar/>
+        <div className="App-header">
       <div className="card-deck">
         {this.state.productos.map((productos, index) => (
         <div className="card-deck" rows="4" columns="4">
@@ -101,8 +125,8 @@ class Productos extends Component {
           </div>
         ))}
         <VistaProducto
-          fav={false}
           show={this.state.modalShow}
+          fav={true}
           id={this.state.id}
           usuario={this.state.usuario}
           indice={this.state.indiceMostrar}
@@ -111,8 +135,10 @@ class Productos extends Component {
           precio={this.state.precioMostrar}
           descripcion={this.state.descripcionMostrar}
           onHide={modalClose /*modalClose pone a false modalShow*/}
-          callback = {this.eliminarProductoPadre.bind(this)}
+          callback = {this.eliminarFavoritoPadre.bind(this)}
         />
+      </div>
+      </div>
       </div>
     )
   }

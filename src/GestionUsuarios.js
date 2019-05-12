@@ -57,6 +57,7 @@ export const deleteUser = user => {
       })
       .then((res) => {
         console.log(res)
+        localStorage.removeItem('usertoken');
       })
       .catch(err => {
         console.log(err)

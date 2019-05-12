@@ -10,6 +10,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class App extends Component {
+
+  //componentWillUnmount
+  //componentDidMount
+
+  componentWillUnmount() {
+    localStorage.clear();
+  }
+
   render() {
     return (
       <div className="App">

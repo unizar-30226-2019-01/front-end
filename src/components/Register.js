@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { register } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
+
 class Register extends Component {
 
   constructor() {

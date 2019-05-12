@@ -3,7 +3,72 @@ import axios from 'axios'
 
 export const getProductos = () => {
     return axios
-        .get('listarVentas', {
+        .get('listarEnVenta', {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+            })
+
+            return data
+        })
+  }
+
+  export const getEnVentaUsuario = (usuario) => {
+
+    return axios
+        .get(`listarEnVentaDeUsuario/${usuario.login}`, {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+            })
+
+            return data
+        })
+  }
+
+  export const getVentasAcabadas = (usuario) => {
+    return axios
+        .get(`listarVentasAcabadas/${usuario.login}`, {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+            })
+
+            return data
+        })
+  }
+
+  export const getSubastasEnCurso = (usuario) => {
+    return axios
+        .get(`listarSubastasDeUsuario/${usuario.login}`, {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+            })
+
+            return data
+        })
+  }
+
+  export const getSubastasAcabadas = (usuario) => {
+    return axios
+        .get(`listarSubastasAcabadas/${usuario.login}`, {
             headers: { "Content-type": "application/json" }
         })
         .then(res => {
@@ -66,5 +131,49 @@ export const getProductos = () => {
         })
         .catch((res) => {
             console.log(res)
+        })
+  }
+
+  export const crearFavorito = (producto, id) => {
+    axios
+        .post(
+            `crearFavorito/${id}`, {
+                usuario: producto.usuario
+            })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
+
+  export const eliminarFavorito = (producto, id) => {
+    axios
+        .post(
+            `eliminarFavorito/${id}`, {
+                usuario: producto.usuario
+            })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
+
+  export const listarVentasFavoritos = (usuario) => {
+    return axios
+        .get(`listarVentasFavoritas/${usuario}`, {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+            })
+
+            return data
         })
   }
