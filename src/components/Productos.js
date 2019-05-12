@@ -32,7 +32,9 @@ class Productos extends Component {
         precioMostrar:0,
         descripcionMostrar:'',
         search:"",
-        precio:0
+        precio:0,
+        categoria:""
+
     };
     this.renderProductos = this.renderProductos.bind(this);
 }
@@ -44,6 +46,7 @@ class Productos extends Component {
 componentWillReceiveProps (){
       this.getAll()
       this.setState({precio:this.props.precio});
+      this.setState({categoria:this.props.categoria})
   }
 
   eliminarProductoPadre(index){
@@ -71,10 +74,13 @@ componentWillReceiveProps (){
     if( search !== "" && productos[0].toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
         return null
     }
-    if( this.state.precio !== 0 && productos[4] > this.state.precio) {
+    if( this.state.precio !== 0 && productos[4] > this.state.precio){
       return null
     }
 
+    if( this.state.categoria!== "" && productos[5] !==this.state.categoria){
+      return null
+    }
     //se llega aquí si contiene la subcadena buscada
     return (
       <div className="card-deck" rows="4" columns="4">

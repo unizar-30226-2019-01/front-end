@@ -143,10 +143,23 @@ class SubirProducto extends Component {
                   name="categoria"
                   value={this.state.categoria}
                   onChange={this.onChange}>
-                    <option>Choose...</option>
-                    <option>...</option>
-                    <option>...</option>
-                    <option>...</option>
+                    <option>Elegir...</option>
+                    <option>Coches</option>
+                    <option>Electrónica</option>
+                    <option>Telefonía</option>
+                    <option>Deporte</option>
+                    <option>Inmobiliaria</option>
+                    <option>Motos</option>
+                    <option>Bicicletas</option>
+                    <option>Videojuegos</option>
+                    <option>Hogar</option>
+                    <option>Moda</option>
+                    <option>Electrodomésticos</option>
+                    <option>Libros y Música</option>
+                    <option>Niños</option>
+                    <option>Empleo</option>
+                    <option>Construcción</option>
+                    <option>Coleccionismo</option>
                   </Form.Control>
                 </Form.Group>
                 <Form.Group controlId="photoProduct">

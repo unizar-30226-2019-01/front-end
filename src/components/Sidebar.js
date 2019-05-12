@@ -3,6 +3,23 @@ import logo from '../images/logo.png';
 import '../css/sidebar.css';
 import moto from '../images/moto.jpg'
 import coche from '../images/coche.jpg'
+import electronica from '../images/electronica.jpg'
+import telefonia from '../images/telefonia.jpg'
+import deporte from '../images/deporte.jpg'
+import inmobiliaria from '../images/inmobiliaria.jpg'
+import todo from '../images/todo.jpg'
+import bici from '../images/bici.jpg'
+import videojuego from '../images/videojuego.jpg'
+import hogar from '../images/hogar.jpg'
+import moda from '../images/moda.jpg'
+import electrodomestico from '../images/electrodomestico.jpg'
+import libro from '../images/libro.jpg'
+import niño from '../images/niño.jpg'
+import empleo from '../images/empleo.jpg'
+import construccion from '../images/construccion.jpg'
+import coleccionismo from '../images/coleccionismo.jpg'
+import otro from '../images/otro.jpg'
+
 import Productos from './Productos';
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -45,20 +62,46 @@ class Sidebar extends Component {
           </button>
 
           <div className="dropdown-menu">
-            <a className="dropright-item" href="#">&nbsp;&nbsp;Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("")}>&nbsp;&nbsp;Todas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Coches")}>Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Electrónica")}>Electrónica&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Telefonía")}>Telefonía&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Deporte")}>&nbsp;&nbsp;Deporte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Inmobiliaria")}>Inmobiliaria&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropdown-item" href="#"></a>
-            <a>&nbsp;&nbsp;<img src={moto}></img></a>
-            <img src={moto}></img>
-            <img src={moto}></img>
-            <a className="dropright-item" href="#">&nbsp;&nbsp;Coches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <a className="dropright-item" href="#">Aves&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a>&nbsp;&nbsp;<img src={todo}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={coche}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={electronica}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={telefonia}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a>&nbsp;&nbsp;<img src={deporte}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={inmobiliaria}></img>&nbsp;&nbsp;&nbsp;&nbsp;
+            <br />
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Motos")}>&nbsp;&nbsp;Motos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Bicicletas")}>Bicicletas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Videojuegos")}>Videojuegos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Hogar")}>Hogar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Moda")}>&nbsp;&nbsp;Moda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Electrodomésticos")}>Electrodomésticos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a className="dropdown-item" href="#"></a>
-            <a>&nbsp;&nbsp;<img src={moto}></img></a>
-            <img src={moto}></img>
-            <img src={moto}></img>
+            <a>&nbsp;&nbsp;<img src={moto}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={bici}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={videojuego}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={hogar}></img>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a>&nbsp;&nbsp;<img src={moda}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={electrodomestico}></img>&nbsp;
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Libros")}>&nbsp;Libros&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Niños")}>Niños&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Empleo")}>Empleo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Construcción")}>Construcción&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Coleccionismo")}>&nbsp;&nbsp;Coleccionismo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropright-item" href="#" onClick={() => this.props.callback3("Otros")}>Otros&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a className="dropdown-item" href="#"></a>
+            <a>&nbsp;&nbsp;<img src={libro}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={niño}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={empleo}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={construccion}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a>&nbsp;&nbsp;<img src={coleccionismo}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src={otro}></img>&nbsp;
           </div>
         </div>
 

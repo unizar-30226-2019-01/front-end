@@ -61,8 +61,8 @@ bottom:10px;
 .sidebar img:hover{
   color:blue;
 }
-.sidebar .btn-group:hover ~ .App-header {
-  opacity:0.5;
+.App .sidebar:hover   ~ .App-header {
+  opacity:0.2;
 }
 
 .xd{

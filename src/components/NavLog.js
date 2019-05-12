@@ -64,13 +64,7 @@ class NavLog extends Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
           <Navbar.Collapse className="justify-content-front ">
-                <Form inline>
-                  <FormControl type="text" placeholder="Buscar" className="mr-sm-2" />
-                  <br />
-                  <br />
-                  <Button variant="primary"className="mx-auto">Buscar</Button>
-                </Form>
-                <br />
+              
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
                  <Button
