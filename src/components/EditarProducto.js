@@ -21,7 +21,7 @@ class EditarProducto extends Component {
       vendedor: '',
       precio: props.location.prod.precio
     }
-    
+
     console.log(props.location.prod.id)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -41,7 +41,7 @@ class EditarProducto extends Component {
     var yy = day.getFullYear();
 
     var fecha = dd+'/'+mm+'/'+yy
-    
+
     const producto = {
       nombre: this.state.nombre,
       id: this.state.id,
@@ -111,7 +111,7 @@ class EditarProducto extends Component {
             <Col xs={6}>
               <Form noValidate onSubmit={this.onSubmit}>
                 <Form.Group controlId="productName">
-                  <Form.Control 
+                  <Form.Control
                   placeholder="Nombre"
                   name="nombre"
 										value={this.state.nombre}
@@ -129,10 +129,23 @@ class EditarProducto extends Component {
                   name="categoria"
                   value={this.state.categoria}
                   onChange={this.onChange}>
-                    <option>Choose...</option>
-                    <option>...</option>
-                    <option>...</option>
-                    <option>...</option>
+                  <option>Elegir...</option>
+                  <option>Coches</option>
+                  <option>Electrónica</option>
+                  <option>Telefonía</option>
+                  <option>Deporte</option>
+                  <option>Inmobiliaria</option>
+                  <option>Motos</option>
+                  <option>Bicicletas</option>
+                  <option>Videojuegos</option>
+                  <option>Hogar</option>
+                  <option>Moda</option>
+                  <option>Electrodomésticos</option>
+                  <option>Libros y Música</option>
+                  <option>Niños</option>
+                  <option>Empleo</option>
+                  <option>Construcción</option>
+                  <option>Coleccionismo</option>
                   </Form.Control>
                 </Form.Group>
                 <Form.Group controlId="photoProduct">
