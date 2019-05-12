@@ -17,6 +17,7 @@
 }
 .card-deck{
   padding-bottom: 30px;
+  padding-top: 30px;
 }
 
 .card:hover{
@@ -60,6 +61,13 @@ bottom:10px;
 .sidebar img:hover{
   color:blue;
 }
-.sidebar .btn-group:hover ~ .App-header {
-  opacity:0.5;
+.App .sidebar:hover   ~ .App-header {
+  opacity:0.2;
+}
+
+.xd{
+  position:absolute;
+  top:42px;
+  left:500px;
+  width: 300px;
 }

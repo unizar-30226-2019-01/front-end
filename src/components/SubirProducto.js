@@ -21,7 +21,6 @@ class SubirProducto extends Component {
       vendedor: '',
       precio: ''
     }
-
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -87,8 +86,17 @@ class SubirProducto extends Component {
       return <Redirect push to="/registro" />;
     }
     if (this.state.redirect){
-      window.confirm("Subido correctamente");
-      return <Redirect push to="/" />;
+      //window.confirm("Subido correctamente");
+      //return <Redirect push to="/" />;
+      if(window.confirm("Subido correctamente")){
+        /*return <Redirect to={{
+                    pathname: "/",
+                    state: {subidoCorrecto: true}
+                }}/>;*/
+      }
+      else{
+        window.confirm("Producto no subido")
+      }
     }
     let contenido
     if (this.state.venta) {
@@ -151,10 +159,23 @@ class SubirProducto extends Component {
                   name="categoria"
                   value={this.state.categoria}
                   onChange={this.onChange}>
-                    <option>Choose...</option>
-                    <option>...</option>
-                    <option>...</option>
-                    <option>...</option>
+                    <option>Elegir...</option>
+                    <option>Coches</option>
+                    <option>Electrónica</option>
+                    <option>Telefonía</option>
+                    <option>Deporte</option>
+                    <option>Inmobiliaria</option>
+                    <option>Motos</option>
+                    <option>Bicicletas</option>
+                    <option>Videojuegos</option>
+                    <option>Hogar</option>
+                    <option>Moda</option>
+                    <option>Electrodomésticos</option>
+                    <option>Libros y Música</option>
+                    <option>Niños</option>
+                    <option>Empleo</option>
+                    <option>Construcción</option>
+                    <option>Coleccionismo</option>
                   </Form.Control>
                 </Form.Group>
                 <Form.Group controlId="photoProduct">
