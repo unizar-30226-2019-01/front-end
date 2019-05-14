@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { anadirProducto } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import NavLogReg from './NavLogReg';
 
 class SubirProducto extends Component {
   constructor(props) {
@@ -129,6 +130,7 @@ class SubirProducto extends Component {
 
     return(
       <div>
+        <NavLogReg/>
         <Container>
         <br />
           <Row>

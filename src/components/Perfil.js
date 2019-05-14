@@ -8,6 +8,8 @@ import { deleteUser } from '../GestionUsuarios';
 import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
 import VistaProducto from './VistaProducto';
+import NavLogReg from './NavLogReg';
+
 import { eliminarProducto } from '../GestionPublicaciones';
 
 import {Redirect } from 'react-router-dom';
@@ -93,6 +95,7 @@ class Perfil extends Component {
 
   cerrarSesion = e => {
     e.preventDefault()
+    localStorage.removeItem('usertoken')
     this.setState({redirect: true});
   }
 
@@ -116,6 +119,8 @@ class Perfil extends Component {
       return <Redirect push to="/" />;
     }
     return ( 
+        <div className="Perfil">
+        <NavLogReg/>
       <div class="container emp-profile">
             <form method="post">
                 <div class="row">
@@ -310,6 +315,7 @@ class Perfil extends Component {
                     </div>
                 </div>
             </form>           
+        </div>
         </div>
     )
   }

@@ -9,9 +9,35 @@ import Button from 'react-bootstrap/Button';
 import Registro from './Registro';
 import ReactDOM from 'react-dom';
 import { Route, Switch, Link } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
-class NavLog extends Component {
+class NavLogReg extends Component {
 
+  constructor() {
+    super()
+    this.state = {
+      login: '',
+      nombre: '',
+      apellidos: '',
+      email: ''
+    }
+  }
+/*
+  componentDidMount () {
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+      console.log("no existe")
+    }
+    else{
+      console.log("existe")
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      console.log(decoded.identity.login)
+      this.setState({
+        login: decoded.identity.login
+      })
+    }
+  }
+*/
   render() {
     return (
       <div className="Navbar">
@@ -30,15 +56,6 @@ class NavLog extends Component {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-          <Navbar.Collapse className="justify-content-front ">
-                <Form inline>
-                  <FormControl type="text" placeholder="Buscar" className="mr-sm-2" />
-                  <br />
-                  <br />
-                  <Button variant="primary"className="mx-auto">Buscar</Button>
-                </Form>
-                <br />
-          </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
               <br />
               <br />
@@ -46,6 +63,7 @@ class NavLog extends Component {
             <Button className=" mr-md-4" href="/subirProducto" variant="success">Subir producto</Button>
             <Link to="/perfil">
                <img src={icono} width="70" height="70"></img>
+               
             </Link>
           </Navbar.Collapse>
         </Navbar.Collapse>
@@ -56,4 +74,4 @@ class NavLog extends Component {
   }
 }
 
-export default NavLog
+export default NavLogReg

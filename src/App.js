@@ -15,8 +15,9 @@ class App extends Component {
   //componentWillUnmount
   //componentDidMount
 
-  componentWillUnmount() {
+  componentDidMount() {
     localStorage.clear();
+    console.log("ELIMINO TOKENS")
   }
 
   constructor(props) {
@@ -45,8 +46,19 @@ class App extends Component {
 
 
   render() {
+    let barra;
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+      console.log("no existe")
+      barra = <NavLog/>
+    }
+    else{
+      console.log("existe")
+      barra = <NavLogReg/>
+      
+    }
     return (
       <div className="App">
+        {barra}
         <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} />
         <div className="App-header">
           <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria}/>

@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import NavLogReg from './NavLogReg';
 import { actualizarProducto } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -99,6 +100,7 @@ class EditarProducto extends Component {
 
     return(
       <div>
+        <NavLogReg/>
         <Container>
         <br />
           <Row>

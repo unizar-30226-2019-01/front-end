@@ -7,13 +7,14 @@ class Registro extends Component {
   render() {
     return (
       <div className="App">
+        <NavLog/>
         <div className="row">
-			<div className="col"> </div>
-			<div className="col-8">
-				<Register />
-			</div>
-			<div className="col"> </div>
-       </div>
+			  <div className="col"> </div>
+			    <div className="col-8">
+				    <Register />
+		  	  </div>
+			  <div className="col"> </div>
+        </div>
       </div>
     );
   }

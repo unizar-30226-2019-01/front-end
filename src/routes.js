@@ -15,7 +15,6 @@ import Favoritos from './components/Favoritos';
 
 const AppRoutes = () =>
   <div>
-    <NavLog />
     <Switch>
       <Route exact path="/registro" component={Registro} />
       <Route exact path="/subirProducto" component={SubirProducto} />

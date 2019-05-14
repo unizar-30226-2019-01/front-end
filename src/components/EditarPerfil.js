@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode'
 import ReactDOM from 'react-dom';
 import Perfil from './Perfil';
 import Form from 'react-bootstrap/Form';
+import NavLogReg from './NavLogReg';
 import { actualizarInfo } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -58,6 +59,7 @@ class EditarPerfil extends Component {
     }
     return (
       <div className="Perfil">
+      <NavLogReg/>
       <div className="row">
       <div className = "col"> </div>
         <div className="col-6">

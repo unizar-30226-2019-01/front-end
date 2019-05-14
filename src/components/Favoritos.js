@@ -5,6 +5,7 @@ import bichardo from '../images/bichardo.jpg';
 import bixobasket from '../images/bixobasket.jpg';
 import jwt_decode from 'jwt-decode';
 import Sidebar from '../components/Sidebar';
+import NavLogReg from './NavLogReg';
 
 import VistaProducto from './VistaProducto';
 import { listarVentasFavoritos } from '../GestionPublicaciones';
@@ -97,6 +98,7 @@ class Productos extends Component {
 
     return(
         <div className="App">
+        <NavLogReg/>
         <Sidebar/>
         <div className="App-header">
       <div className="card-deck">
