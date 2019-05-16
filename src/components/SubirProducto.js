@@ -7,6 +7,21 @@ import Form from 'react-bootstrap/Form';
 import { anadirProducto } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import NavLogReg from './NavLogReg';
+import firebase from 'firebase'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBXsmEEHvGiRwxeMbAO4AejNexD0iCHn_s",
+    authDomain: "proyectosoftware-2397d.firebaseapp.com",
+    databaseURL: "https://proyectosoftware-2397d.firebaseio.com",
+    projectId: "proyectosoftware-2397d",
+    storageBucket: "proyectosoftware-2397d.appspot.com",
+    messagingSenderId: "382506671393",
+    appId: "1:382506671393:web:af9c6a6744e52da2"
+  };
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+  
 
 class SubirProducto extends Component {
   constructor(props) {
@@ -19,23 +34,37 @@ class SubirProducto extends Component {
 			categoria: '',
       descripcion: '',
       vendedor: '',
-      precio: ''
+      precio: '',
+      foto: '',
+      uploadValue: 0,
+      picture: ''
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount() {
-    const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
-    this.setState({
-      vendedor: decoded.identity.login,
-    })
+
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+      console.log("no existe")
+      this.setState({registrar: true});
+    }
+    else{
+      console.log("existe")
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      this.setState({
+        vendedor: decoded.identity.login,
+      })
+      console.log(this.state.vendedor)
+    }
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
+
+
   onSubmit(e) {
     //e.preventDefault()
 
@@ -45,7 +74,8 @@ class SubirProducto extends Component {
     var yy = day.getFullYear();
 
     var fecha = dd+'/'+mm+'/'+yy
-
+    
+    console.log(this.state.picture)
 
     const newProducto = {
       nombre: this.state.nombre,
@@ -54,10 +84,13 @@ class SubirProducto extends Component {
       descripcion: this.state.descripcion,
       vendedor: this.state.vendedor,
       precio: this.state.precio,
-      foto: this.state.foto,
+      foto: this.state.foto
     }
-    anadirProducto(newProducto)
-    //Aqui hay q anyadir q si se sube, pones el redirect true, si no false
+    anadirProducto(newProducto).then(res => {
+      if (!res.error) {
+        //this.props.history.push(`/profile`)
+      }
+    })
     this.setState({redirect: true});
 
   }
@@ -68,10 +101,37 @@ class SubirProducto extends Component {
     })
   }
 
+  handleOnChange (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
 
 
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, foto: url});
+        });
+      })
+}
+  
   render(){
-    if (this.state.redirect){ //A esto hay q darle una vuelta
+    if (this.state.registrar){
+      return <Redirect push to="/registro" />;
+    }
+    if (this.state.redirect){
+      //window.confirm("Subido correctamente");
+      //return <Redirect push to="/" />;
       if(window.confirm("Subido correctamente")){
         /*return <Redirect to={{
                     pathname: "/",
@@ -113,6 +173,7 @@ class SubirProducto extends Component {
 
     return(
       <div>
+        <NavLogReg/>
         <Container>
         <br />
           <Row>
@@ -162,14 +223,13 @@ class SubirProducto extends Component {
                     <option>Coleccionismo</option>
                   </Form.Control>
                 </Form.Group>
-                <Form.Group controlId="photoProduct">
-                  <Form.Label>Foto</Form.Label>
-                  <Form.Control type="file"
-                  name="foto"
-                  value={this.state.foto}
-                  onChange={this.onChange}>
-                  </Form.Control>
-                </Form.Group>
+                <div>
+                  <progress value={this.state.uploadValue} max='100'></progress>
+                  <br />
+                  <input type='file' onChange={this.handleOnChange.bind(this)}/>
+                  <br />
+                  <img width='90' src={this.state.picture} />
+                </div>
                 <Form.Group>
                   <Form.Label> Tipo </Form.Label>
                   <Form.Check

@@ -7,10 +7,19 @@ import Productos from './components/Productos';
 import { Link } from 'react-router-dom';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-
 import PropTypes from 'prop-types';
 
+
 class App extends Component {
+
+  //componentWillUnmount
+  //componentDidMount
+
+  componentDidMount() {
+    localStorage.clear();
+    console.log("ELIMINO TOKENS")
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -44,8 +53,19 @@ class App extends Component {
 
 
   render() {
+    let barra;
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+      console.log("no existe")
+      barra = <NavLog/>
+    }
+    else{
+      console.log("existe")
+      barra = <NavLogReg/>
+      
+    }
     return (
       <div className="App">
+        {barra}
         <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} />
         <div className="App-header">
           <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria} filtro={this.state.filtro} />

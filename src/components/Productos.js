@@ -41,10 +41,22 @@ class Productos extends Component {
 }
 
   componentDidMount () {
-      this.getAll()
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+      console.log("no existe")
+      console.log(this.state.usuario)
+    }
+    else{
+      console.log("existe")
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      this.setState({
+        usuario: decoded.identity.login
+      })
+    }
+    this.getAll()
   }
 
-componentWillReceiveProps (){
+  componentWillReceiveProps (){
       this.getAll()
       this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
@@ -98,11 +110,12 @@ componentWillReceiveProps (){
     if( this.state.categoria!== "" && productos[5] !==this.state.categoria){
       return null
     }
+
     //se llega aquí si contiene la subcadena buscada
     return (
       <div className="card-deck" rows="4" columns="4">
         <div className="card ml-md-4 mr-md-4">
-          <img className="card-img-top" src={bichardo} />
+          <img className="card-img-top" src={productos[6]} width="100" height="170" />
           <div className="card-body">
             <h5 className="card-title">{productos[0]}</h5>
             <p className="card-text">{productos[4]}€</p>
@@ -165,6 +178,7 @@ componentWillReceiveProps (){
     let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
 
     return(
+      
       <div className="card-deck">
       <Form.Control className="xd"
         placeholder="Buscar producto"
@@ -176,8 +190,10 @@ componentWillReceiveProps (){
       })}
 
         <VistaProducto
+          fav={false}
           show={this.state.modalShow}
           id={this.state.id}
+          usuario={this.state.usuario}
           indice={this.state.indiceMostrar}
           nombre={this.state.nombreMostrar}
           vendedor={this.state.vendedorMostrar}

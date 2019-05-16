@@ -11,24 +11,19 @@ import Perfil from './components/Perfil';
 import EditarPerfil from './components/EditarPerfil';
 import SubirProducto from './components/SubirProducto';
 import EditarProducto from './components/EditarProducto';
+import Favoritos from './components/Favoritos';
 
-class AppRoutes extends Component {
-
-  render(){
-    return(
-      <div>
-        <NavLog />
-        <Switch>
-          <Route exact path="/registro" component={Registro} />
-          <Route exact path="/subirProducto" component={SubirProducto} />
-          <Route exact path="/EditarProducto" component={EditarProducto} />
-          <Route exact path="/perfil" component={Perfil} />
-          <Route exact path="/editarPerfil" component={EditarPerfil} />
-          <Route exact path="/" component={App} />
-        </Switch>
-      </div>
-    );
-  }
-}
+const AppRoutes = () =>
+  <div>
+    <Switch>
+      <Route exact path="/registro" component={Registro} />
+      <Route exact path="/subirProducto" component={SubirProducto} />
+      <Route exact path="/EditarProducto" component={EditarProducto} />
+      <Route exact path="/perfil" component={Perfil} />
+      <Route exact path="/editarPerfil" component={EditarPerfil} />
+      <Route exact path="/favoritos" component={Favoritos} />
+      <Route exact path="/" component={App} />
+    </Switch>
+  </div>;
 
 export default AppRoutes;

@@ -4,7 +4,8 @@ import jwt_decode from 'jwt-decode'
 import ReactDOM from 'react-dom';
 import Perfil from './Perfil';
 import Form from 'react-bootstrap/Form';
-import { actualizarInfo } from '../GestionUsuarios';
+import NavLogReg from './NavLogReg';
+import { actualizarInfo, infoUsuario } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 class EditarPerfil extends Component {
@@ -14,7 +15,8 @@ class EditarPerfil extends Component {
       login: '',
       nombre: '',
       apellidos: '',
-      email: ''
+      email: '',
+      datos: []
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -23,11 +25,13 @@ class EditarPerfil extends Component {
   componentDidMount() {
     const token = localStorage.usertoken
     const decoded = jwt_decode(token)
-    this.setState({
-      login: decoded.identity.login,
-      nombre: decoded.identity.nombre,
-      apellidos: decoded.identity.apellidos,
-      email: decoded.identity.email
+    infoUsuario(decoded.identity.login).then(data => {
+      this.setState({
+        datos: data
+      },
+      () => {
+          console.log("devuelvo")
+      })
     })
   }
 
@@ -39,10 +43,11 @@ class EditarPerfil extends Component {
     e.preventDefault()
 
     const user = {
-      login: this.state.login,
-      nombre: this.state.nombre,
-      apellidos: this.state.apellidos,
-      email: this.state.email
+      login: this.state.datos[0],
+      nombre: this.state.datos[1],
+      apellidos: this.state.datos[2],
+      email: this.state.datos[3],
+      telefono: this.state.datos[7]
     }
     actualizarInfo(user)
     this.setState({redirect: true});
@@ -58,6 +63,7 @@ class EditarPerfil extends Component {
     }
     return (
       <div className="Perfil">
+      <NavLogReg/>
       <div className="row">
       <div className = "col"> </div>
         <div className="col-6">
@@ -76,8 +82,7 @@ class EditarPerfil extends Component {
                 	<Form.Group controlId="login">
 				      <Form.Control 
 				        name="login"
-				        value={this.state.login}
-                  		onChange={this.onChange}
+				        value={this.state.datos[0]}
 				      />
 				    </Form.Group>
 				</td>
@@ -88,8 +93,8 @@ class EditarPerfil extends Component {
                 	<Form.Group controlId="nombre">
 				      <Form.Control 
 				      	name="nombre"
-				      	value={this.state.nombre}
-                	    onChange={this.onChange}
+				      	value={this.state.datos[1]}
+                onChange={this.onChange}
 				      />
 				    </Form.Group>
 				</td>
@@ -100,7 +105,7 @@ class EditarPerfil extends Component {
                 	<Form.Group controlId="apellidos">
 				      <Form.Control 
 				        name="apellidos"
-				        value={this.state.apellidos}
+				        value={this.state.datos[2]}
                   		onChange={this.onChange}
 				      />
 				    </Form.Group>
@@ -113,7 +118,20 @@ class EditarPerfil extends Component {
 				    <Form.Control 
 				    	type="email" 
 				    	name="email"
-				    	value={this.state.email}
+				    	value={this.state.datos[3]}
+               		    onChange={this.onChange}
+				    	 />
+            	</Form.Group>
+				</td>
+        </tr>   
+        <tr>
+                <td>Teléfono</td>
+                <td>
+        <Form.Group controlId="telefono">
+            <Form.Control 
+				    	type="number" 
+				    	name="telefono"
+				    	value={this.state.datos[7]}
                		    onChange={this.onChange}
 				    	 />
 				  </Form.Group>

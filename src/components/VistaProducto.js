@@ -10,6 +10,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
+import { crearFavorito, eliminarFavorito } from '../GestionPublicaciones';
+import jwt_decode from 'jwt-decode'
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
@@ -17,7 +19,8 @@ class VistaProducto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: 4
+      rating: 4,
+      fav: this.props.fav
     }; //Para conseguir la valoracion del vendedor
 
     this.changeRating = this.changeRating.bind(this);
@@ -30,7 +33,51 @@ class VistaProducto extends Component {
     });
   }
 
+  getlink() {
+    var aux = document.createElement('input');
+    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]);
+    document.body.appendChild(aux);
+    aux.select();
+    document.execCommand('copy');
+    var aviso = document.createElement('div');
+    aviso.setAttribute('id', 'aviso');
+    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+    aviso.innerHTML = 'URL copiada';
+    document.body.appendChild(aviso);
+    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+    document.body.removeChild(aux);
+  }
+
+  marcarFavorito(usu,publicacion){
+    const fav = {
+      usuario: usu
+    }
+    crearFavorito(fav,publicacion)
+    var aviso = document.createElement('div');
+    aviso.setAttribute('id', 'aviso');
+    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+    aviso.innerHTML = 'Añadido a FAVORITOS';
+    document.body.appendChild(aviso);
+    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+  }
+
+  
+
   render() {
+    
+    let contenido
+    if (!this.state.fav) {
+      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.props.usuario,this.props.id)}>
+         FAVORITO
+        </Button>
+    } else {
+      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() =>this.props.callback(this.props.indice)}>
+          Eliminar 
+        de FAVORITOS
+        </Button>
+    }
+
+
     return (
       <Modal
         {...this.props /*si quitas esto no se muestra el producto
@@ -85,8 +132,11 @@ class VistaProducto extends Component {
             </div>
             <div className="col-md-9 text-right">
               <ButtonGroup toggle>
-                <Button className="mr-sm-4" variant="outline-warning"> {/*onClick=() => aqui marcar favorito*/}
-                  FAVORITO
+                
+                {contenido}
+
+                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
+                  Copiar URL
                 </Button>
 
                 <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
