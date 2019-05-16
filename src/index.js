@@ -8,6 +8,8 @@ import AppRoutes from './routes';
 // Assets
 import './css/index.css';
 
+
+
 render(
   <Router>
     <AppRoutes />

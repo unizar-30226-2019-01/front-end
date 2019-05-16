@@ -8,7 +8,9 @@ export const register = newUser => {
       password: newUser.password,
       nombre: newUser.nombre,
       apellidos: newUser.apellidos,
-      email: newUser.email
+      email: newUser.email,
+      foto: newUser.foto,
+      telefono: newUser.telefono
     })
     .then(response => {
       localStorage.setItem('usertoken', response.data)
@@ -38,8 +40,7 @@ export const actualizarInfo = user => {
         nombre: user.nombre,
         apellidos: user.apellidos,
         telefono: user.telefono,
-        email: user.email,
-        biografia: user.biografia
+        email: user.email
       })
       .then(response => {
         localStorage.setItem('usertoken', response.data)
@@ -51,7 +52,7 @@ export const actualizarInfo = user => {
 }
 
 export const deleteUser = user => {
-  axios
+  return axios
       .post(`delete`, {
             login: user.login,
       })
@@ -62,4 +63,23 @@ export const deleteUser = user => {
       .catch(err => {
         console.log(err)
       })
+}
+
+export const infoUsuario = login => {
+  return axios
+      .get(`infoUsuario/${login}`, {
+
+      })
+      .then(res => {
+        var data = []
+        data[0]=res.data.Login
+        data[1]=res.data.Nombre
+        data[2]=res.data.Apellidos
+        data[3]=res.data.Email
+        data[4]=res.data.Foto
+        data[5]=res.data.Password
+        data[6]=res.data.Puntuacion
+        data[7]=res.data.Telefono
+        return data
+    })
 }

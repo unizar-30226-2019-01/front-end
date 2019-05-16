@@ -7,8 +7,8 @@ import Productos from './components/Productos';
 import { Link } from 'react-router-dom';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-
 import PropTypes from 'prop-types';
+
 
 class App extends Component {
 

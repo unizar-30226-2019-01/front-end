@@ -4,7 +4,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
 import '../css/perfil.css';
 import bichardo from '../images/bichardo.jpg';
-import { deleteUser } from '../GestionUsuarios';
+import { deleteUser, infoUsuario } from '../GestionUsuarios';
 import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
 import VistaProducto from './VistaProducto';
@@ -13,15 +13,17 @@ import NavLogReg from './NavLogReg';
 import { eliminarProducto } from '../GestionPublicaciones';
 
 import {Redirect } from 'react-router-dom';
+import * as firebase from 'firebase'
+
+
+
 
 class Perfil extends Component {
   constructor() {
     super()
     this.state = {
       login: '',
-      nombre: '',
-      apellidos: '',
-      email: '',
+      datos: [],
       EnVenta: [],
       subastas: [],
       vendidos: [],
@@ -38,15 +40,17 @@ class Perfil extends Component {
         console.log("existe")
         const token = localStorage.usertoken
         const decoded = jwt_decode(token)
-        this.setState({
-            login: decoded.identity.login,
-            nombre: decoded.identity.nombre,
-            apellidos: decoded.identity.apellidos,
-            email: decoded.identity.email
-        })
         const usuario = {
             login: decoded.identity.login
         }
+        infoUsuario(decoded.identity.login).then(data => {
+        this.setState({
+          datos: data
+        },
+        () => {
+            console.log("devuelvo")
+        })
+      })
         this.getAll(usuario)
     }
   }
@@ -113,6 +117,30 @@ class Perfil extends Component {
     });
   }
 
+  handleOnChange (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
+
+
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, foto: url});
+        });
+      })
+}
+
   render() {
     let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
     if (this.state.redirect){
@@ -126,25 +154,28 @@ class Perfil extends Component {
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+                            <img src={this.state.datos[4]} alt=""/>
                             <div class="file btn btn-lg btn-primary">
                                 Change Photo
-                                <input type="file" name="file"/>
+                                <input type='file' onChange={this.handleOnChange.bind(this)}/>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
                                     <h6>
-                                        Login:     {this.state.login}
+                                        Login:     {this.state.datos[0]}
                                     </h6>
                                     <h5>
-                                      {this.state.nombre} {this.state.apellidos}
+                                      {this.state.datos[1]} {this.state.datos[2]}
                                     </h5>
                                     <h5>
-                                      {this.state.email}
+                                      {this.state.datos[3]}
                                     </h5>
-                                    <p class="proile-rating">Valoración : <span>8/10</span></p>
+                                    <h5>
+                                      Teléfono:  {this.state.datos[7]}
+                                    </h5>
+                                    <p class="proile-rating">Valoración : <span>{this.state.datos[6]}/10</span></p>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">En venta</a>
@@ -199,7 +230,7 @@ class Perfil extends Component {
                                 {this.state.EnVenta.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={bichardo} />
+                                    <img className="card-img-top" src={productos[6]} />
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">Vendedor: {productos[3]}</p>
@@ -238,7 +269,7 @@ class Perfil extends Component {
                                 {this.state.subastas.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={bichardo} />
+                                    <img className="card-img-top" src={productos[6]} />
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">Vendedor: {productos[3]}</p>
@@ -277,7 +308,7 @@ class Perfil extends Component {
                                 {this.state.vendidos.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={bichardo} />
+                                    <img className="card-img-top" src={productos[6]} />
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">Vendedor: {productos[3]}</p>
