@@ -134,6 +134,9 @@ class Sidebar extends Component {
 
           <br/><br/>
 
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Button href="/" variant="danger" className="mx-auto" > Eliminar Filtros</Button>
+
     </div>
     )
   }
