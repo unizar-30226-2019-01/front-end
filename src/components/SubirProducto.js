@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { anadirProducto } from '../GestionPublicaciones';
+import { anadirSubasta } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import NavLogReg from './NavLogReg';
@@ -20,7 +21,9 @@ class SubirProducto extends Component {
 			categoria: '',
       descripcion: '',
       vendedor: '',
-      precio: ''
+      precio: '',
+      fechaLimite: '',
+      horaLimite: ''
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -56,22 +59,44 @@ class SubirProducto extends Component {
     var fecha = dd+'/'+mm+'/'+yy
 
 
-    const newProducto = {
-      nombre: this.state.nombre,
-      fecha: fecha,
-			categoria: this.state.categoria,
-      descripcion: this.state.descripcion,
-      vendedor: this.state.vendedor,
-      precio: this.state.precio,
-      foto: this.state.foto
-    }
-    anadirProducto(newProducto).then(res => {
-      if (!res.error) {
-        //this.props.history.push(`/profile`)
+    if(this.state.venta){
+      const newProducto = {
+        nombre: this.state.nombre,
+        fecha: fecha,
+  			categoria: this.state.categoria,
+        descripcion: this.state.descripcion,
+        vendedor: this.state.vendedor,
+        precio: this.state.precio,
+        foto: this.state.foto
       }
-    })
+      anadirProducto(newProducto).then(res => {
+        console.log(res.error)
+        if (!res.error) {
+          //this.props.history.push(`/profile`)
+        }
+      })
+    }
+    else{
+      let nombreAux = this.state.nombre+" (SUBASTA)"
+      const newProductoSubasta = {
+        nombre: nombreAux,
+        fecha: fecha,
+  			categoria: this.state.categoria,
+        descripcion: this.state.descripcion,
+        vendedor: this.state.vendedor,
+        precio: this.state.precio,
+        foto: this.state.foto,
+        fechaLimite: this.state.fechaLimite,
+        horaLimite: this.state.horaLimite
+      }
+      anadirSubasta(newProductoSubasta).then(res => {
+        console.log(res.error)
+        if (!res.error) {
+          //this.props.history.push(`/profile`)
+        }
+      })
+    }
     this.setState({redirect: true});
-
   }
 
   changeVentSubst (valor) {
@@ -89,15 +114,16 @@ class SubirProducto extends Component {
     if (this.state.redirect){
       //window.confirm("Subido correctamente");
       //return <Redirect push to="/" />;
-      if(window.confirm("Subido correctamente")){
+      /*if(true){
+        window.alert("Subido correctamente")
         /*return <Redirect to={{
                     pathname: "/",
                     state: {subidoCorrecto: true}
                 }}/>;*/
-      }
+      /*}
       else{
-        window.confirm("Producto no subido")
-      }
+        window.alert("El producto no se ha subido correctamente")
+      }*/
     }
     let contenido
     if (this.state.venta) {
@@ -119,11 +145,17 @@ class SubirProducto extends Component {
                   </Form.Group>
                   <Form.Group controlId="fechaLimite">
                       <Form.Label>Fecha límite</Form.Label>
-                      <Form.Control type="Date" />
+                      <Form.Control type="Date"
+                      name="fechaLimite"
+                      value={this.state.fechaLimite}
+                      onChange={this.onChange}/>
                   </Form.Group>
                   <Form.Group controlId="horaLimite">
                       <Form.Label>Hora límite</Form.Label>
-                      <Form.Control type="Time" />
+                      <Form.Control type="Time"
+                      name="horaLimite"
+                      value={this.state.horaLimite}
+                      onChange={this.onChange} />
                   </Form.Group>
                   </Form>
     }

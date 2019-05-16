@@ -17,6 +17,22 @@ export const getProductos = () => {
         })
   }
 
+  export const getSubastas = () => {
+      return axios
+          .get('listarSubastas', {
+              headers: { "Content-type": "application/json" }
+          })
+          .then(res => {
+              var data = []
+              Object.keys(res.data).forEach((key) => {
+                  var val = res.data[key]
+                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite])
+              })
+
+              return data
+          })
+    }
+
   export const getEnVentaUsuario = (usuario) => {
 
     return axios
@@ -115,24 +131,78 @@ export const getProductos = () => {
       }
 
 
-  export const anadirProducto = newProducto => {
+export const getSubastasMayorMenor = () => {
     return axios
-      .post('crearVenta', {
-        nombre: newProducto.nombre,
-        fecha: newProducto.fecha,
-        categoria: newProducto.categoria,
-        descripcion: newProducto.descripcion,
-        foto: newProducto.foto,
-        precio: newProducto.precio,
-        vendedor: newProducto.vendedor
+        .get('listarSubastasMayorMenor', {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite])
+            })
 
-      })
-      .then(res => {
-        console.log(res)
-        console.log("KK")
-        return res.data
-      })
+            return data
+        })
   }
+
+export const getSubastasMenorMayor = () => {
+    return axios
+        .get('listarSubastasMenorMayor', {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite])
+            })
+
+            return data
+        })
+  }
+
+
+export const anadirProducto = newProducto => {
+  return axios
+    .post('crearVenta', {
+      nombre: newProducto.nombre,
+      fecha: newProducto.fecha,
+      categoria: newProducto.categoria,
+      descripcion: newProducto.descripcion,
+      foto: newProducto.foto,
+      precio: newProducto.precio,
+      vendedor: newProducto.vendedor
+
+    })
+    .then(res => {
+      console.log(res)
+      console.log("KK")
+      return res.data
+    })
+}
+
+export const anadirSubasta = newProductoSubasta => {
+  return axios
+    .post('crearSubasta', {
+      nombre: newProductoSubasta.nombre,
+      fecha: newProductoSubasta.fecha,
+      categoria: newProductoSubasta.categoria,
+      descripcion: newProductoSubasta.descripcion,
+      foto: newProductoSubasta.foto,
+      precio: newProductoSubasta.precio,
+      vendedor: newProductoSubasta.vendedor,
+      fechaLimite: newProductoSubasta.fechaLimite,
+      horaLimite: newProductoSubasta.horaLimite
+
+    })
+    .then(res => {
+      console.log(res)
+      console.log("KK")
+      return res.data
+    })
+}
 
   export const actualizarProducto = producto => {
     axios
@@ -153,19 +223,33 @@ export const getProductos = () => {
         })
   }
 
-  export const eliminarProducto = producto => {
-    axios
-        .post(
-            `eliminarVenta/${producto}`, {
-                headers: { "Content-type": "application/json" }
-            })
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((res) => {
-            console.log(res)
-        })
-  }
+export const eliminarProducto = producto => {
+  axios
+      .post(
+          `eliminarVenta/${producto}`, {
+              headers: { "Content-type": "application/json" }
+          })
+      .then((res) => {
+          console.log(res)
+      })
+      .catch((res) => {
+          console.log(res)
+      })
+}
+
+export const eliminarSubasta = subasta => {
+  axios
+      .post(
+          `eliminarSubasta/${subasta}`, {
+              headers: { "Content-type": "application/json" }
+          })
+      .then((res) => {
+          console.log(res)
+      })
+      .catch((res) => {
+          console.log(res)
+      })
+}
 
   export const crearFavorito = (producto, id) => {
     axios
