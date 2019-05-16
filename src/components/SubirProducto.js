@@ -9,6 +9,20 @@ import { anadirSubasta } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import NavLogReg from './NavLogReg';
+import firebase from 'firebase'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBXsmEEHvGiRwxeMbAO4AejNexD0iCHn_s",
+    authDomain: "proyectosoftware-2397d.firebaseapp.com",
+    databaseURL: "https://proyectosoftware-2397d.firebaseio.com",
+    projectId: "proyectosoftware-2397d",
+    storageBucket: "proyectosoftware-2397d.appspot.com",
+    messagingSenderId: "382506671393",
+    appId: "1:382506671393:web:af9c6a6744e52da2"
+  };
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
 
 class SubirProducto extends Component {
   constructor(props) {
@@ -23,13 +37,17 @@ class SubirProducto extends Component {
       vendedor: '',
       precio: '',
       fechaLimite: '',
-      horaLimite: ''
+      horaLimite: '',
+      foto: '',
+      uploadValue: 0,
+      picture: ''
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount() {
+
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
       console.log("no existe")
       this.setState({registrar: true});
@@ -48,6 +66,8 @@ class SubirProducto extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
+
+
   onSubmit(e) {
     //e.preventDefault()
 
@@ -58,6 +78,7 @@ class SubirProducto extends Component {
 
     var fecha = dd+'/'+mm+'/'+yy
 
+    console.log(this.state.picture)
 
     if(this.state.venta){
       const newProducto = {
@@ -105,7 +126,29 @@ class SubirProducto extends Component {
     })
   }
 
+  handleOnChange (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
 
+
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, foto: url});
+        });
+      })
+}
 
   render(){
     if (this.state.registrar){
@@ -212,14 +255,13 @@ class SubirProducto extends Component {
                     <option>Coleccionismo</option>
                   </Form.Control>
                 </Form.Group>
-                <Form.Group controlId="photoProduct">
-                  <Form.Label>Foto</Form.Label>
-                  <Form.Control type="file"
-                  name="foto"
-                  value={this.state.foto}
-                  onChange={this.onChange}>
-                  </Form.Control>
-                </Form.Group>
+                <div>
+                  <progress value={this.state.uploadValue} max='100'></progress>
+                  <br />
+                  <input type='file' onChange={this.handleOnChange.bind(this)}/>
+                  <br />
+                  <img width='90' src={this.state.picture} />
+                </div>
                 <Form.Group>
                   <Form.Label> Tipo </Form.Label>
                   <Form.Check

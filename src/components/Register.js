@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { register } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import * as firebase from 'firebase'
 
 
 class Register extends Component {
@@ -16,7 +17,9 @@ class Register extends Component {
       password: '',
       nombre: '',
       apellidos: '',
-      email: ''
+      email: '',
+      foto: '',
+      telefono: ''
     }
 
     this.onChange = this.onChange.bind(this)
@@ -35,12 +38,38 @@ class Register extends Component {
       nombre: this.state.nombre,
       apellidos: this.state.apellidos,
       telefono: this.state.telefono,
-      email: this.state.email
+      email: this.state.email,
+      foto: this.state.foto,
+      telefono: this.state.telefono
     }
     register(newUser)
     this.setState({redirect: true});
   }
 
+
+  handleOnChange (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
+
+
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, foto: url});
+        });
+      })
+}
 
 
   render(){
@@ -109,6 +138,22 @@ class Register extends Component {
               onChange={this.onChange} 
               />
           </Form.Group>
+          <Form.Group controlId="telefono">
+            <Form.Control
+              type="number"
+              placeholder="Teléfono"
+              name="telefono"
+              value={this.state.telefono}
+              onChange={this.onChange} 
+              />
+          </Form.Group>
+          <div>
+              <progress value={this.state.uploadValue} max='100'></progress>
+              <br />
+              <input type='file' onChange={this.handleOnChange.bind(this)}/>
+              <br />
+              <img width='90' src={this.state.picture} />
+            </div>
 
           <Button
             type="submit"
