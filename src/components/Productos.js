@@ -33,7 +33,8 @@ class Productos extends Component {
         descripcionMostrar:'',
         search:"",
         precio:0,
-        categoria:""
+        categoria:"",
+        filtro:0
 
     };
     this.renderProductos = this.renderProductos.bind(this);
@@ -47,6 +48,22 @@ componentWillReceiveProps (){
       this.getAll()
       this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
+      if(this.state.filtro==0 && this.props.filtro==1){
+        this.setState(
+          {search:""},
+          {precio:0},
+          {categoria:""},
+          {filtro:1}
+        )
+      }
+      else if(this.state.filtro==1 && this.props.filtro==0){
+        this.setState(
+          {search:""},
+          {precio:0},
+          {categoria:""},
+      
+        )
+      }
   }
 
   eliminarProductoPadre(index){

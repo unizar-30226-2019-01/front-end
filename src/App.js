@@ -16,11 +16,13 @@ class App extends Component {
     this.state = {
       mostrar:0,
       precio:0,
-      categoria:""
+      categoria:"",
+      filtro:0
     }
     this.ordenacion = this.ordenacion.bind(this);
     this.maximoPrecio = this.maximoPrecio.bind(this);
     this.categoriaSelec = this.categoriaSelec.bind(this);
+    this.eliminarFiltros = this.eliminarFiltros.bind(this);
   }
 
   ordenacion(index){
@@ -35,13 +37,18 @@ class App extends Component {
     this.setState({categoria:c});
   }
 
+  eliminarFiltros(c){
+    if(this.state.filtro==0){this.setState({filtro:1}); }
+    else {this.setState({filtro:0}); }
+  }
+
 
   render() {
     return (
       <div className="App">
         <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} />
         <div className="App-header">
-          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria}/>
+          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria} filtro={this.state.filtro} />
         </div>
       </div>
     );

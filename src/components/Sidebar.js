@@ -134,6 +134,11 @@ class Sidebar extends Component {
 
           <br/><br/>
 
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Button
+               href="/"
+               className=" mr-sm-4" variant="danger">Eliminar filtros</Button>
+
     </div>
     )
   }
