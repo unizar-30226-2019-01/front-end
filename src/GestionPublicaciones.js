@@ -10,7 +10,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -27,7 +27,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -43,7 +43,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -59,7 +59,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -75,7 +75,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -91,7 +91,7 @@ export const getProductos = () => {
               var data = []
               Object.keys(res.data).forEach((key) => {
                   var val = res.data[key]
-                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
               })
 
               return data
@@ -107,7 +107,7 @@ export const getProductos = () => {
                 var data = []
                 Object.keys(res.data).forEach((key) => {
                     var val = res.data[key]
-                    data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                    data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
                 })
 
                 return data
@@ -122,7 +122,7 @@ export const getProductos = () => {
         fecha: newProducto.fecha,
         categoria: newProducto.categoria,
         descripcion: newProducto.descripcion,
-        foto: newProducto.foto,
+        fotoPrincipal: newProducto.foto,
         precio: newProducto.precio,
         vendedor: newProducto.vendedor
       })

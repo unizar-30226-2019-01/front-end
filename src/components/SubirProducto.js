@@ -101,7 +101,7 @@ class SubirProducto extends Component {
     })
   }
 
-  handleOnChange (event) {
+  handleOnChangeP (event) {
     const file = event.target.files[0]
     const storageRef = firebase.storage().ref(`fotos/${file.name}`)
     const task = storageRef.put(file)
@@ -123,6 +123,30 @@ class SubirProducto extends Component {
           this.setState({picture: url, foto: url});
         });
       })
+}
+
+handleOnChange (event) {
+  const file = event.target.files[0]
+  const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+  const task = storageRef.put(file)
+
+
+
+  task.on('state_changed', (snapshot) => {
+      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      this.setState({
+          uploadValue: percentage
+      })
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.error(error.message)
+  }, () => {
+      console.log(task.snapshot.ref.getDownloadURL())
+      task.snapshot.ref.getDownloadURL()
+      .then((url) => {
+        this.setState({picture: url, foto: url});
+      });
+    })
 }
   
   render(){
@@ -224,11 +248,21 @@ class SubirProducto extends Component {
                   </Form.Control>
                 </Form.Group>
                 <div>
+                <label>Foto de portada</label>
+                <br/>
+                  <progress value={this.state.uploadValue} max='100'></progress>
+                  <br />
+                  <input type='file' onChange={this.handleOnChangeP.bind(this)}/>
+                  <br />
+                </div>
+                <div>
+                <br/>
+                  <label>Fotos de tarjeta</label>
+                  <br/>
                   <progress value={this.state.uploadValue} max='100'></progress>
                   <br />
                   <input type='file' onChange={this.handleOnChange.bind(this)}/>
                   <br />
-                  <img width='90' src={this.state.picture} />
                 </div>
                 <Form.Group>
                   <Form.Label> Tipo </Form.Label>
