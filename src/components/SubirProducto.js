@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { anadirProducto } from '../GestionPublicaciones';
+import { anadirSubasta } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import NavLogReg from './NavLogReg';
@@ -21,7 +22,7 @@ const firebaseConfig = {
   };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-  
+
 
 class SubirProducto extends Component {
   constructor(props) {
@@ -35,9 +36,14 @@ class SubirProducto extends Component {
       descripcion: '',
       vendedor: '',
       precio: '',
+      fechaLimite: '',
+      horaLimite: '',
       foto: '',
       uploadValue: 0,
-      picture: ''
+      picture: '',
+      foto1: '',
+      foto2: '',
+      foto3: ''
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -74,25 +80,48 @@ class SubirProducto extends Component {
     var yy = day.getFullYear();
 
     var fecha = dd+'/'+mm+'/'+yy
-    
-    console.log(this.state.picture)
 
-    const newProducto = {
-      nombre: this.state.nombre,
-      fecha: fecha,
-			categoria: this.state.categoria,
-      descripcion: this.state.descripcion,
-      vendedor: this.state.vendedor,
-      precio: this.state.precio,
-      foto: this.state.foto
-    }
-    anadirProducto(newProducto).then(res => {
-      if (!res.error) {
-        //this.props.history.push(`/profile`)
+    if(this.state.venta){
+      const newProducto = {
+        nombre: this.state.nombre,
+        fecha: fecha,
+  			categoria: this.state.categoria,
+        descripcion: this.state.descripcion,
+        vendedor: this.state.vendedor,
+        precio: this.state.precio,
+        foto: this.state.foto,
+        foto1: this.state.foto1,
+        foto2: this.state.foto2,
+        foto3: this.state.foto3
       }
-    })
-    this.setState({redirect: true});
-
+      anadirProducto(newProducto).then(res => {
+        console.log(res.error)
+        if (!res.error) {
+          //this.props.history.push(`/profile`)
+        }
+      })
+    }
+    else{
+      let nombreAux = this.state.nombre+" (SUBASTA)"
+      const newProductoSubasta = {
+        nombre: nombreAux,
+        fecha: fecha,
+  			categoria: this.state.categoria,
+        descripcion: this.state.descripcion,
+        vendedor: this.state.vendedor,
+        precio: this.state.precio,
+        foto: this.state.foto,
+        fechaLimite: this.state.fechaLimite,
+        horaLimite: this.state.horaLimite
+      }
+      anadirSubasta(newProductoSubasta).then(res => {
+        console.log(res.error)
+        if (!res.error) {
+          //this.props.history.push(`/profile`)
+        }
+      })
+    }
+    //this.setState({redirect: true});
   }
 
   changeVentSubst (valor) {
@@ -125,12 +154,10 @@ class SubirProducto extends Component {
       })
 }
 
-handleOnChange (event) {
+handleOnChange1 (event) {
   const file = event.target.files[0]
   const storageRef = firebase.storage().ref(`fotos/${file.name}`)
   const task = storageRef.put(file)
-
-
 
   task.on('state_changed', (snapshot) => {
       let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -144,7 +171,51 @@ handleOnChange (event) {
       console.log(task.snapshot.ref.getDownloadURL())
       task.snapshot.ref.getDownloadURL()
       .then((url) => {
-        this.setState({picture: url, foto: url});
+        this.setState({picture: url, foto1: url});
+      });
+    })
+}
+
+handleOnChange2 (event) {
+  const file = event.target.files[0]
+  const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+  const task = storageRef.put(file)
+
+  task.on('state_changed', (snapshot) => {
+      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      this.setState({
+          uploadValue: percentage
+      })
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.error(error.message)
+  }, () => {
+      console.log(task.snapshot.ref.getDownloadURL())
+      task.snapshot.ref.getDownloadURL()
+      .then((url) => {
+        this.setState({picture: url, foto2: url});
+      });
+    })
+}
+
+handleOnChange3 (event) {
+  const file = event.target.files[0]
+  const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+  const task = storageRef.put(file)
+
+  task.on('state_changed', (snapshot) => {
+      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      this.setState({
+          uploadValue: percentage
+      })
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.error(error.message)
+  }, () => {
+      console.log(task.snapshot.ref.getDownloadURL())
+      task.snapshot.ref.getDownloadURL()
+      .then((url) => {
+        this.setState({picture: url, foto3: url});
       });
     })
 }
@@ -156,15 +227,16 @@ handleOnChange (event) {
     if (this.state.redirect){
       //window.confirm("Subido correctamente");
       //return <Redirect push to="/" />;
-      if(window.confirm("Subido correctamente")){
+      /*if(true){
+        window.alert("Subido correctamente")
         /*return <Redirect to={{
                     pathname: "/",
                     state: {subidoCorrecto: true}
                 }}/>;*/
-      }
+      /*}
       else{
-        window.confirm("Producto no subido")
-      }
+        window.alert("El producto no se ha subido correctamente")
+      }*/
     }
     let contenido
     if (this.state.venta) {
@@ -186,11 +258,17 @@ handleOnChange (event) {
                   </Form.Group>
                   <Form.Group controlId="fechaLimite">
                       <Form.Label>Fecha límite</Form.Label>
-                      <Form.Control type="Date" />
+                      <Form.Control type="Date"
+                      name="fechaLimite"
+                      value={this.state.fechaLimite}
+                      onChange={this.onChange}/>
                   </Form.Group>
                   <Form.Group controlId="horaLimite">
                       <Form.Label>Hora límite</Form.Label>
-                      <Form.Control type="Time" />
+                      <Form.Control type="Time"
+                      name="horaLimite"
+                      value={this.state.horaLimite}
+                      onChange={this.onChange} />
                   </Form.Group>
                   </Form>
     }
@@ -259,11 +337,17 @@ handleOnChange (event) {
                 <br/>
                   <label>Fotos de tarjeta</label>
                   <br/>
-                  <progress value={this.state.uploadValue} max='100'></progress>
+                  <input type='file' onChange={this.handleOnChange1.bind(this)}/>
                   <br />
-                  <input type='file' onChange={this.handleOnChange.bind(this)}/>
+                  <br/>
+                  <input type='file' onChange={this.handleOnChange2.bind(this)}/>
+                  <br />
+                  <br/>
+                  <input type='file' onChange={this.handleOnChange3.bind(this)}/>
+                  <br />
                   <br />
                 </div>
+                
                 <Form.Group>
                   <Form.Label> Tipo </Form.Label>
                   <Form.Check

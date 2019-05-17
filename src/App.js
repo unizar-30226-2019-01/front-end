@@ -16,7 +16,7 @@ class App extends Component {
   //componentDidMount
 
   componentDidMount() {
-    localStorage.clear();
+    //localStorage.clear();
     console.log("ELIMINO TOKENS")
   }
 
@@ -54,7 +54,7 @@ class App extends Component {
     else{
       console.log("existe")
       barra = <NavLogReg/>
-      
+
     }
     return (
       <div className="App">

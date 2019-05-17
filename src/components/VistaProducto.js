@@ -19,6 +19,7 @@ class VistaProducto extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      esVenta: true,
       rating: 4,
       fav: this.props.fav
     }; //Para conseguir la valoracion del vendedor
@@ -61,21 +62,30 @@ class VistaProducto extends Component {
     document.load = setTimeout('document.body.removeChild(aviso)', 2000);
   }
 
-  
-
   render() {
-    
+
     let contenido
-    if (!this.state.fav) {
+    if (!this.props.fav) {
       contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.props.usuario,this.props.id)}>
          FAVORITO
         </Button>
     } else {
       contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() =>this.props.callback(this.props.indice)}>
-          Eliminar 
+          Eliminar
         de FAVORITOS
         </Button>
     }
+
+    let precio
+    let horaYFechaSubasta
+    if(this.props.fechaLimite==""){
+      precio = <h3>Precio: {this.props.precio}</h3>
+    }
+    else{
+      precio = <h3>Precio actual de subasta: {this.props.precio}</h3>
+      horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
+    }
+
 
 
     return (
@@ -128,11 +138,11 @@ class VistaProducto extends Component {
 
           <div className="row mt-4">
             <div className="col-md-3">
-              <h3>Precio: {this.props.precio}</h3>
+              {precio}
             </div>
             <div className="col-md-9 text-right">
               <ButtonGroup toggle>
-                
+
                 {contenido}
 
                 <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
@@ -147,9 +157,9 @@ class VistaProducto extends Component {
                   Hacer oferta
                 </Button>
 
-                <Link 
+                <Link
                     to={{
-                        pathname: `/EditarProducto`, 
+                        pathname: `/EditarProducto`,
                         prod:{id: this.props.id,
                               nombre: this.props.nombre,
                               descripcion: this.props.descripcion,
@@ -160,7 +170,7 @@ class VistaProducto extends Component {
                 </Button>
                 </Link>
 
-                <Button variant="danger"  onClick={() => this.props.callback(this.props.indice)}>
+                <Button variant="danger"  onClick={() => this.props.callback(this.props.indice, this.props.fechaLimite)}>
                   Eliminar
                 </Button>
               </ButtonGroup>
@@ -171,6 +181,9 @@ class VistaProducto extends Component {
           <p>
             {this.props.descripcion}
           </p>
+
+          {horaYFechaSubasta}
+
         </Modal.Body>
 
         <Modal.Footer>
