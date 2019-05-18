@@ -54,7 +54,14 @@ class EditarProducto extends Component {
       foto: this.state.foto
     }
     console.log(this.state.id)
-    actualizarProducto(producto)
+    actualizarProducto(producto).then(data => {
+      this.setState({
+          respuestaBD: data
+      },
+          () => {
+              console.log(this.state.term)
+          })
+    })
     this.setState({redirect: true});
   }
 

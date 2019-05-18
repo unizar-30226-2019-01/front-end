@@ -47,13 +47,10 @@ class SubirProducto extends Component {
   }
 
   componentDidMount() {
-
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-      console.log("no existe")
       this.setState({registrar: true});
     }
     else{
-      console.log("existe")
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
       this.setState({
@@ -67,18 +64,16 @@ class SubirProducto extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-
   onSubmit(e) {
-    //e.preventDefault()
+    e.preventDefault() //Con esto se evita recargar la pagina
 
     var day = new Date();
     var dd = day.getDate();
-    var mm = day.getMonth();
+    var mm = day.getMonth()+1;
     var yy = day.getFullYear();
 
-    var fecha = dd+'/'+mm+'/'+yy
-
-    console.log(this.state.picture)
+    var fecha = yy+'-'+mm+'-'+dd
+    //console.log(this.state.picture)
 
     if(this.state.venta){
       const newProducto = {
@@ -89,35 +84,54 @@ class SubirProducto extends Component {
         vendedor: this.state.vendedor,
         precio: this.state.precio,
         foto: this.state.foto
-      }
-      anadirProducto(newProducto).then(res => {
-        console.log(res.error)
-        if (!res.error) {
-          //this.props.history.push(`/profile`)
-        }
+      };
+      anadirProducto(newProducto).then(data => {
+        this.setState({
+            respuestaBD: data
+        })
       })
+      this.setState({redirect: true});
     }
     else{
       let nombreAux = this.state.nombre+" (SUBASTA)"
-      const newProductoSubasta = {
-        nombre: nombreAux,
-        fecha: fecha,
-  			categoria: this.state.categoria,
-        descripcion: this.state.descripcion,
-        vendedor: this.state.vendedor,
-        precio: this.state.precio,
-        foto: this.state.foto,
-        fechaLimite: this.state.fechaLimite,
-        horaLimite: this.state.horaLimite
+      var separador="-",
+          fechaHoy=fecha.split(separador),
+          fechaL=(this.state.fechaLimite).split(separador);
+
+      if(fechaHoy[1].length==1){
+        fechaHoy[1]= "0"+fechaHoy[1]
       }
-      anadirSubasta(newProductoSubasta).then(res => {
-        console.log(res.error)
-        if (!res.error) {
-          //this.props.history.push(`/profile`)
+      if(fechaHoy[2].length==1){
+        fechaHoy[2]= "0"+fechaHoy[2]
+      }
+      var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
+      var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
+      if(fechaLD<=fechaHoyD){
+        this.setState({
+            fechaAnterior: true,
+            redirect: true
+        })
+      }
+      else{
+        const newProductoSubasta = {
+          nombre: nombreAux,
+          fecha: fecha,
+    			categoria: this.state.categoria,
+          descripcion: this.state.descripcion,
+          vendedor: this.state.vendedor,
+          precio: this.state.precio,
+          foto: this.state.foto,
+          fechaLimite: this.state.fechaLimite,
+          horaLimite: this.state.horaLimite
         }
-      })
+        anadirSubasta(newProductoSubasta).then(data => {
+          this.setState({
+              respuestaBDSubasta: data
+          })
+        })
+        this.setState({redirect: true});
+      }
     }
-    this.setState({redirect: true});
   }
 
   changeVentSubst (valor) {
@@ -130,8 +144,6 @@ class SubirProducto extends Component {
     const file = event.target.files[0]
     const storageRef = firebase.storage().ref(`fotos/${file.name}`)
     const task = storageRef.put(file)
-
-
 
     task.on('state_changed', (snapshot) => {
         let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -148,27 +160,37 @@ class SubirProducto extends Component {
           this.setState({picture: url, foto: url});
         });
       })
-}
+  }
 
   render(){
     if (this.state.registrar){
+      window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
       return <Redirect push to="/registro" />;
     }
     if (this.state.redirect){
-      //window.confirm("Subido correctamente");
-      //return <Redirect push to="/" />;
-      /*if(true){
-        window.alert("Subido correctamente")
-        /*return <Redirect to={{
-                    pathname: "/",
-                    state: {subidoCorrecto: true}
-                }}/>;*/
-      /*}
-      else{
-        window.alert("El producto no se ha subido correctamente")
-      }*/
+      if(this.state.fechaAnterior){
+        window.alert("Para una subasta, no puede introducir fechas que ya han pasado, ni una fecha igual al día actual. Pruebe de nuevo")
+        return <Redirect push to="/" />;
+      }
+      else if(this.state.respuestaBD=="Exito"){
+        window.alert("Producto subido con éxito")
+        return <Redirect push to="/" />;
+      }
+      else if(this.state.respuestaBD=="Error"){
+        window.alert("El producto no se ha podido subir. Intente de nuevo")
+        return <Redirect push to="/" />;
+      }
+      else if(this.state.respuestaBDSubasta=="Exito"){
+        window.alert("Subasta subida con éxito")
+        return <Redirect push to="/" />;
+      }
+      else if(this.state.respuestaBDSubasta=="Error"){
+        window.alert("La subasta no se ha podido subir. Intente de nuevo")
+        return <Redirect push to="/" />;
+      }
     }
-    let contenido
+
+    let contenido //Para cambiar vista entre producto o subasta
     if (this.state.venta) {
       contenido = <Form.Group controlId="productPrice">
                     <Form.Label>Precio</Form.Label>
