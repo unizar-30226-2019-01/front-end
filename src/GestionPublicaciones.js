@@ -165,8 +165,8 @@ export const getSubastasMenorMayor = () => {
 
 
 export const anadirProducto = newProducto => {
-  return axios
-    .post('crearVenta', {
+  return axios.post('crearVenta', {
+      headers: { "Content-type": "application/json" },
       nombre: newProducto.nombre,
       fecha: newProducto.fecha,
       categoria: newProducto.categoria,
@@ -174,18 +174,13 @@ export const anadirProducto = newProducto => {
       foto: newProducto.foto,
       precio: newProducto.precio,
       vendedor: newProducto.vendedor
-
-    })
-    .then(res => {
-      console.log(res)
-      console.log("KK")
+    }).then(res => {
       return res.data
     })
 }
 
 export const anadirSubasta = newProductoSubasta => {
-  return axios
-    .post('crearSubasta', {
+  return axios.post('crearSubasta', {
       nombre: newProductoSubasta.nombre,
       fecha: newProductoSubasta.fecha,
       categoria: newProductoSubasta.categoria,
@@ -195,11 +190,7 @@ export const anadirSubasta = newProductoSubasta => {
       vendedor: newProductoSubasta.vendedor,
       fechaLimite: newProductoSubasta.fechaLimite,
       horaLimite: newProductoSubasta.horaLimite
-
-    })
-    .then(res => {
-      console.log(res)
-      console.log("KK")
+    }).then(res => {
       return res.data
     })
 }
