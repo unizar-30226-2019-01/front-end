@@ -57,12 +57,15 @@ class VistaProducto extends Component {
   }
 
   marcarFavorito(usu,publicacion){
-    //if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-        //window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
-    //}
-    //else{
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+    }
+    else{
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+
       const fav = {
-        usuario: usu
+        usuario: decoded.identity.login
       }
       console.log(usu)
       crearFavorito(fav,publicacion)
@@ -72,7 +75,7 @@ class VistaProducto extends Component {
       aviso.innerHTML = 'Añadido a FAVORITOS';
       document.body.appendChild(aviso);
       document.load = setTimeout('document.body.removeChild(aviso)', 2000);
-    //}
+    }
   }
 
   render() {

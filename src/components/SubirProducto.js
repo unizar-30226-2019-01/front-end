@@ -59,6 +59,9 @@ class SubirProducto extends Component {
       const decoded = jwt_decode(token)
       this.setState({
         vendedor: decoded.identity.login,
+        foto1: "vacio",
+        foto2: "vacio",
+        foto3: "vacio"
       })
       console.log(this.state.vendedor)
     }
@@ -75,16 +78,17 @@ class SubirProducto extends Component {
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
+      window.alert("Rellene todo los campos (foto principal obligatoria)")
     }
     else{
 
-      var day = new Date();
+    var day = new Date();
     var dd = day.getDate();
     var mm = day.getMonth()+1;
     var yy = day.getFullYear();
 
     var fecha = yy+'-'+mm+'-'+dd
-    //console.log(this.state.picture)
+    console.log(this.state.foto1)
 
     if(this.state.venta){
       const newProducto = {
@@ -385,7 +389,7 @@ handleOnChange3 (event) {
                 </div>
                 <div>
                 <br/>
-                  <label>Fotos de tarjeta</label>
+                  <label>Fotos de tarjeta (opcionales)</label>
                   <br/>
                   <input type='file' onChange={this.handleOnChange1.bind(this)}/>
                   <br />
