@@ -173,14 +173,12 @@ export const anadirProducto = newProducto => {
       fecha: newProducto.fecha,
       categoria: newProducto.categoria,
       descripcion: newProducto.descripcion,
-      foto: newProducto.foto,
       precio: newProducto.precio,
       vendedor: newProducto.vendedor,
       fotoPrincipal: newProducto.foto,
       foto1: newProducto.foto1,
       foto2: newProducto.foto2,
       foto3: newProducto.foto3
-
     })
     .then(res => {
         return res.data
@@ -204,7 +202,8 @@ export const anadirSubasta = newProductoSubasta => {
       horaLimite: newProductoSubasta.horaLimite
     }).then(res => {
       return res.data
-    })
+    }).catch(err => {
+      return err})
 }
 
 export const getFotos = id => {
