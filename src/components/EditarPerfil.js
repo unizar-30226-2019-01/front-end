@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import NavLogReg from './NavLogReg';
 import { actualizarInfo, infoUsuario } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import * as firebase from 'firebase'
 
 class EditarPerfil extends Component {
   constructor() {
@@ -16,7 +17,9 @@ class EditarPerfil extends Component {
       nombre: '',
       apellidos: '',
       email: '',
-      datos: []
+      telefono: '',
+      datos: [],
+      foto: ''
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -27,7 +30,10 @@ class EditarPerfil extends Component {
     const decoded = jwt_decode(token)
     infoUsuario(decoded.identity.login).then(data => {
       this.setState({
-        datos: data
+        datos: data,
+        nombre: data[1],
+        apellidos: data[2],
+        telefono: data[7]
       },
       () => {
           console.log("devuelvo")
@@ -47,11 +53,34 @@ class EditarPerfil extends Component {
       nombre: this.state.datos[1],
       apellidos: this.state.datos[2],
       email: this.state.datos[3],
-      telefono: this.state.datos[7]
+      telefono: this.state.datos[7],
+      foto: this.state.foto
     }
     actualizarInfo(user)
     this.setState({redirect: true});
   }
+
+  handleOnChange (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({foto: url});
+        });
+      })
+}     
 
   volverMenu(e) {
     this.setState({redirect: true});
@@ -76,6 +105,19 @@ class EditarPerfil extends Component {
           <table className="table col-md-6 mx-auto">
             <tbody>
             <tr>
+                <td>Foto de perfil</td>
+
+                <td> 
+                	<Form.Group controlId="foto">
+                  <img src={this.state.datos[4]} alt=""/>
+                            <div class="file btn btn-lg btn-primary">
+                                Cambiar Photo
+                                <input type='file' onChange={this.handleOnChange.bind(this)}/>
+                            </div>
+				    </Form.Group>
+				</td>
+              </tr>
+            <tr>
                 <td>Login</td>
 
                 <td> 
@@ -93,7 +135,7 @@ class EditarPerfil extends Component {
                 	<Form.Group controlId="nombre">
 				      <Form.Control 
 				      	name="nombre"
-				      	value={this.state.datos[1]}
+				      	value={this.state.nombre}
                 onChange={this.onChange}
 				      />
 				    </Form.Group>
@@ -105,7 +147,7 @@ class EditarPerfil extends Component {
                 	<Form.Group controlId="apellidos">
 				      <Form.Control 
 				        name="apellidos"
-				        value={this.state.datos[2]}
+				        value={this.state.apellidos}
                   		onChange={this.onChange}
 				      />
 				    </Form.Group>
@@ -131,7 +173,7 @@ class EditarPerfil extends Component {
             <Form.Control 
 				    	type="number" 
 				    	name="telefono"
-				    	value={this.state.datos[7]}
+				    	value={this.state.telefono}
                		    onChange={this.onChange}
 				    	 />
 				  </Form.Group>

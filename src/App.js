@@ -44,7 +44,6 @@ class App extends Component {
     this.setState({categoria:c});
   }
 
-
   render() {
     let barra;
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {

@@ -40,7 +40,8 @@ export const actualizarInfo = user => {
         nombre: user.nombre,
         apellidos: user.apellidos,
         telefono: user.telefono,
-        email: user.email
+        email: user.email,
+        foto: user.foto
       })
       .then(response => {
         localStorage.setItem('usertoken', response.data)
@@ -50,6 +51,7 @@ export const actualizarInfo = user => {
         console.log(err)
       })
 }
+
 
 export const deleteUser = user => {
   return axios

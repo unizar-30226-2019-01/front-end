@@ -8,16 +8,16 @@ import NavLogReg from './NavLogReg';
 import { actualizarProducto } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-class EditarProducto extends Component {
+class EditarSubasta extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      venta: true,
       id: props.location.prod.id,
       nombre: props.location.prod.nombre,
       fecha: '',
 	    lugar: '',
 	    categoria: props.location.prod.categoria,
-      categoriaActual: props.location.prod.categoria,
       descripcion: props.location.prod.descripcion,
       vendedor: '',
       precio: props.location.prod.precio
@@ -64,9 +64,42 @@ class EditarProducto extends Component {
     this.setState({redirect: true});
   }
 
+  changeVentSubst (valor) {
+    this.setState((prevState, props) => {
+      return {venta: valor}
+    })
+  }
+
   render(){
     if (this.state.redirect){
       return <Redirect push to="/" />;
+    }
+    let contenido
+    if (this.state.venta) {
+      contenido = <Form.Group controlId="productPrice">
+                    <Form.Label>Precio</Form.Label>
+                    <Form.Control placeholder="Introduzca precio"
+                    name="precio"
+										value={this.state.precio}
+										onChange={this.onChange} />
+                  </Form.Group>
+    } else {
+      contenido = <Form>
+                  <Form.Group controlId="productPriceSub">
+                    <Form.Label>Precio de salida</Form.Label>
+                    <Form.Control placeholder="Introduzca precio"
+                    	value={this.state.precio}
+                      onChange={this.onChange} />
+                  </Form.Group>
+                  <Form.Group controlId="fechaLimite">
+                      <Form.Label>Fecha límite</Form.Label>
+                      <Form.Control type="Date" />
+                  </Form.Group>
+                  <Form.Group controlId="horaLimite">
+                      <Form.Label>Hora límite</Form.Label>
+                      <Form.Control type="Time" />
+                  </Form.Group>
+                  </Form>
     }
 
     return(
@@ -76,7 +109,7 @@ class EditarProducto extends Component {
         <br />
           <Row>
             <div className="w-100 text-center">
-              <h1>Editar Producto</h1>
+              <h1>Editar Subasta</h1>
             </div>
           </Row>
           <Row className="show-grid">
@@ -84,7 +117,6 @@ class EditarProducto extends Component {
             <Col xs={6}>
               <Form noValidate onSubmit={this.onSubmit}>
                 <Form.Group controlId="productName">
-                  <Form.Label>Nombre</Form.Label>
                   <Form.Control
                   placeholder="Nombre"
                   name="nombre"
@@ -92,14 +124,13 @@ class EditarProducto extends Component {
 										onChange={this.onChange} />
                 </Form.Group>
                 <Form.Group controlId="productDescription">
-                  <Form.Label>Descripción</Form.Label>
                   <Form.Control as="textarea" rows="5" placeholder="Descripción"
                   name="descripcion"
                   value={this.state.descripcion}
                   onChange={this.onChange} />
                 </Form.Group>
                 <Form.Group controlId="categoryProduct">
-                  <Form.Label>Categoría actual: {this.state.categoriaActual}</Form.Label>
+                  <Form.Label>Categoría</Form.Label>
                   <Form.Control as="select"
                   name="categoria"
                   value={this.state.categoria}
@@ -123,21 +154,32 @@ class EditarProducto extends Component {
                   <option>Coleccionismo</option>
                   </Form.Control>
                 </Form.Group>
-                {/*<Form.Group controlId="photoProduct">
+                <Form.Group controlId="photoProduct">
                   <Form.Label>Foto</Form.Label>
                   <Form.Control type="file"
                   name="foto"
                   value={this.state.foto}
                   onChange={this.onChange}>
                   </Form.Control>
-                </Form.Group>*/}
-                <Form.Group controlId="productPrice">
-                  <Form.Label>Precio</Form.Label>
-                  <Form.Control placeholder="Introduzca precio"
-                  name="precio"
-									value={this.state.precio}
-									onChange={this.onChange} />
                 </Form.Group>
+                <Form.Group>
+                  <Form.Label> Tipo </Form.Label>
+                  <Form.Check
+                    type="radio"
+                    label="Venta"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios1"
+                    onClick={this.changeVentSubst.bind(this, true)}
+                  />
+                  <Form.Check
+                    type="radio"
+                    label="Subasta"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios2"
+                    onClick={this.changeVentSubst.bind(this, false)}
+                  />
+                </Form.Group>
+                {contenido}
                 <Button type="submit">Editar</Button>
               </Form>
             </Col>
@@ -148,4 +190,4 @@ class EditarProducto extends Component {
     )
   }
 }
-export default EditarProducto
+export default EditarSubasta
