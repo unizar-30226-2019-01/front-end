@@ -4,7 +4,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
 import '../css/perfil.css';
 import bichardo from '../images/bichardo.jpg';
-import { deleteUser, infoUsuario, actualizarFotoUsuario } from '../GestionUsuarios';
+import { deleteUser, infoUsuario } from '../GestionUsuarios';
 import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
 import VistaProducto from './VistaProducto';
@@ -131,40 +131,6 @@ class Perfil extends Component {
     });
   }
 
-  handleOnChange (event) {
-    const file = event.target.files[0]
-    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
-    const task = storageRef.put(file)
-
-
-
-    task.on('state_changed', (snapshot) => {
-        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        this.setState({
-            uploadValue: percentage
-        })
-      }, (error) => {
-        // Si ha ocurrido un error aquí lo tratamos
-        console.error(error.message)
-    }, () => {
-        console.log(task.snapshot.ref.getDownloadURL())
-        task.snapshot.ref.getDownloadURL()
-        .then((url) => {
-          this.setState({picture: url, foto: url});
-        });
-      })
-      this.actualizarFoto()
-}     
-    actualizarFoto(){
-        const user = {
-            login: this.state.datos[0],
-            foto: this.state.foto
-          }
-        actualizarFotoUsuario(user)
-        this.setState({redirectPerfil: true});
-    }
-
-
   render() {
     let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
     if (this.state.redirect){
@@ -182,10 +148,6 @@ class Perfil extends Component {
                     <div class="col-md-4">
                         <div class="profile-img">
                             <img src={this.state.datos[4]} alt=""/>
-                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type='file' onChange={this.handleOnChange.bind(this)}/>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">

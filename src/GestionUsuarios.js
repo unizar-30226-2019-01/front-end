@@ -40,7 +40,8 @@ export const actualizarInfo = user => {
         nombre: user.nombre,
         apellidos: user.apellidos,
         telefono: user.telefono,
-        email: user.email
+        email: user.email,
+        foto: user.foto
       })
       .then(response => {
         localStorage.setItem('usertoken', response.data)
@@ -51,20 +52,6 @@ export const actualizarInfo = user => {
       })
 }
 
-export const actualizarFotoUsuario = user => {
-  axios
-      .post(`updateUsuarioFoto`, {
-        login: user.login,
-        foto: user.foto
-      })
-      .then(response => {
-        //localStorage.setItem('usertoken', response.data)
-        return response.data
-      })
-      .catch(err => {
-        console.log(err)
-      })
-}
 
 export const deleteUser = user => {
   return axios

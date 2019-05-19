@@ -57,16 +57,22 @@ class VistaProducto extends Component {
   }
 
   marcarFavorito(usu,publicacion){
-    const fav = {
-      usuario: usu
-    }
-    crearFavorito(fav,publicacion)
-    var aviso = document.createElement('div');
-    aviso.setAttribute('id', 'aviso');
-    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-    aviso.innerHTML = 'Añadido a FAVORITOS';
-    document.body.appendChild(aviso);
-    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+    //if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        //window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+    //}
+    //else{
+      const fav = {
+        usuario: usu
+      }
+      console.log(usu)
+      crearFavorito(fav,publicacion)
+      var aviso = document.createElement('div');
+      aviso.setAttribute('id', 'aviso');
+      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+      aviso.innerHTML = 'Añadido a FAVORITOS';
+      document.body.appendChild(aviso);
+      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+    //}
   }
 
   render() {

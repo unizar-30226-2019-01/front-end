@@ -79,7 +79,7 @@ class Productos extends Component {
   eliminarFavoritoPadre(index){
     const fav = {
         usuario: this.state.usuario
-      }
+    }
     eliminarFavorito(fav,this.state.id)
     this.setState({
       modalShow: false,
@@ -143,7 +143,7 @@ class Productos extends Component {
           fechaLimite={this.state.fechaLimite}
           horaLimite={this.state.horaLimite}
           onHide={modalClose /*modalClose pone a false modalShow*/}
-          callback = {this.eliminarProductoPadre.bind(this)}
+          callback = {this.eliminarFavoritoPadre.bind(this)}
         />
       </div>
       </div>

@@ -222,7 +222,7 @@ export const getFotos = id => {
   }
 
   export const actualizarProducto = producto => {
-    axios
+    return axios
         .post(`modificarVenta`, {
             idP: producto.id,
             nombre: producto.nombre,
@@ -241,7 +241,7 @@ export const getFotos = id => {
   }
 
 export const eliminarProducto = producto => {
-  axios
+    return axios
       .post(
           `eliminarVenta/${producto}`, {
               headers: { "Content-type": "application/json" }
@@ -255,7 +255,7 @@ export const eliminarProducto = producto => {
 }
 
 export const eliminarSubasta = subasta => {
-  axios
+    return axios
       .post(
           `eliminarSubasta/${subasta}`, {
               headers: { "Content-type": "application/json" }
@@ -269,7 +269,7 @@ export const eliminarSubasta = subasta => {
 }
 
   export const crearFavorito = (producto, id) => {
-    axios
+    return axios
         .post(
             `crearFavorito/${id}`, {
                 usuario: producto.usuario
@@ -283,7 +283,7 @@ export const eliminarSubasta = subasta => {
   }
 
   export const eliminarFavorito = (producto, id) => {
-    axios
+    return axios
         .post(
             `eliminarFavorito/${id}`, {
                 usuario: producto.usuario
