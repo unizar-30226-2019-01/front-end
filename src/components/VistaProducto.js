@@ -10,7 +10,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
-import { crearFavorito, eliminarFavorito } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
@@ -21,10 +21,17 @@ class VistaProducto extends Component {
     this.state = {
       esVenta: true,
       rating: 4,
-      fav: this.props.fav
+      fav: this.props.fav,
+      id: this.props.id,
+      fot: [],
+      primeraVez: true
     }; //Para conseguir la valoracion del vendedor
 
     this.changeRating = this.changeRating.bind(this);
+  }
+
+  componentWillReceiveProps(){
+    this.setState({primeraVez:true})
   }
 
   //Esto no vendria aqui pero es un ejemplo de como realizar una valoracion
@@ -64,6 +71,20 @@ class VistaProducto extends Component {
 
   render() {
 
+    console.log("entro")
+    if(this.state.primeraVez){
+      getFotos(this.props.id).then(data => {
+        console.log("HOLA3")
+        this.setState({
+            fot: [...data],
+            primeraVez: false
+        },
+            () => {
+                console.log(this.state.term)
+            })
+      })
+    }
+
     let contenido
     if (!this.props.fav) {
       contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.props.usuario,this.props.id)}>
@@ -85,8 +106,6 @@ class VistaProducto extends Component {
       precio = <h3>Precio actual de subasta: {this.props.precio}</h3>
       horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
     }
-
-
 
     return (
       <Modal
@@ -125,15 +144,11 @@ class VistaProducto extends Component {
           </Container>
 
           <Carousel className="row mt-4">
+            {this.state.fot.map((foto, index) => (
             <Carousel.Item>
-              <img className="d-block w-100" src={bichardo}/>
+              <img className="d-block w-100" src={foto[0]} width="300" height="500"/>
             </Carousel.Item>
-            <Carousel.Item>
-              <img className="d-block w-100" src={bixorobar} />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img className="d-block w-100" src={bixopolilla} />
-            </Carousel.Item>
+            ))}
           </Carousel>
 
           <div className="row mt-4">
@@ -187,7 +202,7 @@ class VistaProducto extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/}>Close</Button>
+          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>
         </Modal.Footer>
       </Modal>
     );

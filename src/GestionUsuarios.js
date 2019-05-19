@@ -51,6 +51,21 @@ export const actualizarInfo = user => {
       })
 }
 
+export const actualizarFotoUsuario = user => {
+  axios
+      .post(`updateUsuarioFoto`, {
+        login: user.login,
+        foto: user.foto
+      })
+      .then(response => {
+        //localStorage.setItem('usertoken', response.data)
+        return response.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+}
+
 export const deleteUser = user => {
   return axios
       .post(`delete`, {
