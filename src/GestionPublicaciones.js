@@ -176,7 +176,8 @@ export const anadirProducto = newProducto => {
       vendedor: newProducto.vendedor
     }).then(res => {
       return res.data
-    })
+    }).catch(err => {
+      return err})
 }
 
 export const anadirSubasta = newProductoSubasta => {

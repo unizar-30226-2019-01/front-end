@@ -188,6 +188,10 @@ class SubirProducto extends Component {
         window.alert("La subasta no se ha podido subir. Intente de nuevo")
         return <Redirect push to="/" />;
       }
+      else{
+        window.alert("Error en el servidor. Intente de nuevo")
+        return <Redirect push to="/" />;
+      }
     }
 
     let contenido //Para cambiar vista entre producto o subasta
