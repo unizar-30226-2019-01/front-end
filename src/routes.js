@@ -11,6 +11,7 @@ import Perfil from './components/Perfil';
 import EditarPerfil from './components/EditarPerfil';
 import SubirProducto from './components/SubirProducto';
 import EditarProducto from './components/EditarProducto';
+import EditarSubasta from './components/EditarSubasta';
 import Favoritos from './components/Favoritos';
 
 
@@ -20,6 +21,7 @@ const AppRoutes = () =>
       <Route exact path="/registro" component={Registro} />
       <Route exact path="/subirProducto" component={SubirProducto} />
       <Route exact path="/EditarProducto" component={EditarProducto} />
+      <Route exact path="/EditarSubasta" component={EditarSubasta} />
       <Route exact path="/perfil" component={Perfil} />
       <Route exact path="/editarPerfil" component={EditarPerfil} />
       <Route exact path="/favoritos" component={Favoritos} />

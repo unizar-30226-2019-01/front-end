@@ -80,7 +80,7 @@ class SubirProducto extends Component {
     e.preventDefault() //Con esto se evita recargar la pagina
 
     const form = e.currentTarget;
-    if ((form.checkValidity() === false) || (this.state.categoria == "Elegir...")) {
+    if ((form.checkValidity() === false) || (this.state.categoria == "Elegir...") || (this.state.categoria == undefined)) {
       e.preventDefault();
       e.stopPropagation();
       window.alert("Rellene todo los campos y seleccione categoría válida (foto principal obligatoria)")
@@ -121,14 +121,13 @@ class SubirProducto extends Component {
           window.alert("Seleccione una fecha límite correcta por favor")
         }
         else{
-          let nombreAux = this.state.nombre+" (SUBASTA)"
           var separador="-",
               fechaHoy=fecha.split(separador),
               fechaL=(this.state.fechaLimite).split(separador);
 
           var anyoInt = +fechaL[0], //El + de delante es para convertirla a entero
               anyoIntHoy = +fechaHoy[0];
-              
+
           if((anyoInt)>(anyoIntHoy+2)){ //Si pones de fecha Limite una superior a dos anyos, fail
             e.preventDefault();
             e.stopPropagation();
@@ -156,7 +155,7 @@ class SubirProducto extends Component {
             }
             else{
               const newProductoSubasta = {
-                nombre: nombreAux,
+                nombre: this.state.nombre,
                 fecha: fecha,
           			categoria: this.state.categoria,
                 descripcion: this.state.descripcion,
@@ -386,7 +385,7 @@ handleOnChange3 (event) {
 										onChange={this.onChange} />
                 </Form.Group>
                 <Form.Group controlId="productDescription">
-                  <Form.Control as="textarea" rows="5" placeholder="Descripcion"
+                  <Form.Control as="textarea" rows="5" placeholder="Descripción"
                   required
                   name="descripcion"
                   value={this.state.descripcion}

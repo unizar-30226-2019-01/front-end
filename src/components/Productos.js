@@ -70,13 +70,12 @@ class Productos extends Component {
       this.setState({categoria:this.props.categoria})
   }
 
-  
-
   eliminarProductoPadre(index, esVenta){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
-    if(esVenta==""){
+    if(esVenta==""){ //Si esVenta esta vacio, es pq no hay fecha limite, o sea es un producto y NO una subasta
       eliminarProducto(this.state.id)
       this.setState({
         modalShow: false,
+        cargar: false,
         productos: this.state.productos.filter((elemento, i)=>{
             return  i!==index
             /*esto lo q hace es recorrer el vector productos,
@@ -90,6 +89,7 @@ class Productos extends Component {
       eliminarSubasta(this.state.id)
       this.setState({
         modalShow: false,
+        cargar: false,
         subastas: this.state.subastas.filter((elemento, i)=>{
             return  i!==index
             /*esto lo q hace es recorrer el vector productos,
@@ -140,8 +140,8 @@ class Productos extends Component {
                                              precioMostrar: productos[4],
                                              descripcionMostrar: productos[2],
                                              fechaLimite: "",
-                                             cargar: true,
-                                             horaLimite: ""})} >
+                                             horaLimite: "",
+                                             cargar: true})} >
               Ver producto
             </Button>
           </div> {}
@@ -186,7 +186,8 @@ class Productos extends Component {
                                              precioMostrar: subastas[4],
                                              descripcionMostrar: subastas[2],
                                              fechaLimite: subastas[6],
-                                             horaLimite: subastas[7]})} >
+                                             horaLimite: subastas[7],
+                                             cargar: true})} >
               Ver producto
             </Button>
           </div> {}
@@ -263,18 +264,18 @@ class Productos extends Component {
   render() {
     let modalClose = () => this.setState({ modalShow: false,
                                             cargar: false }); //Para gestionar vistaProducto (guille)
-    
+
     return(
       <div class="container emp-productos">
         <Form.Control className="xd"
           placeholder="Buscar producto"
           name="nombre"
           onChange={this.onChange} />
+
             <form method="post">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="productos-head">
-                                    
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Ventas</a>
@@ -287,56 +288,40 @@ class Productos extends Component {
                     </div>
                 </div>
                 <div class="row">
-                        <div class="tab-content profile-tab" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">  
-                                    <div className="card-deck">
-                                      {this.state.productos.map((productos, index) => {
-                                          return this.renderProductos(productos,index);
-                                      })}
-                                      <VistaProducto
-                                          fav={false}
-                                          show={this.state.modalShow}
-                                          id={this.state.id}
-                                          cargar={this.state.cargar}
-                                          usuario={this.state.usuario}
-                                          indice={this.state.indiceMostrar}
-                                          nombre={this.state.nombreMostrar}
-                                          vendedor={this.state.vendedorMostrar}
-                                          precio={this.state.precioMostrar}
-                                          descripcion={this.state.descripcionMostrar}
-                                          fechaLimite={this.state.fechaLimite}
-                                          horaLimite={this.state.horaLimite}
-                                          onHide={modalClose /*modalClose pone a false modalShow*/}
-                                          callback = {this.eliminarProductoPadre.bind(this)}
-                                        />
-                                    </div>
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <div className="card-deck">
-                                  {this.state.subastas.map((subastas, index) => {
-                                    return this.renderSubastas(subastas,index);
-                                  })}
-                                  <VistaProducto
-                                      fav={false}
-                                      show={this.state.modalShow}
-                                      id={this.state.id}
-                                      cargar={this.state.cargar}
-                                      usuario={this.state.usuario}
-                                      indice={this.state.indiceMostrar}
-                                      nombre={this.state.nombreMostrar}
-                                      vendedor={this.state.vendedorMostrar}
-                                      precio={this.state.precioMostrar}
-                                      descripcion={this.state.descripcionMostrar}
-                                      fechaLimite={this.state.fechaLimite}
-                                      horaLimite={this.state.horaLimite}
-                                      onHide={modalClose /*modalClose pone a false modalShow*/}
-                                      callback = {this.eliminarProductoPadre.bind(this)}
-                                    />
-                                   </div>
-                            </div>
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                          <div className="card-deck">
+                            {this.state.productos.map((productos, index) => {
+                                return this.renderProductos(productos,index);
+                            })}
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                          <div className="card-deck">
+                            {this.state.subastas.map((subastas, index) => {
+                              return this.renderSubastas(subastas,index);
+                            })}
+                          </div>
                         </div>
                     </div>
-            </form>           
+                </div>
+            </form>
+            <VistaProducto
+                fav={false}
+                show={this.state.modalShow}
+                id={this.state.id}
+                cargar={this.state.cargar}
+                usuario={this.state.usuario}
+                indice={this.state.indiceMostrar}
+                nombre={this.state.nombreMostrar}
+                vendedor={this.state.vendedorMostrar}
+                precio={this.state.precioMostrar}
+                descripcion={this.state.descripcionMostrar}
+                fechaLimite={this.state.fechaLimite}
+                horaLimite={this.state.horaLimite}
+                onHide={modalClose /*modalClose pone a false modalShow*/}
+                callback = {this.eliminarProductoPadre.bind(this)}
+            />
         </div>
     )
   }

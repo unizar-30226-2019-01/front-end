@@ -15,7 +15,7 @@ import jwt_decode from 'jwt-decode'
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
-class VistaProducto extends Component {
+class VistaProductoPerfil extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -116,6 +116,63 @@ class VistaProducto extends Component {
       horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
     }
 
+    let editarProdOSubs
+    if(this.props.fechaLimite==""){
+      console.log(this.props.categoria)
+      editarProdOSubs = <Link
+                          to={{pathname: `/EditarProducto`,
+                              prod:{id: this.props.id,
+                                    nombre: this.props.nombre,
+                                    descripcion: this.props.descripcion,
+                                    categoria: this.props.categoria,
+                                    precio: this.props.precio}}} >
+                      <Button className="mr-sm-4" variant="info" >
+                        Editar
+                      </Button>
+                      </Link>
+    }
+    else{
+      editarProdOSubs = <Link
+                          to={{pathname: `/EditarSubasta`,
+                              prod:{id: this.props.id,
+                                    nombre: this.props.nombre,
+                                    descripcion: this.props.descripcion,
+                                    categoria: this.props.categoria,
+                                    precio: this.props.precio}}} >
+                      <Button className="mr-sm-4" variant="info" >
+                        Editar
+                      </Button>
+                      </Link>
+    }
+
+    let editarONo
+    if(this.props.editable){
+      editarONo= <div className="col-md-9 text-right">
+                  <ButtonGroup toggle>
+
+                    {contenido}
+
+                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
+                      Copiar URL
+                    </Button>
+
+                    <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
+                      Abrir chat vendedor
+                    </Button>
+
+                    <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
+                      Hacer oferta
+                    </Button>
+
+                    {editarProdOSubs}
+
+                    <Button variant="danger"  onClick={() => this.props.callback(this.props.indice, this.props.fechaLimite)}>
+                      Eliminar
+                    </Button>
+                  </ButtonGroup>
+                </div>
+    }
+
     return (
       <Modal
         {...this.props /*si quitas esto no se muestra el producto
@@ -164,24 +221,7 @@ class VistaProducto extends Component {
             <div className="col-md-3">
               {precio}
             </div>
-            <div className="col-md-9 text-right">
-              <ButtonGroup toggle>
-
-                {contenido}
-
-                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
-                  Copiar URL
-                </Button>
-
-                <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
-                  Abrir chat vendedor
-                </Button>
-
-                <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                  Hacer oferta
-                </Button>
-              </ButtonGroup>
-            </div>
+            {editarONo}
           </div>
 
           <h4>Descripción:</h4>
@@ -201,4 +241,4 @@ class VistaProducto extends Component {
   }
 }
 
-export default VistaProducto
+export default VistaProductoPerfil
