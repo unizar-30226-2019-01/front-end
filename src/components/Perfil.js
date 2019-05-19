@@ -15,9 +15,6 @@ import { eliminarProducto } from '../GestionPublicaciones';
 import {Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
 
-
-
-
 class Perfil extends Component {
   constructor() {
     super()
@@ -34,7 +31,7 @@ class Perfil extends Component {
   componentDidMount() {
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
         console.log("no existe")
-        
+
     }
     else{
         console.log("existe")
@@ -146,7 +143,7 @@ class Perfil extends Component {
     if (this.state.redirect){
       return <Redirect push to="/" />;
     }
-    return ( 
+    return (
         <div className="Perfil">
         <NavLogReg/>
       <div class="container emp-profile">
@@ -201,9 +198,9 @@ class Perfil extends Component {
                     <div class="col-md-4">
                         <div class="profile-work">
                             <p>Opciones</p>
-                            <Link 
+                            <Link
                                 to={{
-                                    pathname: `/favoritos`, 
+                                    pathname: `/favoritos`,
                                     prod:{usuario: this.state.login}}} >
                             <Button className="mr-sm-4" variant="primary" >
                             Favoritos
@@ -345,7 +342,7 @@ class Perfil extends Component {
                         </div>
                     </div>
                 </div>
-            </form>           
+            </form>
         </div>
         </div>
     )

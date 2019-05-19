@@ -40,8 +40,12 @@ class SubirProducto extends Component {
       horaLimite: '',
       foto: '',
       uploadValue: 0,
-      picture: ''
+      picture: '',
+      foto1: '',
+      foto2: '',
+      foto3: ''
     }
+    this.state = { validated: false };
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -66,8 +70,15 @@ class SubirProducto extends Component {
 
   onSubmit(e) {
     e.preventDefault() //Con esto se evita recargar la pagina
+    
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    else{
 
-    var day = new Date();
+      var day = new Date();
     var dd = day.getDate();
     var mm = day.getMonth()+1;
     var yy = day.getFullYear();
@@ -83,7 +94,10 @@ class SubirProducto extends Component {
         descripcion: this.state.descripcion,
         vendedor: this.state.vendedor,
         precio: this.state.precio,
-        foto: this.state.foto
+        foto: this.state.foto,
+        foto1: this.state.foto1,
+        foto2: this.state.foto2,
+        foto3: this.state.foto3
       };
       anadirProducto(newProducto).then(data => {
         this.setState({
@@ -121,6 +135,9 @@ class SubirProducto extends Component {
           vendedor: this.state.vendedor,
           precio: this.state.precio,
           foto: this.state.foto,
+          foto1: this.state.foto1,
+          foto2: this.state.foto2,
+          foto3: this.state.foto3,
           fechaLimite: this.state.fechaLimite,
           horaLimite: this.state.horaLimite
         }
@@ -133,6 +150,8 @@ class SubirProducto extends Component {
       }
     }
   }
+  this.setState({ validated: true });
+}
 
   changeVentSubst (valor) {
     this.setState((prevState, props) => {
@@ -140,7 +159,7 @@ class SubirProducto extends Component {
     })
   }
 
-  handleOnChange (event) {
+  handleOnChangeP (event) {
     const file = event.target.files[0]
     const storageRef = firebase.storage().ref(`fotos/${file.name}`)
     const task = storageRef.put(file)
@@ -162,7 +181,76 @@ class SubirProducto extends Component {
       })
   }
 
+handleOnChange1 (event) {
+  const file = event.target.files[0]
+  const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+  const task = storageRef.put(file)
+
+  task.on('state_changed', (snapshot) => {
+      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      this.setState({
+          uploadValue: percentage
+      })
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.error(error.message)
+  }, () => {
+      console.log(task.snapshot.ref.getDownloadURL())
+      task.snapshot.ref.getDownloadURL()
+      .then((url) => {
+        this.setState({picture: url, foto1: url});
+      });
+    })
+}
+
+handleOnChange2 (event) {
+  const file = event.target.files[0]
+  const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+  const task = storageRef.put(file)
+
+  task.on('state_changed', (snapshot) => {
+      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      this.setState({
+          uploadValue: percentage
+      })
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.error(error.message)
+  }, () => {
+      console.log(task.snapshot.ref.getDownloadURL())
+      task.snapshot.ref.getDownloadURL()
+      .then((url) => {
+        this.setState({picture: url, foto2: url});
+      });
+    })
+}
+
+handleOnChange3 (event) {
+  const file = event.target.files[0]
+  const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+  const task = storageRef.put(file)
+
+  task.on('state_changed', (snapshot) => {
+      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      this.setState({
+          uploadValue: percentage
+      })
+    }, (error) => {
+      // Si ha ocurrido un error aquí lo tratamos
+      console.error(error.message)
+  }, () => {
+      console.log(task.snapshot.ref.getDownloadURL())
+      task.snapshot.ref.getDownloadURL()
+      .then((url) => {
+        this.setState({picture: url, foto3: url});
+      });
+    })
+}
+  
   render(){
+
+    const { validated } = this.state;
+
     if (this.state.registrar){
       window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
       return <Redirect push to="/registro" />;
@@ -199,7 +287,9 @@ class SubirProducto extends Component {
       contenido = <Form.Group controlId="productPrice">
                     <Form.Label>Precio</Form.Label>
                     <Form.Control placeholder="Introduzca precio"
+                    required
                     name="precio"
+                    type="number"
 										value={this.state.precio}
 										onChange={this.onChange} />
                   </Form.Group>
@@ -208,13 +298,16 @@ class SubirProducto extends Component {
                   <Form.Group controlId="productPriceSub">
                     <Form.Label>Precio de salida</Form.Label>
                     <Form.Control placeholder="Introduzca precio"
+                    required
                     name="precio"
+                    type="number"
 										value={this.state.precio}
 										onChange={this.onChange}  />
                   </Form.Group>
                   <Form.Group controlId="fechaLimite">
                       <Form.Label>Fecha límite</Form.Label>
                       <Form.Control type="Date"
+                      required
                       name="fechaLimite"
                       value={this.state.fechaLimite}
                       onChange={this.onChange}/>
@@ -222,6 +315,7 @@ class SubirProducto extends Component {
                   <Form.Group controlId="horaLimite">
                       <Form.Label>Hora límite</Form.Label>
                       <Form.Control type="Time"
+                      required
                       name="horaLimite"
                       value={this.state.horaLimite}
                       onChange={this.onChange} />
@@ -242,16 +336,19 @@ class SubirProducto extends Component {
           <Row className="show-grid">
             <Col xs={3} />
             <Col xs={6}>
-              <Form noValidate onSubmit={this.onSubmit}>
+              <Form noValidate validated={validated}
+                    onSubmit={e => this.onSubmit(e)}>
                 <Form.Group controlId="productName">
                   <Form.Control
                   placeholder="Nombre"
+                  required
                   name="nombre"
 										value={this.state.nombre}
 										onChange={this.onChange} />
                 </Form.Group>
                 <Form.Group controlId="productDescription">
                   <Form.Control as="textarea" rows="5" placeholder="Descripcion"
+                  required
                   name="descripcion"
                   value={this.state.descripcion}
                   onChange={this.onChange} />
@@ -259,6 +356,7 @@ class SubirProducto extends Component {
                 <Form.Group controlId="categoryProduct">
                   <Form.Label>Categoría</Form.Label>
                   <Form.Control as="select"
+                  required
                   name="categoria"
                   value={this.state.categoria}
                   onChange={this.onChange}>
@@ -282,12 +380,28 @@ class SubirProducto extends Component {
                   </Form.Control>
                 </Form.Group>
                 <div>
+                <label>Foto de portada</label>
+                <br/>
                   <progress value={this.state.uploadValue} max='100'></progress>
                   <br />
-                  <input type='file' onChange={this.handleOnChange.bind(this)}/>
+                  <input type='file' required onChange={this.handleOnChangeP.bind(this)}/>
                   <br />
-                  <img width='90' src={this.state.picture} />
                 </div>
+                <div>
+                <br/>
+                  <label>Fotos de tarjeta</label>
+                  <br/>
+                  <input type='file' onChange={this.handleOnChange1.bind(this)}/>
+                  <br />
+                  <br/>
+                  <input type='file' onChange={this.handleOnChange2.bind(this)}/>
+                  <br />
+                  <br/>
+                  <input type='file' onChange={this.handleOnChange3.bind(this)}/>
+                  <br />
+                  <br />
+                </div>
+                
                 <Form.Group>
                   <Form.Label> Tipo </Form.Label>
                   <Form.Check

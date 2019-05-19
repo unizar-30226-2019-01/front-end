@@ -10,8 +10,10 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                //var fotos = getFotos(val.id)
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
+            console.log(data)
 
             return data
         })
@@ -26,7 +28,7 @@ export const getProductos = () => {
               var data = []
               Object.keys(res.data).forEach((key) => {
                   var val = res.data[key]
-                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite])
+                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite, val.FotoPrincipal])
               })
 
               return data
@@ -43,7 +45,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -59,7 +61,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -75,7 +77,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -91,7 +93,7 @@ export const getProductos = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data
@@ -107,7 +109,7 @@ export const getProductos = () => {
               var data = []
               Object.keys(res.data).forEach((key) => {
                   var val = res.data[key]
-                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                  data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
               })
 
               return data
@@ -123,7 +125,7 @@ export const getProductos = () => {
                 var data = []
                 Object.keys(res.data).forEach((key) => {
                     var val = res.data[key]
-                    data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.foto])
+                    data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
                 })
 
                 return data
@@ -140,7 +142,7 @@ export const getSubastasMayorMenor = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite, val.FotoPrincipal])
             })
 
             return data
@@ -156,7 +158,7 @@ export const getSubastasMenorMayor = () => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.precio_actual, val.Categoria, val.fecha_limite, val.hora_limite, val.FotoPrincipal])
             })
 
             return data
@@ -173,9 +175,15 @@ export const anadirProducto = newProducto => {
       descripcion: newProducto.descripcion,
       foto: newProducto.foto,
       precio: newProducto.precio,
-      vendedor: newProducto.vendedor
-    }).then(res => {
-      return res.data
+      vendedor: newProducto.vendedor,
+      fotoPrincipal: newProducto.foto,
+      foto1: newProducto.foto1,
+      foto2: newProducto.foto2,
+      foto3: newProducto.foto3
+
+    })
+    .then(res => {
+        return res.data
     }).catch(err => {
       return err})
 }
@@ -186,7 +194,10 @@ export const anadirSubasta = newProductoSubasta => {
       fecha: newProductoSubasta.fecha,
       categoria: newProductoSubasta.categoria,
       descripcion: newProductoSubasta.descripcion,
-      foto: newProductoSubasta.foto,
+      fotoPrincipal: newProductoSubasta.foto,
+      foto1: newProductoSubasta.foto1,
+      foto2: newProductoSubasta.foto2,
+      foto3: newProductoSubasta.foto3,
       precio: newProductoSubasta.precio,
       vendedor: newProductoSubasta.vendedor,
       fechaLimite: newProductoSubasta.fechaLimite,
@@ -196,8 +207,23 @@ export const anadirSubasta = newProductoSubasta => {
     })
 }
 
+export const getFotos = id => {
+    return axios
+        .get(`obtenerFotos/${id}`, {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.foto])
+            })
+            return data
+        })
+  }
+
   export const actualizarProducto = producto => {
-    axios
+    return axios
         .post(`modificarVenta`, {
             idP: producto.id,
             nombre: producto.nombre,
@@ -216,7 +242,7 @@ export const anadirSubasta = newProductoSubasta => {
   }
 
 export const eliminarProducto = producto => {
-  axios
+    return axios
       .post(
           `eliminarVenta/${producto}`, {
               headers: { "Content-type": "application/json" }
@@ -230,7 +256,7 @@ export const eliminarProducto = producto => {
 }
 
 export const eliminarSubasta = subasta => {
-  axios
+    return axios
       .post(
           `eliminarSubasta/${subasta}`, {
               headers: { "Content-type": "application/json" }
@@ -244,7 +270,7 @@ export const eliminarSubasta = subasta => {
 }
 
   export const crearFavorito = (producto, id) => {
-    axios
+    return axios
         .post(
             `crearFavorito/${id}`, {
                 usuario: producto.usuario
@@ -258,7 +284,7 @@ export const eliminarSubasta = subasta => {
   }
 
   export const eliminarFavorito = (producto, id) => {
-    axios
+    return axios
         .post(
             `eliminarFavorito/${id}`, {
                 usuario: producto.usuario
@@ -280,7 +306,7 @@ export const eliminarSubasta = subasta => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
             })
 
             return data

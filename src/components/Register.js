@@ -158,13 +158,20 @@ class Register extends Component {
           <Form.Group controlId="telefono">
             <Form.Control
               required
-              type="tel"
+              type="number"
               placeholder="Teléfono"
               name="telefono"
               value={this.state.telefono}
               onChange={this.onChange} 
               />
           </Form.Group>
+          <div>
+              <progress value={this.state.uploadValue} max='100'></progress>
+              <br />
+              <input required name="foto" type='file' onChange={this.handleOnChange.bind(this)}/>
+              <br />
+              <img width='90' src={this.state.picture} />
+            </div>
 
           <Button
             type="submit"

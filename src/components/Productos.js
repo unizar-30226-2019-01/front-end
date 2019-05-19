@@ -13,7 +13,7 @@ import { getSubastas } from '../GestionPublicaciones';
 import { getSubastasMayorMenor } from '../GestionPublicaciones';
 import { getSubastasMenorMayor } from '../GestionPublicaciones';
 
-import { eliminarProducto } from '../GestionPublicaciones';
+import { eliminarProducto, getFotos } from '../GestionPublicaciones';
 import { eliminarSubasta } from '../GestionPublicaciones';
 
 import {Input} from "mdbreact"; //npm install mdbreact
@@ -40,7 +40,8 @@ class Productos extends Component {
         precio:0,
         categoria:"",
         fechaLimite: "",
-        horaLimite: ""
+        horaLimite: "",
+        cargar: false
 
     };
     this.renderProductos = this.renderProductos.bind(this);
@@ -50,7 +51,6 @@ class Productos extends Component {
   componentDidMount () {
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
       console.log("no existe")
-      console.log(this.state.usuario)
     }
     else{
       console.log("existe")
@@ -68,6 +68,9 @@ class Productos extends Component {
       this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
   }
+
+
+  
 
   eliminarProductoPadre(index, esVenta){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
     if(esVenta==""){
@@ -137,6 +140,7 @@ class Productos extends Component {
                                              precioMostrar: productos[4],
                                              descripcionMostrar: productos[2],
                                              fechaLimite: "",
+                                             cargar: true,
                                              horaLimite: ""})} >
               Ver producto
             </Button>
@@ -166,7 +170,7 @@ class Productos extends Component {
     return (
       <div className="card-deck" rows="4" columns="4">
         <div className="card ml-md-4 mr-md-4">
-          <img className="card-img-top" src={bichardo} />
+          <img className="card-img-top" src={subastas[8]} />
           <div className="card-body">
             <h5 className="card-title">{subastas[0]}</h5>
             <p className="card-text">{subastas[4]}€</p>
@@ -257,8 +261,9 @@ class Productos extends Component {
   }
 
   render() {
-    let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
-
+    let modalClose = () => this.setState({ modalShow: false,
+                                            cargar: false }); //Para gestionar vistaProducto (guille)
+    
     return(
 
       <div className="card-deck">
@@ -279,6 +284,7 @@ class Productos extends Component {
           fav={false}
           show={this.state.modalShow}
           id={this.state.id}
+          cargar={this.state.cargar}
           usuario={this.state.usuario}
           indice={this.state.indiceMostrar}
           nombre={this.state.nombreMostrar}
