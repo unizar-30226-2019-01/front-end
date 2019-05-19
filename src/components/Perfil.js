@@ -16,8 +16,6 @@ import {Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
 
 
-
-
 class Perfil extends Component {
   constructor() {
     super()
@@ -357,7 +355,7 @@ class Perfil extends Component {
                         </div>
                     </div>
                 </div>
-            </form>           
+            </form>        
         </div>
         </div>
     )
