@@ -19,20 +19,23 @@ class Register extends Component {
       apellidos: '',
       email: '',
       foto: '',
-      telefono: ''
+      telefono: '',
+
+      validated: false //Para la prevencion de errores
     }
-    this.state = { validated: false };
+    // Se especifica que las funciones de este fichero pertenecen al componente, sino dara error
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.handleSubmit.bind(this)
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
+    //Indica que el campo que se actualiza con el valor obtenido del input
+    this.setState({ [e.target.name]: e.target.value }) 
   }
-  handleSubmit(event) {
+  handleSubmit(event) { //Cada vez que se envie el formulario
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
+      event.preventDefault(); //Evita refrescar la pantalla (si hay entradas no validas)
       event.stopPropagation();
     }
     else{
@@ -48,7 +51,7 @@ class Register extends Component {
         foto: this.state.foto,
         telefono: this.state.telefono
       }
-      register(newUser)
+      register(newUser) //Registra al usuario desde GestionUsuarios.js
       this.setState({redirect: true});
     }
     this.setState({ validated: true });
