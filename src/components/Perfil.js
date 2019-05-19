@@ -24,6 +24,9 @@ class Perfil extends Component {
       EnVenta: [],
       subastas: [],
       vendidos: [],
+      subastados: [],
+      foto: '',
+      picture: '',
       modalShow: false,
     }
   }
@@ -80,6 +83,14 @@ class Perfil extends Component {
                 console.log(this.state.term)
             })
     })
+    getSubastasAcabadas(usuario).then(data => {
+      this.setState({
+          subastados: [...data]
+      },
+          () => {
+              console.log(this.state.term)
+          })
+  })
 
 }
 
@@ -183,6 +194,9 @@ class Perfil extends Component {
                                 <li class="nav-item">
                                     <a class="nav-link" id="vendidos-tab" data-toggle="tab" href="#vendidos" role="tab" aria-controls="vendidos" aria-selected="false">Vendidos</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="subastados-tab" data-toggle="tab" href="#subastados" role="tab" aria-controls="subastados" aria-selected="false">Subastados</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -266,12 +280,12 @@ class Perfil extends Component {
                                 {this.state.subastas.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={productos[6]} />
-                                    <div className="card-body">
-                                    <h5 className="card-title">{productos[0]}</h5>
-                                    <p className="card-text">Vendedor: {productos[3]}</p>
-                                    </div>
-                                    <div className="card-footer"> {/*Para gestionar vistaProducto (guille)*/}
+                                  <img className="card-img-top" src={subastas[8]} />
+                                  <div className="card-body">
+                                    <h5 className="card-title">{subastas[0]}</h5>
+                                    <p className="card-text">{subastas[4]}€</p>
+                                  </div>
+                                  <div className="card-footer"> {}
                                     <Button
                                         variant="outline-primary"
                                         onClick={() => this.setState({ modalShow: true,
@@ -334,6 +348,53 @@ class Perfil extends Component {
                                     vendedor={this.state.vendedorMostrar}
                                     precio={this.state.precioMostrar}
                                     descripcion={this.state.descripcionMostrar}
+                                    onHide={modalClose /*modalClose pone a false modalShow*/}
+                                    callback = {this.eliminarProductoPadre.bind(this)}
+                                    />
+                            </div>
+                            </div>
+                            <div class="tab-pane fade" id="subastados" role="tabpanel" aria-labelledby="subastados-tab">
+                            <div className="card-deck">
+                                {this.state.subastados.map((productos, index) => (
+                                <div className="card-deck" rows="4" columns="4">
+                                <div className="card ml-md-4 mr-md-4">
+                                  <img className="card-img-top" src={productos[6]} width="100" height="170" />
+                                  <div className="card-body">
+                                    <h5 className="card-title">{productos[0]}</h5>
+                                    <p className="card-text">{productos[4]}€</p>
+                                  </div>
+                                  <div className="card-footer"> {}
+                                    <Button
+                                      variant="outline-primary"
+                                      onClick={() => this.setState({ modalShow: true,
+                                                                     id: productos[1],
+                                                                     indiceMostrar: index,
+                                                                     nombreMostrar: productos[0],
+                                                                     vendedorMostrar: productos[3],
+                                                                     precioMostrar: productos[4],
+                                                                     descripcionMostrar: productos[2],
+                                                                     fechaLimite: "",
+                                                                     cargar: true,
+                                                                     horaLimite: ""})} >
+                                      Ver producto
+                                    </Button>
+                                  </div> {}
+                                </div>
+                                </div>
+                                ))}
+                                <VistaProducto
+                                    fav={false}
+                                    show={this.state.modalShow}
+                                    id={this.state.id}
+                                    cargar={this.state.cargar}
+                                    usuario={this.state.usuario}
+                                    indice={this.state.indiceMostrar}
+                                    nombre={this.state.nombreMostrar}
+                                    vendedor={this.state.vendedorMostrar}
+                                    precio={this.state.precioMostrar}
+                                    descripcion={this.state.descripcionMostrar}
+                                    fechaLimite={this.state.fechaLimite}
+                                    horaLimite={this.state.horaLimite}
                                     onHide={modalClose /*modalClose pone a false modalShow*/}
                                     callback = {this.eliminarProductoPadre.bind(this)}
                                     />

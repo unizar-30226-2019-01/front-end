@@ -4,6 +4,7 @@ import logo from '../images/logo.png';
 import bichardo from '../images/bichardo.jpg';
 import bixobasket from '../images/bixobasket.jpg';
 import jwt_decode from 'jwt-decode';
+import '../css/App.css';
 
 import VistaProducto from './VistaProducto';
 import { getProductos } from '../GestionPublicaciones';
@@ -68,7 +69,6 @@ class Productos extends Component {
       this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
   }
-
 
   
 
@@ -265,38 +265,79 @@ class Productos extends Component {
                                             cargar: false }); //Para gestionar vistaProducto (guille)
     
     return(
-
-      <div className="card-deck">
-      <Form.Control className="xd"
-        placeholder="Buscar producto"
-        name="nombre"
-        onChange={this.onChange} />
-
-      {this.state.productos.map((productos, index) => {
-          return this.renderProductos(productos,index);
-       })}
-
-       {this.state.subastas.map((subastas, index) => {
-         return this.renderSubastas(subastas,index);
-       })}
-
-        <VistaProducto
-          fav={false}
-          show={this.state.modalShow}
-          id={this.state.id}
-          cargar={this.state.cargar}
-          usuario={this.state.usuario}
-          indice={this.state.indiceMostrar}
-          nombre={this.state.nombreMostrar}
-          vendedor={this.state.vendedorMostrar}
-          precio={this.state.precioMostrar}
-          descripcion={this.state.descripcionMostrar}
-          fechaLimite={this.state.fechaLimite}
-          horaLimite={this.state.horaLimite}
-          onHide={modalClose /*modalClose pone a false modalShow*/}
-          callback = {this.eliminarProductoPadre.bind(this)}
-        />
-      </div>
+      <div class="container emp-productos">
+        <Form.Control className="xd"
+          placeholder="Buscar producto"
+          name="nombre"
+          onChange={this.onChange} />
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="productos-head">
+                                    
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Ventas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Subastas</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">  
+                                    <div className="card-deck">
+                                      {this.state.productos.map((productos, index) => {
+                                          return this.renderProductos(productos,index);
+                                      })}
+                                      <VistaProducto
+                                          fav={false}
+                                          show={this.state.modalShow}
+                                          id={this.state.id}
+                                          cargar={this.state.cargar}
+                                          usuario={this.state.usuario}
+                                          indice={this.state.indiceMostrar}
+                                          nombre={this.state.nombreMostrar}
+                                          vendedor={this.state.vendedorMostrar}
+                                          precio={this.state.precioMostrar}
+                                          descripcion={this.state.descripcionMostrar}
+                                          fechaLimite={this.state.fechaLimite}
+                                          horaLimite={this.state.horaLimite}
+                                          onHide={modalClose /*modalClose pone a false modalShow*/}
+                                          callback = {this.eliminarProductoPadre.bind(this)}
+                                        />
+                                    </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div className="card-deck">
+                                  {this.state.subastas.map((subastas, index) => {
+                                    return this.renderSubastas(subastas,index);
+                                  })}
+                                  <VistaProducto
+                                      fav={false}
+                                      show={this.state.modalShow}
+                                      id={this.state.id}
+                                      cargar={this.state.cargar}
+                                      usuario={this.state.usuario}
+                                      indice={this.state.indiceMostrar}
+                                      nombre={this.state.nombreMostrar}
+                                      vendedor={this.state.vendedorMostrar}
+                                      precio={this.state.precioMostrar}
+                                      descripcion={this.state.descripcionMostrar}
+                                      fechaLimite={this.state.fechaLimite}
+                                      horaLimite={this.state.horaLimite}
+                                      onHide={modalClose /*modalClose pone a false modalShow*/}
+                                      callback = {this.eliminarProductoPadre.bind(this)}
+                                    />
+                                   </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>           
+        </div>
     )
   }
 }
