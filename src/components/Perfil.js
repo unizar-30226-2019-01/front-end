@@ -156,29 +156,7 @@ class Perfil extends Component {
     }
   }
 
-  handleOnChange (event) {
-    const file = event.target.files[0]
-    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
-    const task = storageRef.put(file)
-
-
-
-    task.on('state_changed', (snapshot) => {
-        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        this.setState({
-            uploadValue: percentage
-        })
-      }, (error) => {
-        // Si ha ocurrido un error aquí lo tratamos
-        console.error(error.message)
-    }, () => {
-        console.log(task.snapshot.ref.getDownloadURL())
-        task.snapshot.ref.getDownloadURL()
-        .then((url) => {
-          this.setState({picture: url, foto: url});
-        });
-      })
-}
+  
 
   render() {
     let modalClose = () => this.setState({ modalShow: false, cargar: false }); //Para gestionar VistaProductoPerfil (guille)
@@ -186,6 +164,7 @@ class Perfil extends Component {
       return <Redirect push to="/" />;
     }
     return (
+        <div className="Default">
         <div className="Perfil">
         <NavLogReg/>
       <div class="container emp-profile">
@@ -194,10 +173,6 @@ class Perfil extends Component {
                     <div class="col-md-4">
                         <div class="profile-img">
                             <img src={this.state.datos[4]} alt=""/>
-                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type='file' onChange={this.handleOnChange.bind(this)}/>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -251,9 +226,11 @@ class Perfil extends Component {
                             Favoritos
                             </Button>
                             </Link>
+                            <Link to="/chat">
                             <button className="btn btn-primary mr-sm-2 ml-sm-2">
                                 Chats
                             </button>
+                            </Link>
                             <p>Opciones</p>
                             <button className="btn btn-danger mr-sm-2"
                                 onClick={this.cerrarSesion.bind(this)}>
@@ -275,7 +252,7 @@ class Perfil extends Component {
                                     <img className="card-img-top" src={productos[6]} />
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
-                                    <p className="card-text">Vendedor: {productos[3]}</p>
+                                    <p className="card-text">{productos[4]}€</p>
                                     </div>
                                     <div className="card-footer"> {/*Para gestionar VistaProductoPerfil (guille)*/}
                                     <Button
@@ -343,7 +320,7 @@ class Perfil extends Component {
                                     <img className="card-img-top" src={productos[6]} />
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
-                                    <p className="card-text">Vendedor: {productos[3]}</p>
+                                    <p className="card-text">{productos[4]}€</p>
                                     </div>
                                     <div className="card-footer"> {/*Para gestionar VistaProductoPerfil (guille)*/}
                                     <Button
@@ -426,6 +403,7 @@ class Perfil extends Component {
                 onHide={modalClose /*modalClose pone a false modalShow*/}
                 callback = {this.eliminarProductoPadre.bind(this)}
               />
+        </div>
         </div>
         </div>
     )

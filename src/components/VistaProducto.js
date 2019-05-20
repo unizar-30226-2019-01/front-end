@@ -12,6 +12,7 @@ import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
+import Chat from './Chat'
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
@@ -118,6 +119,15 @@ class VistaProducto extends Component {
       horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
     }
 
+    let chat
+    if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      if (this.props.vendedor != decoded.identity.login){
+       chat = <Chat articulo={this.props.nombre} vendedor={this.props.vendedor}/>
+      }
+    }
+
     return (
       <Modal
         {...this.props /*si quitas esto no se muestra el producto
@@ -175,7 +185,7 @@ class VistaProducto extends Component {
                   Copiar URL
                 </Button>
 
-                <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
+                <Button className="mr-sm-4" variant="success">
                   Abrir chat vendedor
                 </Button>
                 
@@ -194,6 +204,8 @@ class VistaProducto extends Component {
           {horaYFechaSubasta}
 
         </Modal.Body>
+
+        {chat}
 
         <Modal.Footer>
           <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>

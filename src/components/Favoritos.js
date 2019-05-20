@@ -9,7 +9,7 @@ import NavLogReg from './NavLogReg';
 import Form from 'react-bootstrap/Form';
 
 import VistaProducto from './VistaProducto';
-import { listarVentasFavoritos } from '../GestionPublicaciones';
+import { listarVentasFavoritos, listarSubastasFavoritos } from '../GestionPublicaciones';
 
 import { eliminarProducto, eliminarFavorito } from '../GestionPublicaciones';
 
@@ -82,6 +82,16 @@ class Productos extends Component {
                   console.log(this.state.term)
               })
       })
+      listarSubastasFavoritos(usuario.login).then(data => {
+        console.log("HOLA2")
+        this.setState({
+            subastas: [...data]
+        },
+            () => {
+                console.log(this.state.term)
+            })
+    })
+
   }
   
 
@@ -93,6 +103,16 @@ class Productos extends Component {
     this.setState({
       modalShow: false,
       productos: this.state.productos.filter((elemento, i)=>{
+          return  i!==index
+          /*esto lo q hace es recorrer el vector productos,
+            y lo modifica eliminando todo aquel que NO cumpla
+            la condicion. en este caso, cuando encuentre la posicion
+            del elemento index, lo eliminara*/
+      })
+    });
+    this.setState({
+      modalShow: false,
+      subastas: this.state.subastas.filter((elemento, i)=>{
           return  i!==index
           /*esto lo q hace es recorrer el vector productos,
             y lo modifica eliminando todo aquel que NO cumpla
@@ -167,7 +187,7 @@ class Productos extends Component {
     return (
       <div className="card-deck" rows="4" columns="4">
         <div className="card ml-md-4 mr-md-4">
-          <img className="card-img-top" src={subastas[8]} />
+          <img className="card-img-top" src={subastas[8]}  width="100" height="170"/>
           <div className="card-body">
             <h5 className="card-title">{subastas[0]}</h5>
             <p className="card-text">{subastas[4]}€</p>
@@ -183,6 +203,7 @@ class Productos extends Component {
                                              precioMostrar: subastas[4],
                                              descripcionMostrar: subastas[2],
                                              fechaLimite: subastas[6],
+                                             cargar: true,
                                              horaLimite: subastas[7]})} >
               Ver producto
             </Button>
@@ -237,7 +258,7 @@ class Productos extends Component {
                                           fechaLimite={this.state.fechaLimite}
                                           horaLimite={this.state.horaLimite}
                                           onHide={modalClose /*modalClose pone a false modalShow*/}
-                                          callback = {this.eliminarProductoPadre.bind(this)}
+                                          callback = {this.eliminarFavoritoPadre.bind(this)}
                                         />
                                     </div>
                             </div>
@@ -260,7 +281,7 @@ class Productos extends Component {
                                       fechaLimite={this.state.fechaLimite}
                                       horaLimite={this.state.horaLimite}
                                       onHide={modalClose /*modalClose pone a false modalShow*/}
-                                      callback = {this.eliminarProductoPadre.bind(this)}
+                                      callback = {this.eliminarFavoritoPadre.bind(this)}
                                     />
                                    </div>
                             </div>
