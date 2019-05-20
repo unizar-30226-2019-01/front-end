@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import NavLogReg from './NavLogReg';
 import { actualizarProducto } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import * as firebase from 'firebase'
 
 class EditarProducto extends Component {
   constructor(props) {
@@ -19,11 +20,16 @@ class EditarProducto extends Component {
 	    categoria: props.location.prod.categoria,
       categoriaActual: props.location.prod.categoria,
       descripcion: props.location.prod.descripcion,
+      fotos: props.location.prod.fotos,
+      precio: props.location.prod.precio,
       vendedor: '',
-      precio: props.location.prod.precio
+      fotoP: "vacio",
+      foto1: "vacio",
+      foto2: "vacio",
+      foto3: "vacio",
+      uploadValue: 0
     }
 
-    console.log(props.location.prod.id)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -52,7 +58,7 @@ class EditarProducto extends Component {
       precio: this.state.precio,
       foto: this.state.foto
     }
-    console.log(this.state.id)
+
     actualizarProducto(producto).then(data => {
       this.setState({
           respuestaBD: data
@@ -64,9 +70,195 @@ class EditarProducto extends Component {
     this.setState({redirect: true});
   }
 
+  handleOnChangeP (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, fotoP: url});
+        });
+      })
+  }
+
+  handleOnChange1 (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, foto1: url});
+        });
+      })
+  }
+
+  handleOnChange2 (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, foto2: url});
+        });
+      })
+  }
+
+  handleOnChange3 (event) {
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`fotos/${file.name}`)
+    const task = storageRef.put(file)
+
+    task.on('state_changed', (snapshot) => {
+        let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({
+            uploadValue: percentage
+        })
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+        console.error(error.message)
+    }, () => {
+        console.log(task.snapshot.ref.getDownloadURL())
+        task.snapshot.ref.getDownloadURL()
+        .then((url) => {
+          this.setState({picture: url, foto3: url});
+        });
+      })
+  }
+
   render(){
     if (this.state.redirect){
       return <Redirect push to="/" />;
+    }
+
+    let aux, aux1, aux2, aux3, contenidoImagenes;
+    if(this.state.fotos.length==1){
+      aux=this.state.fotos[0];
+      aux=aux[0]
+      aux1="vacio"
+      aux2="vacio"
+      aux3="vacio"
+      contenidoImagenes = <div>
+                          <br/>
+                            <label>Fotos de tarjeta (opcionales)</label>
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange1.bind(this)}/>
+                            <br />
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange2.bind(this)}/>
+                            <br />
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange3.bind(this)}/>
+                            <br />
+                            <br />
+                          </div>
+    }
+    else if(this.state.fotos.length==2){
+      aux=this.state.fotos[0];
+      aux=aux[0]
+      aux1=this.state.fotos[1];
+      aux1=aux1[0]
+      aux2="vacio"
+      aux3="vacio"
+      contenidoImagenes = <div>
+                          <br/>
+                            <label>Fotos de tarjeta (opcionales)</label>
+                            <img src={aux1} width="100%" height="100%"/>
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange1.bind(this)}/>
+                            <br />
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange2.bind(this)}/>
+                            <br />
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange3.bind(this)}/>
+                            <br />
+                            <br />
+                          </div>
+    }
+    else if(this.state.fotos.length==3){
+      aux=this.state.fotos[0];
+      aux=aux[0]
+      aux1=this.state.fotos[1];
+      aux1=aux1[0]
+      aux2=this.state.fotos[2];
+      aux2=aux2[0]
+      aux3="vacio"
+      contenidoImagenes = <div>
+                          <br/>
+                            <label>Fotos de tarjeta (opcionales)</label>
+                            <img src={aux1} width="100%" height="100%"/>
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange1.bind(this)}/>
+                            <br />
+                            <img src={aux2} width="100%" height="100%"/>
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange2.bind(this)}/>
+                            <br />
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange3.bind(this)}/>
+                            <br />
+                            <br />
+                          </div>
+    }
+    else if(this.state.fotos.length==4){
+      aux=this.state.fotos[0];
+      aux=aux[0]
+      aux1=this.state.fotos[1];
+      aux1=aux1[0]
+      aux2=this.state.fotos[2];
+      aux2=aux2[0]
+      aux3=this.state.fotos[3];
+      aux3=aux3[0]
+      contenidoImagenes = <div>
+                          <br/>
+                            <label>Fotos de tarjeta (opcionales)</label>
+                            <img src={aux1} width="100%" height="100%"/>
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange1.bind(this)}/>
+                            <br />
+                            <img src={aux2} width="100%" height="100%"/>
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange2.bind(this)}/>
+                            <br />
+                            <img src={aux3} width="100%" height="100%"/>
+                            <br/>
+                            <input type='file' onChange={this.handleOnChange3.bind(this)}/>
+                            <br />
+                            <br />
+                          </div>
     }
 
     return(
@@ -123,14 +315,16 @@ class EditarProducto extends Component {
                   <option>Coleccionismo</option>
                   </Form.Control>
                 </Form.Group>
-                {/*<Form.Group controlId="photoProduct">
-                  <Form.Label>Foto</Form.Label>
-                  <Form.Control type="file"
-                  name="foto"
-                  value={this.state.foto}
-                  onChange={this.onChange}>
-                  </Form.Control>
-                </Form.Group>*/}
+                <div>
+                <label>Foto de portada</label>
+                <br/>
+                  <img src={aux} width="100%" height="100%"/>
+                  <progress value={this.state.uploadValue} max='100'></progress>
+                  <br />
+                  <input type='file' required onChange={this.handleOnChangeP.bind(this)}/>
+                  <br />
+                </div>
+                {contenidoImagenes}
                 <Form.Group controlId="productPrice">
                   <Form.Label>Precio</Form.Label>
                   <Form.Control placeholder="Introduzca precio"

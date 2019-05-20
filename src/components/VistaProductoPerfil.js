@@ -80,7 +80,7 @@ class VistaProductoPerfil extends Component {
 
   render() {
 
-    console.log("entro")
+    let fotosMostrar=[[this.props.fotoP]]
     if(this.state.primeraVez){
       getFotos(this.props.id).then(data => {
         console.log("HOLA3")
@@ -93,6 +93,7 @@ class VistaProductoPerfil extends Component {
             })
       })
     }
+    Array.prototype.push.apply(fotosMostrar, this.state.fot);
 
     let contenido
     if (!this.props.fav) {
@@ -125,7 +126,8 @@ class VistaProductoPerfil extends Component {
                                     nombre: this.props.nombre,
                                     descripcion: this.props.descripcion,
                                     categoria: this.props.categoria,
-                                    precio: this.props.precio}}} >
+                                    precio: this.props.precio,
+                                    fotos: fotosMostrar}}} >
                       <Button className="mr-sm-4" variant="info" >
                         Editar
                       </Button>
@@ -210,7 +212,7 @@ class VistaProductoPerfil extends Component {
           </Container>
 
           <Carousel className="row mt-4">
-            {this.state.fot.map((foto, index) => (
+            {fotosMostrar.map((foto, index) => (
             <Carousel.Item>
               <img className="d-block w-100" src={foto[0]} width="300" height="500"/>
             </Carousel.Item>

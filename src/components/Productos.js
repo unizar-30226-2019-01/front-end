@@ -37,6 +37,7 @@ class Productos extends Component {
         vendedorMostrar:'',
         precioMostrar:0,
         descripcionMostrar:'',
+        fotoMostrar:'',
         search:"",
         precio:0,
         categoria:"",
@@ -139,6 +140,7 @@ class Productos extends Component {
                                              vendedorMostrar: productos[3],
                                              precioMostrar: productos[4],
                                              descripcionMostrar: productos[2],
+                                             fotoMostrar: productos[6],
                                              fechaLimite: "",
                                              horaLimite: "",
                                              cargar: true})} >
@@ -185,6 +187,7 @@ class Productos extends Component {
                                              vendedorMostrar: subastas[3],
                                              precioMostrar: subastas[4],
                                              descripcionMostrar: subastas[2],
+                                             fotoMostrar: subastas[8],
                                              fechaLimite: subastas[6],
                                              horaLimite: subastas[7],
                                              cargar: true})} >
@@ -319,6 +322,7 @@ class Productos extends Component {
                 descripcion={this.state.descripcionMostrar}
                 fechaLimite={this.state.fechaLimite}
                 horaLimite={this.state.horaLimite}
+                fotoP={this.state.fotoMostrar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}
                 callback = {this.eliminarProductoPadre.bind(this)}
             />
