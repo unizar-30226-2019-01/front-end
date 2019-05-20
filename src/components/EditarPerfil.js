@@ -24,7 +24,6 @@ class EditarPerfil extends Component {
       validated: false
     }
     this.onChange = this.onChange.bind(this)
-    //this.onSubmit = this.onSubmit.bind(this)
     this.onSubmit = this.handleSubmit.bind(this)   //Prevencion de campos vacios
   }
 
@@ -49,23 +48,6 @@ class EditarPerfil extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  /*
-  onSubmit(e) {
-    e.preventDefault()
-
-    const user = {
-      login: this.state.datos[0],
-      nombre: this.state.datos[1],
-      apellidos: this.state.datos[2],
-      email: this.state.datos[3],
-      telefono: this.state.datos[7],
-      foto: this.state.foto
-    }
-    actualizarInfo(user)
-    this.setState({redirect: true});
-  }
-  */
-
  handleSubmit(event) {
   const form = event.currentTarget;
   if (form.checkValidity() === false) {
@@ -76,11 +58,11 @@ class EditarPerfil extends Component {
     event.preventDefault()
 
     const user = {
-      login: this.state.datos[0],
-      nombre: this.state.datos[1],
-      apellidos: this.state.datos[2],
-      email: this.state.datos[3],
-      telefono: this.state.datos[7],
+      login: this.state.datos[0], // No se permite cambiar
+      nombre: this.state.nombre,
+      apellidos: this.state.apellidos,  
+      email: this.state.datos[3],   // No se permite cambiar
+      telefono: this.state.telefono,
       foto: this.state.foto
     }
     actualizarInfo(user)
@@ -148,7 +130,7 @@ class EditarPerfil extends Component {
 
                 <td> 
                 	<Form.Group controlId="foto"> 
-                   <img src={this.state.datos[4]} alt="Foto de perfil"/> 
+                   <img src={this.state.datos[4]} alt="Falla la foto" width="100%" height="100%"/> 
                             <div class="file btn btn-lg btn-primary">
                                 Cambiar foto:
                                 <input type='file' onChange={this.handleOnChange.bind(this)}/>
@@ -204,12 +186,13 @@ class EditarPerfil extends Component {
                 <td>				  
                 	<Form.Group controlId="email">
             <Form.Control 
-              required
-				    	type="email" 
+              plaintext
+              readOnly
+				    	//type="email" 
               name="email"
               defaultValue={this.state.email}
 				    	value={this.state.email}
-              onChange={this.onChange}
+              //onChange={this.onChange}
 				    	 />
             	</Form.Group>
 				</td>
