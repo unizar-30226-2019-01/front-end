@@ -16,8 +16,6 @@ import { eliminarSubasta } from '../GestionPublicaciones';
 import {Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
 
-import Chat from './Chat'
-
 class Perfil extends Component {
   constructor() {
     super()
@@ -227,9 +225,11 @@ class Perfil extends Component {
                             Favoritos
                             </Button>
                             </Link>
+                            <Link to="/chat">
                             <button className="btn btn-primary mr-sm-2 ml-sm-2">
                                 Chats
                             </button>
+                            </Link>
                             <p>Opciones</p>
                             <button className="btn btn-danger mr-sm-2"
                                 onClick={this.cerrarSesion.bind(this)}>
@@ -399,11 +399,6 @@ class Perfil extends Component {
               />
         </div>
         </div>
-        <div className ="col"> </div>
-        <div className = "col-6">
-        <Chat />
-        </div>
-        <div className ="col"> </div>
         </div>
     )
   }
