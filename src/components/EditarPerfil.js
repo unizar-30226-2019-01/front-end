@@ -36,6 +36,7 @@ class EditarPerfil extends Component {
         datos: data,
         nombre: data[1],
         apellidos: data[2],
+        email: data[3],
         telefono: data[7]
       },
       () => {
@@ -219,7 +220,7 @@ class EditarPerfil extends Component {
         <Form.Group controlId="telefono">
             <Form.Control 
               required
-				    	type="tel" 
+				    	type="number" 
               name="telefono"
               defaultValue={this.state.telefono}
 				    	value={this.state.telefono}
