@@ -16,6 +16,8 @@ import { eliminarSubasta } from '../GestionPublicaciones';
 import {Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
 
+import Chat from './Chat'
+
 class Perfil extends Component {
   constructor() {
     super()
@@ -163,6 +165,7 @@ class Perfil extends Component {
       return <Redirect push to="/" />;
     }
     return (
+        <div className="Default">
         <div className="Perfil">
         <NavLogReg/>
       <div class="container emp-profile">
@@ -395,6 +398,12 @@ class Perfil extends Component {
                 callback = {this.eliminarProductoPadre.bind(this)}
               />
         </div>
+        </div>
+        <div className ="col"> </div>
+        <div className = "col-6">
+        <Chat />
+        </div>
+        <div className ="col"> </div>
         </div>
     )
   }
