@@ -3,7 +3,6 @@ import Chatkit from '@pusher/chatkit-client'
 import MessageList from './MessageList'
 import SendMessageForm from './SendMessageForm'
 import RoomList from './RoomList'
-import NewRoomForm from './NewRoomForm'
 import jwt_decode from 'jwt-decode'
 
 
