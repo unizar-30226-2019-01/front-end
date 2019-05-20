@@ -4,13 +4,18 @@ import logo from '../images/logo.png';
 import bichardo from '../images/bichardo.jpg';
 import bixobasket from '../images/bixobasket.jpg';
 import jwt_decode from 'jwt-decode';
+import '../css/App.css';
 
 import VistaProducto from './VistaProducto';
 import { getProductos } from '../GestionPublicaciones';
 import { getProductosMayorMenor } from '../GestionPublicaciones';
 import { getProductosMenorMayor } from '../GestionPublicaciones';
+import { getSubastas } from '../GestionPublicaciones';
+import { getSubastasMayorMenor } from '../GestionPublicaciones';
+import { getSubastasMenorMayor } from '../GestionPublicaciones';
 
-import { eliminarProducto } from '../GestionPublicaciones';
+import { eliminarProducto, getFotos } from '../GestionPublicaciones';
+import { eliminarSubasta } from '../GestionPublicaciones';
 
 import {Input} from "mdbreact"; //npm install mdbreact
 import Form from 'react-bootstrap/Form';
@@ -25,6 +30,7 @@ class Productos extends Component {
         id: '',
         usuario: '',
         productos: [],
+        subastas: [],
         idMostrar: 0,
         indiceMostrar:'',
         nombreMostrar:'',
@@ -34,16 +40,18 @@ class Productos extends Component {
         search:"",
         precio:0,
         categoria:"",
-        filtro:0
+        fechaLimite: "",
+        horaLimite: "",
+        cargar: false
 
     };
     this.renderProductos = this.renderProductos.bind(this);
+    this.renderSubastas = this.renderSubastas.bind(this);
 }
 
   componentDidMount () {
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
       console.log("no existe")
-      console.log(this.state.usuario)
     }
     else{
       console.log("existe")
@@ -60,36 +68,37 @@ class Productos extends Component {
       this.getAll()
       this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
-      if(this.state.filtro==0 && this.props.filtro==1){
-        this.setState(
-          {search:""},
-          {precio:0},
-          {categoria:""},
-          {filtro:1}
-        )
-      }
-      else if(this.state.filtro==1 && this.props.filtro==0){
-        this.setState(
-          {search:""},
-          {precio:0},
-          {categoria:""},
-      
-        )
-      }
   }
 
-  eliminarProductoPadre(index){
-    eliminarProducto(this.state.id)
-    this.setState({
-      modalShow: false,
-      productos: this.state.productos.filter((elemento, i)=>{
-          return  i!==index
-          /*esto lo q hace es recorrer el vector productos,
-            y lo modifica eliminando todo aquel que NO cumpla
-            la condicion. en este caso, cuando encuentre la posicion
-            del elemento index, lo eliminara*/
-      })
-    });
+  eliminarProductoPadre(index, esVenta){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
+    if(esVenta==""){ //Si esVenta esta vacio, es pq no hay fecha limite, o sea es un producto y NO una subasta
+      eliminarProducto(this.state.id)
+      this.setState({
+        modalShow: false,
+        cargar: false,
+        productos: this.state.productos.filter((elemento, i)=>{
+            return  i!==index
+            /*esto lo q hace es recorrer el vector productos,
+              y lo modifica eliminando todo aquel que NO cumpla
+              la condicion. en este caso, cuando encuentre la posicion
+              del elemento index, lo eliminara*/
+        })
+      });
+    }
+    else{
+      eliminarSubasta(this.state.id)
+      this.setState({
+        modalShow: false,
+        cargar: false,
+        subastas: this.state.subastas.filter((elemento, i)=>{
+            return  i!==index
+            /*esto lo q hace es recorrer el vector productos,
+              y lo modifica eliminando todo aquel que NO cumpla
+              la condicion. en este caso, cuando encuentre la posicion
+              del elemento index, lo eliminara*/
+        })
+      });
+    }
   }
 
   onChange = e => {
@@ -129,7 +138,56 @@ class Productos extends Component {
                                              nombreMostrar: productos[0],
                                              vendedorMostrar: productos[3],
                                              precioMostrar: productos[4],
-                                             descripcionMostrar: productos[2]})} >
+                                             descripcionMostrar: productos[2],
+                                             fechaLimite: "",
+                                             horaLimite: "",
+                                             cargar: true})} >
+              Ver producto
+            </Button>
+          </div> {}
+        </div>
+        </div>
+    );
+  };
+
+  renderSubastas = (subastas,index) => {
+    const { search } = this.state;
+
+    //si el producto actual no contiene la subcadena buscada no se muestra
+    if( search !== "" && subastas[0].toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
+        return null
+    }
+    console.log(this.state.precio)
+    if( this.state.precio !== 0 && subastas[4] > this.state.precio){
+      return null
+    }
+
+    if( this.state.categoria!== "" && subastas[5] !==this.state.categoria){
+      return null
+    }
+
+    //se llega aquí si contiene la subcadena buscada
+    return (
+      <div className="card-deck" rows="4" columns="4">
+        <div className="card ml-md-4 mr-md-4">
+          <img className="card-img-top" src={subastas[8]} />
+          <div className="card-body">
+            <h5 className="card-title">{subastas[0]}</h5>
+            <p className="card-text">{subastas[4]}€</p>
+          </div>
+          <div className="card-footer"> {}
+            <Button
+              variant="outline-primary"
+              onClick={() => this.setState({ modalShow: true,
+                                             id: subastas[1],
+                                             indiceMostrar: index,
+                                             nombreMostrar: subastas[0],
+                                             vendedorMostrar: subastas[3],
+                                             precioMostrar: subastas[4],
+                                             descripcionMostrar: subastas[2],
+                                             fechaLimite: subastas[6],
+                                             horaLimite: subastas[7],
+                                             cargar: true})} >
               Ver producto
             </Button>
           </div> {}
@@ -149,12 +207,31 @@ class Productos extends Component {
                     console.log(this.state.term)
                 })
         })
+
+        getSubastas().then(data => {
+            this.setState({
+                subastas: [...data]
+            },
+                () => {
+                    console.log(this.state.term)
+                })
+        })
       }
       else if(this.props.mostrar==1){
         getProductosMayorMenor().then(data => {
             console.log("HOLA2")
             this.setState({
                 productos: [...data]
+            },
+                () => {
+                    console.log(this.state.term)
+                })
+        })
+
+        getSubastasMayorMenor().then(data => {
+            console.log("HOLA2")
+            this.setState({
+                subastas: [...data]
             },
                 () => {
                     console.log(this.state.term)
@@ -171,38 +248,81 @@ class Productos extends Component {
                     console.log(this.state.term)
                 })
         })
+
+        getSubastasMenorMayor().then(data => {
+            console.log("HOLA2")
+            this.setState({
+                subastas: [...data]
+            },
+                () => {
+                    console.log(this.state.term)
+                })
+        })
       }
   }
 
   render() {
-    let modalClose = () => this.setState({ modalShow: false }); //Para gestionar vistaProducto (guille)
+    let modalClose = () => this.setState({ modalShow: false,
+                                            cargar: false }); //Para gestionar vistaProducto (guille)
 
     return(
-      
-      <div className="card-deck">
-      <Form.Control className="xd"
-        placeholder="Buscar producto"
-        name="nombre"
-        onChange={this.onChange} />
+      <div class="container emp-productos">
+        <Form.Control className="xd"
+          placeholder="Buscar producto"
+          name="nombre"
+          onChange={this.onChange} />
 
-      {this.state.productos.map((productos, index) => {
-        return this.renderProductos(productos,index);
-      })}
-
-        <VistaProducto
-          fav={false}
-          show={this.state.modalShow}
-          id={this.state.id}
-          usuario={this.state.usuario}
-          indice={this.state.indiceMostrar}
-          nombre={this.state.nombreMostrar}
-          vendedor={this.state.vendedorMostrar}
-          precio={this.state.precioMostrar}
-          descripcion={this.state.descripcionMostrar}
-          onHide={modalClose /*modalClose pone a false modalShow*/}
-          callback = {this.eliminarProductoPadre.bind(this)}
-        />
-      </div>
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="productos-head">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Ventas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Subastas</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                          <div className="card-deck">
+                            {this.state.productos.map((productos, index) => {
+                                return this.renderProductos(productos,index);
+                            })}
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                          <div className="card-deck">
+                            {this.state.subastas.map((subastas, index) => {
+                              return this.renderSubastas(subastas,index);
+                            })}
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <VistaProducto
+                fav={false}
+                show={this.state.modalShow}
+                id={this.state.id}
+                cargar={this.state.cargar}
+                usuario={this.state.usuario}
+                indice={this.state.indiceMostrar}
+                nombre={this.state.nombreMostrar}
+                vendedor={this.state.vendedorMostrar}
+                precio={this.state.precioMostrar}
+                descripcion={this.state.descripcionMostrar}
+                fechaLimite={this.state.fechaLimite}
+                horaLimite={this.state.horaLimite}
+                onHide={modalClose /*modalClose pone a false modalShow*/}
+                callback = {this.eliminarProductoPadre.bind(this)}
+            />
+        </div>
     )
   }
 }

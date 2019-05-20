@@ -19,31 +19,42 @@ class Register extends Component {
       apellidos: '',
       email: '',
       foto: '',
-      telefono: ''
-    }
+      telefono: '',
 
+      validated: false //Para la prevencion de errores
+    }
+    // Se especifica que las funciones de este fichero pertenecen al componente, sino dara error
     this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.onSubmit = this.handleSubmit.bind(this)
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
+    //Indica que el campo que se actualiza con el valor obtenido del input
+    this.setState({ [e.target.name]: e.target.value }) 
   }
-  onSubmit(e) {
-    e.preventDefault()
-
-    const newUser = {
-      login: this.state.login,
-      password: this.state.password,
-      nombre: this.state.nombre,
-      apellidos: this.state.apellidos,
-      telefono: this.state.telefono,
-      email: this.state.email,
-      foto: this.state.foto,
-      telefono: this.state.telefono
+  handleSubmit(event) { //Cada vez que se envie el formulario
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault(); //Evita refrescar la pantalla (si hay entradas no validas)
+      event.stopPropagation();
     }
-    register(newUser)
-    this.setState({redirect: true});
+    else{
+      event.preventDefault()
+
+      const newUser = {
+        login: this.state.login,
+        password: this.state.password,
+        nombre: this.state.nombre,
+        apellidos: this.state.apellidos,
+        telefono: this.state.telefono,
+        email: this.state.email,
+        foto: this.state.foto,
+        telefono: this.state.telefono
+      }
+      register(newUser) //Registra al usuario desde GestionUsuarios.js
+      this.setState({redirect: true});
+    }
+    this.setState({ validated: true });
   }
 
 
@@ -73,6 +84,9 @@ class Register extends Component {
 
 
   render(){
+
+    const { validated } = this.state;
+
     if (this.state.redirect){
       return <Redirect push to="/" />;
     }
@@ -86,11 +100,13 @@ class Register extends Component {
       <div className="row">
         <div className = "col"> </div>
         <div className="col-8">
-        <Form noValidate onSubmit={this.onSubmit}>
+        <Form noValidate validated={validated}
+                    onSubmit={e => this.handleSubmit(e)}>
           <Row>
             <Col>
             <Form.Group controlId="nombre">
               <Form.Control
+                required
                 placeholder="Nombre"
                 name="nombre"
                 value={this.state.nombre}
@@ -101,6 +117,7 @@ class Register extends Component {
             <Col>
             <Form.Group controlId="apellidos">
               <Form.Control
+                required
                 placeholder="Apellidos"
                 name="apellidos"
                 value={this.state.apellidos}
@@ -112,6 +129,7 @@ class Register extends Component {
 
           <Form.Group controlId="login">
               <Form.Control
+                required
                 placeholder="Usuario"
                 name="login"
                 value={this.state.login}
@@ -121,6 +139,7 @@ class Register extends Component {
 
           <Form.Group controlId="email">
             <Form.Control
+              required
               type="email"
               placeholder="Email"
               name="email"
@@ -131,6 +150,7 @@ class Register extends Component {
 
           <Form.Group controlId="password">
             <Form.Control
+              required
               type="password"
               placeholder="Contraseña"
               name="password"
@@ -140,6 +160,7 @@ class Register extends Component {
           </Form.Group>
           <Form.Group controlId="telefono">
             <Form.Control
+              required
               type="number"
               placeholder="Teléfono"
               name="telefono"
@@ -150,7 +171,7 @@ class Register extends Component {
           <div>
               <progress value={this.state.uploadValue} max='100'></progress>
               <br />
-              <input type='file' onChange={this.handleOnChange.bind(this)}/>
+              <input required name="foto" type='file' onChange={this.handleOnChange.bind(this)}/>
               <br />
               <img width='90' src={this.state.picture} />
             </div>

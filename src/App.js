@@ -16,7 +16,7 @@ class App extends Component {
   //componentDidMount
 
   componentDidMount() {
-    localStorage.clear();
+    //localStorage.clear();
     console.log("ELIMINO TOKENS")
   }
 
@@ -25,13 +25,11 @@ class App extends Component {
     this.state = {
       mostrar:0,
       precio:0,
-      categoria:"",
-      filtro:0
+      categoria:""
     }
     this.ordenacion = this.ordenacion.bind(this);
     this.maximoPrecio = this.maximoPrecio.bind(this);
     this.categoriaSelec = this.categoriaSelec.bind(this);
-    this.eliminarFiltros = this.eliminarFiltros.bind(this);
   }
 
   ordenacion(index){
@@ -46,12 +44,6 @@ class App extends Component {
     this.setState({categoria:c});
   }
 
-  eliminarFiltros(c){
-    if(this.state.filtro==0){this.setState({filtro:1}); }
-    else {this.setState({filtro:0}); }
-  }
-
-
   render() {
     let barra;
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
@@ -61,14 +53,14 @@ class App extends Component {
     else{
       console.log("existe")
       barra = <NavLogReg/>
-      
+
     }
     return (
       <div className="App">
         {barra}
         <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} />
         <div className="App-header">
-          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria} filtro={this.state.filtro} />
+          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria}/>
         </div>
       </div>
     );
