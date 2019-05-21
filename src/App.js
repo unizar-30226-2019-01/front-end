@@ -16,7 +16,7 @@ class App extends Component {
   //componentDidMount
 
   componentDidMount() {
-    localStorage.clear();
+    //localStorage.clear();
     console.log("ELIMINO TOKENS")
   }
 
