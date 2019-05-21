@@ -11,6 +11,8 @@ import ReactDOM from 'react-dom';
 import { Route, Switch, Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
+
+
 class NavLogReg extends Component {
 
   constructor() {
@@ -19,7 +21,8 @@ class NavLogReg extends Component {
       login: '',
       nombre: '',
       apellidos: '',
-      email: ''
+      email: '',
+      foto: ''
     }
   }
 /*

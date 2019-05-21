@@ -51,8 +51,12 @@ class Register extends Component {
         foto: this.state.foto,
         telefono: this.state.telefono
       }
-      register(newUser) //Registra al usuario desde GestionUsuarios.js
-      this.setState({redirect: true});
+      register(newUser).then(res => {
+				this.setState({
+					respuestaBD: res
+				})
+			})
+			this.setState({ redirect: true });
     }
     this.setState({ validated: true });
   }
@@ -88,8 +92,17 @@ class Register extends Component {
     const { validated } = this.state;
 
     if (this.state.redirect){
-      return <Redirect push to="/" />;
+			console.log(this.state.respuestaBD)
+      if(this.state.respuestaBD=="Error"){
+				window.alert("Error en el login, Intente de nuevo")
+				this.setState({redirect: false,
+					respuestaBD: undefined});
+			}
+			else if(this.state.respuestaBD != undefined) {
+				return <Redirect push to="/" />;
+			}
     }
+
     return (
     <div>
     <br />

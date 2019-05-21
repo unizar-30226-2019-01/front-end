@@ -12,8 +12,9 @@ import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
-
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
+
+
 
 class VistaProducto extends Component {
   constructor(props) {
@@ -42,9 +43,9 @@ class VistaProducto extends Component {
     });
   }
 
-  getlink() {
+  getlink(id) {
     var aux = document.createElement('input');
-    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]);
+    aux.setAttribute('value', "http://localhost:3000/producto?id=" + id);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
@@ -106,7 +107,7 @@ class VistaProducto extends Component {
          FAVORITO
         </Button>
     } else {
-      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() =>this.props.callback(this.props.indice)}>
+      contenido = <Button className="mr-sm-4" variant="warning" onClick={() =>this.props.callback(this.props.indice)}>
           Eliminar
         de FAVORITOS
         </Button>
@@ -180,6 +181,9 @@ class VistaProducto extends Component {
                 <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
                   VENDEDOR: {this.props.vendedor}
                 </Button>
+                <Button variant="danger"> {/*onClick=() => aqui redirigir a a la pantalla de reporte*/}
+                  Reportar vendedor
+                </Button>
               </Col>
               <Col xs={3}>
                   <h6 className="w-100 text-right" id="exampleModalLabel">Valoracion vendedor:</h6>
@@ -212,7 +216,7 @@ class VistaProducto extends Component {
 
                 {contenido}
 
-                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
+                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                   Copiar URL
                 </Button>
 

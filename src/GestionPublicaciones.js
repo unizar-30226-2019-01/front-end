@@ -208,6 +208,57 @@ export const anadirSubasta = newProductoSubasta => {
       return err})
 }
 
+export const tipoProducto = id => {
+    return axios
+        .get(`obtenerTipoProducto/${id}`, {
+  
+        })
+        .then(res => {
+          return res.data
+      })
+  }
+
+export const infoVenta = id => {
+    return axios
+        .get(`obtenerDatosVenta/${id}`, {
+  
+        })
+        .then(res => {
+          var data = []
+          data[0]=res.data.id
+          data[1]=res.data.Nombre
+          data[2]=res.data.Descripcion
+          data[3]=res.data.Categoria
+          data[4]=res.data.FotoPrincipal
+          data[5]=res.data.Vendedor
+          data[6]=res.data.Precio
+          return data
+      })
+  }
+
+export const infoSubasta = id => {
+    return axios
+        .get(`obtenerDatosSubasta/${id}`, {
+
+        })
+        .then(res => {
+            console.log(res.data.id)
+            var data = []
+            data[0]=res.data.id
+            data[1]=res.data.Nombre
+            data[2]=res.data.Descripcion
+            data[3]=res.data.Categoria
+            data[4]=res.data.FotoPrincipal
+            data[5]=res.data.Vendedor
+            data[6]=res.data.precio_salida
+            data[7]=res.data.precio_actual
+            data[8]=res.data.fecha_limite
+            data[9]=res.data.hora_limite
+            return data
+        })
+}
+
+
 export const getFotos = id => {
     return axios
         .get(`obtenerFotos/${id}`, {
