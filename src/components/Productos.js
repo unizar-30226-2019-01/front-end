@@ -43,7 +43,8 @@ class Productos extends Component {
         categoria:"",
         fechaLimite: "",
         horaLimite: "",
-        cargar: false
+        cargar: false,
+        lugar: ""
 
     };
     this.renderProductos = this.renderProductos.bind(this);
@@ -69,6 +70,7 @@ class Productos extends Component {
       this.getAll()
       this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
+      this.setState({lugar:this.props.lugar})
   }
 
   eliminarProductoPadre(index, esVenta){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
@@ -121,6 +123,10 @@ class Productos extends Component {
       return null
     }
 
+    if( this.state.lugar!== "" && productos[7] !==this.state.lugar){
+      return null
+    }
+
     //se llega aquí si contiene la subcadena buscada
     return (
       <div className="card-deck" rows="4" columns="4">
@@ -167,6 +173,11 @@ class Productos extends Component {
     if( this.state.categoria!== "" && subastas[5] !==this.state.categoria){
       return null
     }
+
+    if( this.state.lugar!== "" && subastas[9] !==this.state.lugar){
+      return null
+    }
+
 
     //se llega aquí si contiene la subcadena buscada
     return (

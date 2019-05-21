@@ -41,12 +41,14 @@ bottom:10px;
 }
 .sidebar{
   display:block;
+  border-radius: 0px 40px 40px 40px;
   background-color: #f9f9f9;
   float:left;
   width:200px;
   position: fixed;
   z-index: 999;
   height: 100%;
+  top:96px;
 }
 .sidebar a{
   text-decoration: none;

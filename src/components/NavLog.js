@@ -86,7 +86,7 @@ class NavLog extends Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
           <Navbar.Collapse className="justify-content-front ">
-              
+
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
                  <Button

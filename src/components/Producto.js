@@ -9,11 +9,11 @@ import '../css/App.css';
 import NavLog from '../components/NavLog';
 import NavLogReg from '../components/NavLogReg';
 import Carousel from 'react-bootstrap/Carousel';
-import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, tipoProducto, infoVenta, infoSubasta } from '../GestionPublicaciones';
 
 import Form from 'react-bootstrap/Form';
 
-import {Redirect } from 'react-router-dom';
+import {Redirect, Link } from 'react-router-dom';
 import * as firebase from 'firebase'
 
 
@@ -23,27 +23,62 @@ class Producto extends Component {
     super(args)
     this.state = {
         modalShow: false,
-        id: '',
-        datos: [],
+        id: this.getParameterByName('id', window.location.href),
+        datos1: [],
+        fotos: '',
         fot: [],
-        usuario: ''
+        primeraVez: true
     };
 
 }
 
   componentDidMount () {
-    console.log(window.location.href)
-    this.setState({
-        id: this.getParameterByName('id', window.location.href)
+    tipoProducto(this.state.id).then(res => {
+        console.log(res)
+        this.setState({
+            tipo: res
+        })
+        if(res=="Venta"){
+            infoVenta(this.state.id).then(data => {
+            this.setState({
+                    datos1: data,
+                    fotos: data[4]
+                })
+            })
+        }
+        else{
+            infoSubasta(this.state.id).then(data => {
+                this.setState({
+                  datos1: data,
+                  fotos: data[4]
+                })
+            })
+        }
     })
-    //this.infoPublicacion(this.getParameterByName('id', window.location.href))
-  }
+
+}
+    
 
   getParameterByName(name, url) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
     results = regex.exec(url);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+
+  getlink(id) {
+    var aux = document.createElement('input');
+    aux.setAttribute('value', "http://localhost:3000/producto?id=" + id);
+    document.body.appendChild(aux);
+    aux.select();
+    document.execCommand('copy');
+    var aviso = document.createElement('div');
+    aviso.setAttribute('id', 'aviso');
+    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+    aviso.innerHTML = 'URL copiada';
+    document.body.appendChild(aviso);
+    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+    document.body.removeChild(aux);
   }
 
   marcarFavorito(usu,publicacion){
@@ -72,9 +107,61 @@ class Producto extends Component {
 
   render() {
 
-    let fotosMostrar=[[this.props.fotoP]]
+
+    let chatYoferta
+    if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      if (this.props.vendedor != decoded.identity.login){
+       chatYoferta =
+       			<div>
+               <ButtonGroup aria-label="Basic example">
+       			<Link to={{
+                	pathname:'/chat',
+                	datos:{
+                		vendedor:this.props.vendedor,
+                		articulo:this.props.nombre
+                	}
+                }}>
+	                <Button className="mr-sm-4" variant="success">
+	                  Chat con vendedor
+	                </Button>
+                </Link>
+                <Form.Group controlId="s">
+                  <Form.Control type="number" placeholder="Precio"
+                  name="precioOferta" min="1" step="any"
+                  value={this.state.precioOferta}
+                  onChange={this.onChange} />
+                </Form.Group>
+                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
+                  Hacer oferta
+                </Button>
+                </ButtonGroup>
+                </div>
+      }
+    }
+    else{
+    	//No estas logueado
+       chatYoferta =
+       			<div>
+	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
+	              Chat con vendedor
+	            </Button>
+                <Form.Group controlId="s">
+                  <Form.Control type="number" placeholder="Precio"
+                  name="precioOferta" min="1" step="any"
+                  value={this.state.precioOferta}
+                  onChange={this.onChange} />
+                </Form.Group>
+                <Button className="mr-sm-4" variant="secondary" onClick={() => this.registrese()}>
+                  Hacer oferta
+                </Button>
+                </div>
+    }
+
+    let fotosMostrar=[[this.state.fotos]]
     if(this.state.primeraVez){
-      getFotos(this.props.id).then(data => {
+      getFotos(this.state.id).then(data => {
         console.log("HOLA3")
         this.setState({
             fot: [...data],
@@ -103,104 +190,237 @@ class Producto extends Component {
     if (this.state.redirect){
         return <Redirect push to="/" />;
       }
-      
-    return(
-        <div className="Perfil">
-        <NavLog/>
-        <div class="container emp-profile">
-        <form method="post">
-            <div class="row">
-                <div class="col-md-3">
-                
-                </div>
-                <div class="col-md-6">
-                    <div class="profile-head">
-                                <h1>
-                                    Bichardo
-                                </h1>
-                                <Carousel className="row mt-4">
-                            {fotosMostrar.map((foto, index) => (
-                            <Carousel.Item>
-                            <img className="d-block w-100" src={bichardo} width="150"/>
-                            </Carousel.Item>
-                            ))}
-                        </Carousel>
-                        <br/>
-                        <br/>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Información del producto</a>
-                            </li>
-                        </ul>
+
+
+    if(this.state.tipo=="Venta"){
+        return(
+            <div className="Perfil">
+            <NavLog/>
+            <div class="container emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                    
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h1>
+                                        {this.state.datos1[1]}
+                                    </h1>
+                                    <Carousel className="row mt-4">
+                                {fotosMostrar.map((foto, index) => (
+                                <Carousel.Item>
+                                <img className="d-block w-100" src={foto[0]} width="150"/>
+                                </Carousel.Item>
+                                ))}
+                            </Carousel>
+                            <br/>
+                            <br/>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Información del producto</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                    
                     </div>
                 </div>
-                <div class="col-md-2">
-                
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                </div>
-                <div class="col-md-8">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Precio:</label>
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Tipo:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.tipo}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p>klk</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Descripción</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[2]}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Vendedor:</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Vendedor:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[5]}</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p>Kshiti Ghelani</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Categoría</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[3]}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Categoría</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>123 456 7890</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Descripción</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Web Developer and Designer</p>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <ButtonGroup toggle>
-                                    {contenido}
+                                        <br/>
+                                        <br/>
 
-                
-                                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
-                                    Copiar URL
-                                    </Button>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Precio:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[6]}€</p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <ButtonGroup toggle>
+                                        {contenido}
 
-                                    <Button className="mr-sm-4" variant="success" onClick={() => this.abrirChat()}>
-                                    Abrir chat vendedor
-                                    </Button>
+                                        <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
+                                        Copiar URL
+                                        </Button>
 
-                                    <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                                    Hacer oferta
-                                    </Button>
-                                    </ButtonGroup>
+                                        {chatYoferta}
+                                        </ButtonGroup>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>           
-    </div>
-    </div>
-    )
+            </form>           
+        </div>
+        </div>)
+    }
+    else{
+        return(
+            <div className="Perfil">
+            <NavLog/>
+            <div class="container emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                    
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h1>
+                                        {this.state.datos1[1]}
+                                    </h1>
+                                    <Carousel className="row mt-4">
+                                {fotosMostrar.map((foto, index) => (
+                                <Carousel.Item>
+                                <img className="d-block w-100" src={foto[0]} width="150"/>
+                                </Carousel.Item>
+                                ))}
+                            </Carousel>
+                            <br/>
+                            <br/>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Información del producto</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                    
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Tipo:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.tipo}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Descripción</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[2]}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Precio inicial:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[6]}€</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Fecha límite:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[8]}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Hora límite:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[9]}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Vendedor:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[5]}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Categoría</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[3]}</p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Precio actual:</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{this.state.datos1[7]}€</p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <ButtonGroup toggle>
+                                        {contenido}
+
+                                        <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
+                                        Copiar URL
+                                        </Button>
+
+                                        {chatYoferta}
+                                        </ButtonGroup>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>           
+        </div>
+        </div>)
+    }
+      
+    
   }
 }
 export default Producto
