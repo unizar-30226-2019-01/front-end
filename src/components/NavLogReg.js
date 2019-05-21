@@ -66,17 +66,7 @@ class NavLogReg extends Component {
             <Button className=" mr-md-4" href="/subirProducto" variant="success">Subir producto</Button>
             <Link to="/perfil">
 
-{/* 
-            <div class="profile-img">
-                            <img src={this.state.datos[4]} alt=""/>
-                        </div>
-
-
               <img src={icono} width="70" height="70"></img>
- */}
-
-<img src={this.state.foto} width="70" height="70"></img>
-
 
             </Link>
           </Navbar.Collapse>
