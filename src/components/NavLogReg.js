@@ -11,6 +11,8 @@ import ReactDOM from 'react-dom';
 import { Route, Switch, Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
+
+
 class NavLogReg extends Component {
 
   constructor() {
@@ -19,7 +21,8 @@ class NavLogReg extends Component {
       login: '',
       nombre: '',
       apellidos: '',
-      email: ''
+      email: '',
+      foto: ''
     }
   }
 /*
@@ -62,8 +65,19 @@ class NavLogReg extends Component {
             <br />
             <Button className=" mr-md-4" href="/subirProducto" variant="success">Subir producto</Button>
             <Link to="/perfil">
-               <img src={icono} width="70" height="70"></img>
-               
+
+{/* 
+            <div class="profile-img">
+                            <img src={this.state.datos[4]} alt=""/>
+                        </div>
+
+
+              <img src={icono} width="70" height="70"></img>
+ */}
+
+<img src={this.state.foto} width="70" height="70"></img>
+
+
             </Link>
           </Navbar.Collapse>
         </Navbar.Collapse>
