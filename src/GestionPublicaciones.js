@@ -378,3 +378,18 @@ export const eliminarSubasta = subasta => {
             return data
         })
   }
+
+  export const realizarOferta = (usuario, id, precio) => {
+    return axios
+        .post(
+            `hacerOfertaVenta/${id}`, {
+                usuario: usuario,
+                precio: precio
+            })
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }

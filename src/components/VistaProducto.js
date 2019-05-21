@@ -4,13 +4,14 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
 import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
-import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
@@ -80,6 +81,25 @@ class VistaProducto extends Component {
     }
   }
 
+  ofertar(precio) {
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+    }
+    else{
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+
+      //console.log(this.prop.id)
+      realizarOferta(decoded.identity.login,this.props.id,precio);
+      var aviso = document.createElement('div');
+      aviso.setAttribute('id', 'aviso');
+      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
+      aviso.innerHTML = 'Oferta realizada';
+      document.body.appendChild(aviso);
+      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+    }
+  }
+
   registrese(){
   	window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
   }
@@ -141,7 +161,13 @@ class VistaProducto extends Component {
 	                  Chat con vendedor
 	                </Button>
                 </Link>
-                <Button className="mr-sm-4" variant="secondary"> 
+                <Form.Group controlId="s">
+                  <Form.Control type="number" placeholder="Precio"
+                  name="precioOferta" min="1" step="any"
+                  value={this.state.precioOferta}
+                  onChange={this.onChange} />
+                </Form.Group>
+                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
                   Hacer oferta
                 </Button>
                 </div>
