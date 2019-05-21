@@ -14,7 +14,7 @@ import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicacion
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
-
+//import Report from './Report';
 
 class VistaProducto extends Component {
   constructor(props) {
@@ -181,9 +181,19 @@ class VistaProducto extends Component {
                 <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
                   VENDEDOR: {this.props.vendedor}
                 </Button>
-                <Button variant="danger"> {/*onClick=() => aqui redirigir a a la pantalla de reporte*/}
-                  Reportar vendedor
-                </Button>
+
+                <Link to={{
+                  pathname:'/Report',
+                  datos:{
+                    vendedor:this.props.vendedor,
+                    articulo:this.props.nombre
+                  }
+                }}>
+                  <Button className="mr-sm-4" variant="danger">
+                    Reportar vendedor
+                  </Button>
+                </Link>
+                    
               </Col>
               <Col xs={3}>
                   <h6 className="w-100 text-right" id="exampleModalLabel">Valoracion vendedor:</h6>
