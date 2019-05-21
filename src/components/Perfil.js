@@ -37,6 +37,7 @@ class Perfil extends Component {
       vendedorMostrar:'',
       precioMostrar:0,
       descripcionMostrar:'',
+      fotoMostrar:'',
       precio:0,
       fechaLimite: "",
       horaLimite: "",
@@ -264,6 +265,7 @@ class Perfil extends Component {
                                                                        precioMostrar: productos[4],
                                                                        descripcionMostrar: productos[2],
                                                                        categoriaMostrar: productos[5],
+                                                                       fotoMostrar: productos[6],
                                                                        fechaLimite: "",
                                                                        horaLimite: "",
                                                                        sePuedeEditar: true,
@@ -297,6 +299,7 @@ class Perfil extends Component {
                                                                        precioMostrar: productos[4],
                                                                        descripcionMostrar: productos[2],
                                                                        categoriaMostrar: productos[5],
+                                                                       fotoMostrar: productos[8],
                                                                        fechaLimite: productos[6],
                                                                        horaLimite: productos[7],
                                                                        sePuedeEditar: true,
@@ -330,6 +333,7 @@ class Perfil extends Component {
                                                                        precioMostrar: productos[4],
                                                                        descripcionMostrar: productos[2],
                                                                        categoriaMostrar: productos[5],
+                                                                       fotoMostrar: productos[6],
                                                                        fechaLimite: "",
                                                                        horaLimite: "",
                                                                        sePuedeEditar: false,
@@ -363,6 +367,7 @@ class Perfil extends Component {
                                                                      precioMostrar: productos[4],
                                                                      descripcionMostrar: productos[2],
                                                                      categoriaMostrar: productos[5],
+                                                                     fotoMostrar: productos[8],
                                                                      fechaLimite: productos[6],
                                                                      horaLimite: productos[7],
                                                                      sePuedeEditar: false,
@@ -393,6 +398,7 @@ class Perfil extends Component {
                 categoria={this.state.categoriaMostrar}
                 fechaLimite={this.state.fechaLimite}
                 horaLimite={this.state.horaLimite}
+                fotoP={this.state.fotoMostrar}
                 editable={this.state.sePuedeEditar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}
                 callback = {this.eliminarProductoPadre.bind(this)}

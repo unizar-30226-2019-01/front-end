@@ -11,7 +11,6 @@ import ReactDOM from 'react-dom';
 import { login } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-var logged=0;
 
 class NavLog extends Component {
 
@@ -21,29 +20,52 @@ class NavLog extends Component {
       login: '',
       password: ''
     }
-
+    this.state = { validated: false }
     this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.onSubmit = this.handleSubmit.bind(this)
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
-  onSubmit(e) {
-    e.preventDefault()
 
-    const user = {
-      login: this.state.login,
-      password: this.state.password
+  handleSubmit(e) {
+		e.preventDefault();
+		const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
     }
-    logged=1
-    login(user)
-    this.setState({redirect: true});
-  }
+    else{
+			const user = {
+				login: this.state.login,
+				password: this.state.password
+			}
+
+			login(user).then(res => {
+				this.setState({
+					respuestaBD: res
+				})
+			})
+			this.setState({ redirect: true });
+		}
+	
+			this.setState({ validated: true });
+	}
 
   render() {
-    if (logged){
-      return <NavLogReg />
+
+    const { validated } = this.state;
+
+		if (this.state.redirect){
+			console.log(this.state.respuestaBD)
+      if(this.state.respuestaBD=="Error"){
+				window.alert("Error en el login, Intente de nuevo")
+				this.setState({redirect: false,
+					respuestaBD: undefined});
+			}
+			else if(this.state.respuestaBD != undefined) {
+				return <NavLogReg />
+			}
     }
 
     return (
@@ -72,12 +94,14 @@ class NavLog extends Component {
                       className=" mr-sm-4" variant="success">Registrarse</Button>
               <br />
               <br />
-              <Form inline onSubmit={this.onSubmit}>
+              <Form inline validated={validated}
+                    onSubmit={e => this.handleSubmit(e)}>
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl className=" mr-sm-2"
+                required
                   placeholder="Usuario"
                   name="login"
                   aria-label="Usuario"
@@ -92,6 +116,7 @@ class NavLog extends Component {
                   <InputGroup.Text id="basic-addon1">?</InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl className=" mr-sm-2"
+                required
                   name="password"
                   type="password"
                   placeholder="Contraseña"

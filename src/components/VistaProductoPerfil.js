@@ -41,9 +41,10 @@ class VistaProductoPerfil extends Component {
     });
   }
 
-  getlink() {
+  getlink(id) {
     var aux = document.createElement('input');
-    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]);
+    console.log(window.location.href.split('?')[0].split('#')[0] + "?id=" + id)
+    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]+"/producto?id=" + id);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
@@ -80,7 +81,7 @@ class VistaProductoPerfil extends Component {
 
   render() {
 
-    console.log("entro")
+    let fotosMostrar=[[this.props.fotoP]]
     if(this.state.primeraVez){
       getFotos(this.props.id).then(data => {
         console.log("HOLA3")
@@ -93,6 +94,7 @@ class VistaProductoPerfil extends Component {
             })
       })
     }
+    Array.prototype.push.apply(fotosMostrar, this.state.fot);
 
     let contenido
     if (!this.props.fav) {
@@ -125,7 +127,8 @@ class VistaProductoPerfil extends Component {
                                     nombre: this.props.nombre,
                                     descripcion: this.props.descripcion,
                                     categoria: this.props.categoria,
-                                    precio: this.props.precio}}} >
+                                    precio: this.props.precio,
+                                    fotos: fotosMostrar}}} >
                       <Button className="mr-sm-4" variant="info" >
                         Editar
                       </Button>
@@ -152,16 +155,12 @@ class VistaProductoPerfil extends Component {
 
                     {contenido}
 
-                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
+                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                       Copiar URL
                     </Button>
 
-                    <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
-                      Abrir chat vendedor
-                    </Button>
-
                     <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                      Hacer oferta
+                      Ver ofertas
                     </Button>
 
                     {editarProdOSubs}
@@ -210,7 +209,7 @@ class VistaProductoPerfil extends Component {
           </Container>
 
           <Carousel className="row mt-4">
-            {this.state.fot.map((foto, index) => (
+            {fotosMostrar.map((foto, index) => (
             <Carousel.Item>
               <img className="d-block w-100" src={foto[0]} width="300" height="500"/>
             </Carousel.Item>

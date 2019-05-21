@@ -12,7 +12,6 @@ import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
-import Chat from './Chat'
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
@@ -24,6 +23,7 @@ class VistaProducto extends Component {
       rating: 4,
       fav: this.props.fav,
       id: this.props.id,
+      fotos:this.props.fotoP,
       fot: [],
       primeraVez: true
     }; //Para conseguir la valoracion del vendedor
@@ -42,9 +42,9 @@ class VistaProducto extends Component {
     });
   }
 
-  getlink() {
+  getlink(id) {
     var aux = document.createElement('input');
-    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]);
+    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]+"producto?id=" + id);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
@@ -59,7 +59,7 @@ class VistaProducto extends Component {
 
   marcarFavorito(usu,publicacion){
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
     }
     else{
       const token = localStorage.usertoken
@@ -79,8 +79,13 @@ class VistaProducto extends Component {
     }
   }
 
+  registrese(){
+  	window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
+  }
+
   render() {
-    console.log("entro")
+
+    let fotosMostrar=[[this.props.fotoP]]
     if(this.state.primeraVez){
       getFotos(this.props.id).then(data => {
         console.log("HOLA3")
@@ -93,6 +98,8 @@ class VistaProducto extends Component {
             })
       })
     }
+    Array.prototype.push.apply(fotosMostrar, this.state.fot);
+
     let contenido
     if (!this.props.fav) {
       contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.props.usuario,this.props.id)}>
@@ -115,13 +122,41 @@ class VistaProducto extends Component {
       horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
     }
 
-    let chat
+    let chatYoferta
     if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
       if (this.props.vendedor != decoded.identity.login){
-       chat = <Chat articulo={this.props.nombre} vendedor={this.props.vendedor}/>
+       chatYoferta =
+       			<div>
+       			<Link to={{
+                	pathname:'/chat',
+                	datos:{
+                		vendedor:this.props.vendedor,
+                		articulo:this.props.nombre
+                	}
+                }}>
+	                <Button className="mr-sm-4" variant="success">
+	                  Chat con vendedor
+	                </Button>
+                </Link>
+                <Button className="mr-sm-4" variant="secondary"> 
+                  Hacer oferta
+                </Button>
+                </div>
       }
+    }
+    else{
+    	//No estas logueado
+       chatYoferta =
+       			<div>
+	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
+	              Chat con vendedor
+	            </Button>
+                <Button className="mr-sm-4" variant="secondary" onClick={() => this.registrese()}>
+                  Hacer oferta
+                </Button>
+                </div>
     }
 
     return (
@@ -161,7 +196,7 @@ class VistaProducto extends Component {
           </Container>
 
           <Carousel className="row mt-4">
-            {this.state.fot.map((foto, index) => (
+            {fotosMostrar.map((foto, index) => (
             <Carousel.Item>
               <img className="d-block w-100" src={foto[0]} width="300" height="500"/>
             </Carousel.Item>
@@ -177,17 +212,12 @@ class VistaProducto extends Component {
 
                 {contenido}
 
-                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
+                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                   Copiar URL
                 </Button>
 
-                <Button className="mr-sm-4" variant="success">
-                  Abrir chat vendedor
-                </Button>
+                {chatYoferta}
 
-                <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                  Hacer oferta
-                </Button>
               </ButtonGroup>
             </div>
           </div>
@@ -200,8 +230,6 @@ class VistaProducto extends Component {
           {horaYFechaSubasta}
 
         </Modal.Body>
-
-        {chat}
 
         <Modal.Footer>
           <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>

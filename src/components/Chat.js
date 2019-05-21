@@ -4,6 +4,7 @@ import MessageList from './MessageList'
 import SendMessageForm from './SendMessageForm'
 import RoomList from './RoomList'
 import jwt_decode from 'jwt-decode'
+import Button from 'react-bootstrap/Button';
 
 
 import { tokenUrl, instanceLocator, key } from './config'
@@ -63,7 +64,7 @@ class Chat extends React.Component {
         .then(currentUser => {
             this.currentUser = currentUser
             this.getRooms()
-            if (this.props.articulo !== null && this.props.articulo !== undefined){
+            if (this.props.location.datos !== null && this.props.location.datos !== undefined){
                 this.inicializar_chat()
             }
         })
@@ -79,6 +80,22 @@ class Chat extends React.Component {
             })
         })
         .catch(err => console.log('Error obteniendo salas: ', err))
+    }
+
+    salir(roomId){
+        if (roomId !== null && roomId !== undefined){
+        this.currentUser.leaveRoom({ roomId: roomId })
+          .then(room => {
+            console.log(`Sala abandonada-> ID: ${room.id}`)
+          })
+          .catch(err => {
+            console.log(`Error abandonando la sala ${roomId}: ${err}`)
+          })
+        window.location.reload();
+        }
+        else{
+            window.alert("Seleccione una conversación para abandonarla.")
+        }
     }
     
     subscribeToRoom(roomId) {
@@ -117,12 +134,12 @@ class Chat extends React.Component {
           key: key,
         })
         chatkit.getUser({
-          id: this.props.vendedor,
+          id: this.props.location.datos.vendedor,
         })
           .then(existe=1)
           .catch(console.log("El vendedor no esta registrado en los Chats"))
         if (existe==1){
-            var nombre_sala= this.props.articulo + "-" + this.props.vendedor;
+            var nombre_sala= this.props.location.datos.articulo + "-" + this.props.location.datos.vendedor;
             //Comprobamos si ya estamos unidos a la sala
             this.currentUser.getJoinableRooms()
             .then(joinableRooms => {
@@ -146,7 +163,7 @@ class Chat extends React.Component {
                 else{
                         this.currentUser.createRoom({
                           name: nombre_sala,
-                          addUserIds: [this.props.vendedor],
+                          addUserIds: [this.props.location.datos.vendedor],
                           private: true, //Para que no aparezca en joinable.
                         }).then(room => {
                           //Nos suscribimos
@@ -164,6 +181,7 @@ class Chat extends React.Component {
 
     render() {
         return (
+            <div>
             <div className="chat">
                 <RoomList
                     subscribeToRoom={this.subscribeToRoom}
@@ -175,6 +193,18 @@ class Chat extends React.Component {
                 <SendMessageForm
                     disabled={!this.state.roomId}
                     sendMessage={this.sendMessage} />
+            </div>
+                <Button 
+                   className="btn btn-danger"
+                   onClick={() => this.salir(this.state.roomId)}>
+                    Salir del chat seleccionado
+                </Button>
+                <br />
+                <Button 
+                   className="btn btn-primary"
+                   href="/perfil">
+                    Volver
+                </Button>
             </div>
         );
     }
