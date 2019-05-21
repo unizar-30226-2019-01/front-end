@@ -3,7 +3,6 @@ import Chatkit from '@pusher/chatkit-client'
 import MessageList from './MessageList'
 import SendMessageForm from './SendMessageForm'
 import RoomList from './RoomList'
-import NewRoomForm from './NewRoomForm'
 import jwt_decode from 'jwt-decode'
 
 
@@ -23,7 +22,6 @@ class Chat extends React.Component {
         this.sendMessage = this.sendMessage.bind(this)
         this.subscribeToRoom = this.subscribeToRoom.bind(this)
         this.getRooms = this.getRooms.bind(this)
-        this.createRoom = this.createRoom.bind(this)
     } 
     
     componentDidMount() {
@@ -65,6 +63,9 @@ class Chat extends React.Component {
         .then(currentUser => {
             this.currentUser = currentUser
             this.getRooms()
+            if (this.props.articulo !== null && this.props.articulo !== undefined){
+                this.inicializar_chat()
+            }
         })
         .catch(err => console.log('Error en la conexion: ', err))
     }
@@ -107,9 +108,8 @@ class Chat extends React.Component {
             roomId: this.state.roomId
         })
     }
-    
-    createRoom(name) {
-        //Buscamos si existe el usuario
+    inicializar_chat(){
+        //Buscamos si existe el vendedor
         var existe = 0;
         const ChatkitS = require('@pusher/chatkit-server');
         const chatkit = new ChatkitS.default({
@@ -117,32 +117,51 @@ class Chat extends React.Component {
           key: key,
         })
         chatkit.getUser({
-          id: name,
+          id: this.props.vendedor,
         })
           .then(existe=1)
-          .catch(console.log("No existe el usuario"))
-        //Si existe el usuario, creamos una sala con él
+          .catch(console.log("El vendedor no esta registrado en los Chats"))
         if (existe==1){
-            const token = localStorage.usertoken;
-            const decoded = jwt_decode(token);
-            var nombreSala;
-            var name1 = decoded.identity.login;
-            if (name1 < name){
-                nombreSala = name1 + "-" + name;
-            }
-            else{
-                nombreSala = name + "-" + name1;
-            }
-        this.currentUser.createRoom({
-            name: nombreSala,
-            private: true,
-            addUserIds: [name],
-        })
-        .then(room => this.subscribeToRoom(room.id))
-        .catch(err => console.log('Error creando la sala: ', err))
+            var nombre_sala= this.props.articulo + "-" + this.props.vendedor;
+            //Comprobamos si ya estamos unidos a la sala
+            this.currentUser.getJoinableRooms()
+            .then(joinableRooms => {
+                this.setState({
+                    joinableRooms,
+                    joinedRooms: this.currentUser.rooms
+                })
+                var joined = false;
+                var i;
+                for (var indice in this.state.joinedRooms) {
+                    if (this.state.joinedRooms[indice].name == nombre_sala){
+                        joined = true;
+                        i = indice;
+                    }
+                }
+                //Si estamos unidos, nos suscribimos
+                if (joined){
+                    this.subscribeToRoom(this.state.joinedRooms[i].id);
+                }
+                //Si no, la creamos y unimos al vendedor
+                else{
+                        this.currentUser.createRoom({
+                          name: nombre_sala,
+                          addUserIds: [this.props.vendedor],
+                          private: true, //Para que no aparezca en joinable.
+                        }).then(room => {
+                          //Nos suscribimos
+                          this.subscribeToRoom(room.id);
+                          console.log(`Creado y suscrito al chat con ID ${room.id}`);
+                        })
+                        .catch(err => {
+                          console.log(`Error: ${err}`)
+                        })
+                }
+            })
+            .catch(err => console.log('Error obteniendo salas: ', err))
         }
     }
-    
+
     render() {
         return (
             <div className="chat">
@@ -156,7 +175,6 @@ class Chat extends React.Component {
                 <SendMessageForm
                     disabled={!this.state.roomId}
                     sendMessage={this.sendMessage} />
-                <NewRoomForm createRoom={this.createRoom} />
             </div>
         );
     }

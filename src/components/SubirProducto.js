@@ -9,19 +9,7 @@ import { anadirSubasta } from '../GestionPublicaciones';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import NavLogReg from './NavLogReg';
-import firebase from 'firebase'
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBXsmEEHvGiRwxeMbAO4AejNexD0iCHn_s",
-    authDomain: "proyectosoftware-2397d.firebaseapp.com",
-    databaseURL: "https://proyectosoftware-2397d.firebaseio.com",
-    projectId: "proyectosoftware-2397d",
-    storageBucket: "proyectosoftware-2397d.appspot.com",
-    messagingSenderId: "382506671393",
-    appId: "1:382506671393:web:af9c6a6744e52da2"
-  };
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+import * as firebase from 'firebase'
 
 
 class SubirProducto extends Component {

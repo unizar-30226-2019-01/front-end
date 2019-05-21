@@ -37,6 +37,7 @@ class Productos extends Component {
         vendedorMostrar:'',
         precioMostrar:0,
         descripcionMostrar:'',
+        fotoMostrar:'',
         search:"",
         precio:0,
         categoria:"",
@@ -139,6 +140,7 @@ class Productos extends Component {
                                              vendedorMostrar: productos[3],
                                              precioMostrar: productos[4],
                                              descripcionMostrar: productos[2],
+                                             fotoMostrar: productos[6],
                                              fechaLimite: "",
                                              horaLimite: "",
                                              cargar: true})} >
@@ -170,7 +172,7 @@ class Productos extends Component {
     return (
       <div className="card-deck" rows="4" columns="4">
         <div className="card ml-md-4 mr-md-4">
-          <img className="card-img-top" src={subastas[8]} />
+          <img className="card-img-top" src={subastas[8]}  width="100" height="170"/>
           <div className="card-body">
             <h5 className="card-title">{subastas[0]}</h5>
             <p className="card-text">{subastas[4]}€</p>
@@ -185,6 +187,7 @@ class Productos extends Component {
                                              vendedorMostrar: subastas[3],
                                              precioMostrar: subastas[4],
                                              descripcionMostrar: subastas[2],
+                                             fotoMostrar: subastas[8],
                                              fechaLimite: subastas[6],
                                              horaLimite: subastas[7],
                                              cargar: true})} >
@@ -319,6 +322,7 @@ class Productos extends Component {
                 descripcion={this.state.descripcionMostrar}
                 fechaLimite={this.state.fechaLimite}
                 horaLimite={this.state.horaLimite}
+                fotoP={this.state.fotoMostrar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}
                 callback = {this.eliminarProductoPadre.bind(this)}
             />
