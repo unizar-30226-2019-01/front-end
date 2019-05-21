@@ -12,8 +12,9 @@ import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
-
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
+
+
 
 class VistaProducto extends Component {
   constructor(props) {
@@ -106,7 +107,7 @@ class VistaProducto extends Component {
          FAVORITO
         </Button>
     } else {
-      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() =>this.props.callback(this.props.indice)}>
+      contenido = <Button className="mr-sm-4" variant="warning" onClick={() =>this.props.callback(this.props.indice)}>
           Eliminar
         de FAVORITOS
         </Button>
@@ -179,6 +180,9 @@ class VistaProducto extends Component {
               <Col xs={6}>
                 <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
                   VENDEDOR: {this.props.vendedor}
+                </Button>
+                <Button variant="danger"> {/*onClick=() => aqui redirigir a a la pantalla de reporte*/}
+                  Reportar vendedor
                 </Button>
               </Col>
               <Col xs={3}>

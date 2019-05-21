@@ -74,7 +74,8 @@ class Perfil extends Component {
     console.log(usuario.login)
     getEnVentaUsuario(usuario).then(data => {
         this.setState({
-            EnVenta: [...data]
+            EnVenta: [...data],
+            login: usuario.login                    
         },
             () => {
                 console.log(this.state.term)
@@ -111,11 +112,13 @@ class Perfil extends Component {
 
   onDelete = e => {
     e.preventDefault()
-
+    localStorage.removeItem('usertoken')
+    console.log("ENTRA al onDelete")
     const user = {
       login: this.state.login
     }
-   deleteUser(user)
+    console.log(user)
+   deleteUser(user)  
    this.setState({redirect: true});
   }
 

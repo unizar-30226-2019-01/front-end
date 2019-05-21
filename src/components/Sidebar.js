@@ -127,7 +127,7 @@ class Sidebar extends Component {
           <div className="col-8">
           <input type="range" className="custom-range" id="customRange1" min="0" max="1000" step="10" onChange={this.precioMaximo}/>
           <input type="text" className="trans-box" id="precioActual" size="1" value={this.state.precio} />
-          <Button variant="primary"className="mx-auto" onClick={()=>this.props.callback2(this.state.precio)}> MAX €</Button>
+          <Button variant="primary"className="mx-auto" onClick={()=>this.props.callback2(this.state.precio)}> Seleccionar </Button>
           </div>
           <div className="col"> </div>
           </div>

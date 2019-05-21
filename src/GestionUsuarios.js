@@ -60,6 +60,9 @@ export const actualizarInfo = user => {
 
 
 export const deleteUser = user => {
+
+  console.log("ENTRA al deleteUser de GestionUsuarios")
+
   return axios
       .post(`delete`, {
             login: user.login,
