@@ -43,9 +43,9 @@ class VistaProducto extends Component {
     });
   }
 
-  getlink() {
+  getlink(id) {
     var aux = document.createElement('input');
-    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]);
+    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]+"producto?id=" + id);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
@@ -78,6 +78,20 @@ class VistaProducto extends Component {
       document.body.appendChild(aviso);
       document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     }
+  }
+
+  abrirChat(){
+    let chat
+    if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      if (this.props.vendedor != decoded.identity.login){
+       chat = <Chat articulo={this.props.nombre} vendedor={this.props.vendedor}/>
+      }
+    }
+
+    return {chat}
+
   }
 
   render() {
@@ -117,15 +131,6 @@ class VistaProducto extends Component {
     else{
       precio = <h3>Precio actual de subasta: {this.props.precio}</h3>
       horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
-    }
-
-    let chat
-    if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
-      const token = localStorage.usertoken
-      const decoded = jwt_decode(token)
-      if (this.props.vendedor != decoded.identity.login){
-       chat = <Chat articulo={this.props.nombre} vendedor={this.props.vendedor}/>
-      }
     }
 
     return (
@@ -181,11 +186,11 @@ class VistaProducto extends Component {
 
                 {contenido}
 
-                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
+                <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                   Copiar URL
                 </Button>
 
-                <Button className="mr-sm-4" variant="success">
+                <Button className="mr-sm-4" variant="success" onClick={() => this.abrirChat()}>
                   Abrir chat vendedor
                 </Button>
                 
@@ -204,8 +209,6 @@ class VistaProducto extends Component {
           {horaYFechaSubasta}
 
         </Modal.Body>
-
-        {chat}
 
         <Modal.Footer>
           <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>

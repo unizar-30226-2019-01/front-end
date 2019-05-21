@@ -13,7 +13,10 @@ export const register = newUser => {
       telefono: newUser.telefono
     })
     .then(response => {
-      localStorage.setItem('usertoken', response.data)
+      if(response.data != "Error"){
+        console.log("token")
+        localStorage.setItem('usertoken', response.data)
+      }
       return response.data
     })
 }
@@ -25,7 +28,10 @@ export const login = user => {
       password: user.password
     })
     .then(response => {
-      localStorage.setItem('usertoken', response.data)
+      if(response.data != "Error"){
+        console.log("token")
+        localStorage.setItem('usertoken', response.data)
+      }
       return response.data
     })
     .catch(err => {

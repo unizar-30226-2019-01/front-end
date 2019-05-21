@@ -41,9 +41,10 @@ class VistaProductoPerfil extends Component {
     });
   }
 
-  getlink() {
+  getlink(id) {
     var aux = document.createElement('input');
-    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]);
+    console.log(window.location.href.split('?')[0].split('#')[0] + "?id=" + id)
+    aux.setAttribute('value', window.location.href.split('?')[0].split('#')[0]+"/producto?id=" + id);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
@@ -154,16 +155,12 @@ class VistaProductoPerfil extends Component {
 
                     {contenido}
 
-                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink()}>
+                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                       Copiar URL
                     </Button>
 
-                    <Button className="mr-sm-4" variant="success"> {/*onClick=() => aqui redirigir al chat*/}
-                      Abrir chat vendedor
-                    </Button>
-
                     <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                      Hacer oferta
+                      Ver ofertas
                     </Button>
 
                     {editarProdOSubs}
