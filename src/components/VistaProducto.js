@@ -27,14 +27,20 @@ class VistaProducto extends Component {
       id: this.props.id,
       fotos:this.props.fotoP,
       fot: [],
-      primeraVez: true
+      primeraVez: true,
+      precioOferta: ''
     }; //Para conseguir la valoracion del vendedor
 
+    this.onChange = this.onChange.bind(this)
     this.changeRating = this.changeRating.bind(this);
   }
 
   componentWillReceiveProps(){
     this.setState({primeraVez:true})
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   //Esto no vendria aqui pero es un ejemplo de como realizar una valoracion
@@ -97,6 +103,9 @@ class VistaProducto extends Component {
       aviso.innerHTML = 'Oferta realizada';
       document.body.appendChild(aviso);
       document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      this.setState({
+        precioOferta: ''
+      });
     }
   }
 
