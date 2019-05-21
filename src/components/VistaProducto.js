@@ -12,7 +12,6 @@ import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
 import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
-import Chat from './Chat'
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
@@ -60,7 +59,7 @@ class VistaProducto extends Component {
 
   marcarFavorito(usu,publicacion){
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
     }
     else{
       const token = localStorage.usertoken
@@ -78,6 +77,10 @@ class VistaProducto extends Component {
       document.body.appendChild(aviso);
       document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     }
+  }
+
+  registrese(){
+  	window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
   }
 
   render() {
@@ -119,13 +122,41 @@ class VistaProducto extends Component {
       horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
     }
 
-    let chat
+    let chatYoferta
     if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
       if (this.props.vendedor != decoded.identity.login){
-       chat = <Chat articulo={this.props.nombre} vendedor={this.props.vendedor}/>
+       chatYoferta =
+       			<div>
+       			<Link to={{
+                	pathname:'/chat',
+                	datos:{
+                		vendedor:this.props.vendedor,
+                		articulo:this.props.nombre
+                	}
+                }}>
+	                <Button className="mr-sm-4" variant="success">
+	                  Chat con vendedor
+	                </Button>
+                </Link>
+                <Button className="mr-sm-4" variant="secondary"> 
+                  Hacer oferta
+                </Button>
+                </div>
       }
+    }
+    else{
+    	//No estas logueado
+       chatYoferta =
+       			<div>
+	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
+	              Chat con vendedor
+	            </Button>
+                <Button className="mr-sm-4" variant="secondary" onClick={() => this.registrese()}>
+                  Hacer oferta
+                </Button>
+                </div>
     }
 
     return (
@@ -185,13 +216,8 @@ class VistaProducto extends Component {
                   Copiar URL
                 </Button>
 
-                <Button className="mr-sm-4" variant="success">
-                  Abrir chat vendedor
-                </Button>
-                
-                <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                  Hacer oferta
-                </Button>
+                {chatYoferta}
+
               </ButtonGroup>
             </div>
           </div>
@@ -204,8 +230,6 @@ class VistaProducto extends Component {
           {horaYFechaSubasta}
 
         </Modal.Body>
-
-        {chat}
 
         <Modal.Footer>
           <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>
