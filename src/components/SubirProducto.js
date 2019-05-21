@@ -10,6 +10,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import NavLogReg from './NavLogReg';
 import * as firebase from 'firebase'
+import Map from './Map';
+import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
+import Autocomplete from 'react-google-autocomplete';
+import Geocode from "react-geocode";
 
 
 class SubirProducto extends Component {
@@ -31,7 +35,8 @@ class SubirProducto extends Component {
       picture: '',
       foto1: '',
       foto2: '',
-      foto3: ''
+      foto3: '',
+      provincia:""
     }
     this.state = { validated: false };
     this.onChange = this.onChange.bind(this)
@@ -93,7 +98,8 @@ class SubirProducto extends Component {
           foto: this.state.foto,
           foto1: this.state.foto1,
           foto2: this.state.foto2,
-          foto3: this.state.foto3
+          foto3: this.state.foto3,
+          provincia: this.state.provincia
         };
         anadirProducto(newProducto).then(data => {
           this.setState({
@@ -154,7 +160,8 @@ class SubirProducto extends Component {
                 foto2: this.state.foto2,
                 foto3: this.state.foto3,
                 fechaLimite: this.state.fechaLimite,
-                horaLimite: this.state.horaLimite
+                horaLimite: this.state.horaLimite,
+                provincia: this.state.provincia
               }
               anadirSubasta(newProductoSubasta).then(data => {
                 this.setState({
@@ -262,6 +269,13 @@ handleOnChange3 (event) {
         this.setState({picture: url, foto3: url});
       });
     })
+}
+
+cambiarProvincia (prov) {
+  this.setState({provincia: prov});
+}
+cambiarCCAA (com) {
+  this.setState({ccaa: com});
 }
 
   render(){
@@ -446,6 +460,16 @@ handleOnChange3 (event) {
                   />
                 </Form.Group>
                 {contenido}
+                <br/>
+                <Form.Label> ¿Donde se va a vender el producto? </Form.Label>
+                <Map
+                  google={this.props.google}
+                  center={{lat: 41.6517501, lng: -0.9300005}}
+                  height='200px'
+                  zoom={5}
+                  callback={this.cambiarProvincia.bind(this)}
+                />
+                <br/> <br/>
                 <Button type="submit">Subir</Button>
               </Form>
             </Col>

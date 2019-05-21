@@ -25,11 +25,13 @@ class App extends Component {
     this.state = {
       mostrar:0,
       precio:0,
-      categoria:""
+      categoria:"",
+      lugar:""
     }
     this.ordenacion = this.ordenacion.bind(this);
     this.maximoPrecio = this.maximoPrecio.bind(this);
     this.categoriaSelec = this.categoriaSelec.bind(this);
+    this.lugar = this.lugar.bind(this);
   }
 
   ordenacion(index){
@@ -42,6 +44,14 @@ class App extends Component {
 
   categoriaSelec(c){
     this.setState({categoria:c});
+  }
+
+  categoriaSelec(l){
+    this.setState({lugar:l});
+  }
+
+  lugar(prov){
+    this.setState({lugar:prov})
   }
 
   render() {
@@ -58,9 +68,9 @@ class App extends Component {
     return (
       <div className="App">
         {barra}
-        <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} />
+        <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} callback4={this.lugar.bind(this)} />
         <div className="App-header">
-          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria}/>
+          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria} lugar={this.state.lugar}/>
         </div>
       </div>
     );
