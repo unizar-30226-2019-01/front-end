@@ -150,6 +150,7 @@ class VistaProducto extends Component {
       if (this.props.vendedor != decoded.identity.login){
        chatYoferta =
        			<div>
+               <ButtonGroup aria-label="Basic example">
        			<Link to={{
                 	pathname:'/chat',
                 	datos:{
@@ -170,6 +171,7 @@ class VistaProducto extends Component {
                 <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
                   Hacer oferta
                 </Button>
+                </ButtonGroup>
                 </div>
       }
     }

@@ -13,7 +13,7 @@ import { crearFavorito, eliminarFavorito, getFotos, tipoProducto, infoVenta, inf
 
 import Form from 'react-bootstrap/Form';
 
-import {Redirect } from 'react-router-dom';
+import {Redirect, Link } from 'react-router-dom';
 import * as firebase from 'firebase'
 
 
@@ -106,6 +106,58 @@ class Producto extends Component {
 
 
   render() {
+
+
+    let chatYoferta
+    if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+      if (this.props.vendedor != decoded.identity.login){
+       chatYoferta =
+       			<div>
+               <ButtonGroup aria-label="Basic example">
+       			<Link to={{
+                	pathname:'/chat',
+                	datos:{
+                		vendedor:this.props.vendedor,
+                		articulo:this.props.nombre
+                	}
+                }}>
+	                <Button className="mr-sm-4" variant="success">
+	                  Chat con vendedor
+	                </Button>
+                </Link>
+                <Form.Group controlId="s">
+                  <Form.Control type="number" placeholder="Precio"
+                  name="precioOferta" min="1" step="any"
+                  value={this.state.precioOferta}
+                  onChange={this.onChange} />
+                </Form.Group>
+                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
+                  Hacer oferta
+                </Button>
+                </ButtonGroup>
+                </div>
+      }
+    }
+    else{
+    	//No estas logueado
+       chatYoferta =
+       			<div>
+	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
+	              Chat con vendedor
+	            </Button>
+                <Form.Group controlId="s">
+                  <Form.Control type="number" placeholder="Precio"
+                  name="precioOferta" min="1" step="any"
+                  value={this.state.precioOferta}
+                  onChange={this.onChange} />
+                </Form.Group>
+                <Button className="mr-sm-4" variant="secondary" onClick={() => this.registrese()}>
+                  Hacer oferta
+                </Button>
+                </div>
+    }
 
     let fotosMostrar=[[this.state.fotos]]
     if(this.state.primeraVez){
@@ -227,19 +279,12 @@ class Producto extends Component {
                                         <br/>
                                         <ButtonGroup toggle>
                                         {contenido}
-    
-                    
+
                                         <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                                         Copiar URL
                                         </Button>
-    
-                                        <Button className="mr-sm-4" variant="success" onClick={() => this.abrirChat()}>
-                                        Abrir chat vendedor
-                                        </Button>
-    
-                                        <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                                        Hacer oferta
-                                        </Button>
+
+                                        {chatYoferta}
                                         </ButtonGroup>
                             </div>
                         </div>
@@ -359,19 +404,12 @@ class Producto extends Component {
                                         <br/>
                                         <ButtonGroup toggle>
                                         {contenido}
-    
-                    
+
                                         <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                                         Copiar URL
                                         </Button>
-    
-                                        <Button className="mr-sm-4" variant="success" onClick={() => this.abrirChat()}>
-                                        Abrir chat vendedor
-                                        </Button>
-    
-                                        <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                                        Hacer oferta
-                                        </Button>
+
+                                        {chatYoferta}
                                         </ButtonGroup>
                             </div>
                         </div>
