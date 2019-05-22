@@ -5,7 +5,8 @@ import SendMessageForm from './SendMessageForm'
 import RoomList from './RoomList'
 import jwt_decode from 'jwt-decode'
 import Button from 'react-bootstrap/Button';
-
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import NavLogReg from './NavLogReg';
 
 import { tokenUrl, instanceLocator, key } from './config'
 import '../css/style.css';
@@ -182,29 +183,40 @@ class Chat extends React.Component {
     render() {
         return (
             <div>
-            <div className="chat">
-                <RoomList
-                    subscribeToRoom={this.subscribeToRoom}
-                    rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-                    roomId={this.state.roomId} />
-                <MessageList 
-                    roomId={this.state.roomId}
-                    messages={this.state.messages} />
-                <SendMessageForm
-                    disabled={!this.state.roomId}
-                    sendMessage={this.sendMessage} />
-            </div>
-                <Button 
-                   className="btn btn-danger"
-                   onClick={() => this.salir(this.state.roomId)}>
-                    Salir del chat seleccionado
-                </Button>
+            <NavLogReg/>
+            <br />
+            <br />
+            <div className="row">
+            <div className="col"> </div>
+            <div className="col-10">
+                <div className="chat">
+                    <RoomList
+                        subscribeToRoom={this.subscribeToRoom}
+                        rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
+                        roomId={this.state.roomId} />
+                    <MessageList 
+                        roomId={this.state.roomId}
+                        messages={this.state.messages} />
+                    <SendMessageForm
+                        disabled={!this.state.roomId}
+                        sendMessage={this.sendMessage} />
+                </div>
                 <br />
-                <Button 
-                   className="btn btn-primary"
-                   href="/perfil">
-                    Volver
-                </Button>
+                <ButtonGroup toggle>
+                    <Button 
+                       className="btn btn-danger mr-sm-2"
+                       onClick={() => this.salir(this.state.roomId)}>
+                        Salir del chat seleccionado
+                    </Button>
+                    <Button 
+                       className="btn btn-primary"
+                       href="/perfil">
+                        Volver
+                    </Button>
+                </ButtonGroup>
+            </div>
+            <div className="col"> </div>
+            </div>
             </div>
         );
     }
