@@ -11,7 +11,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
-import { crearFavorito, eliminarFavorito, getFotos, realizarOferta } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
@@ -109,6 +109,40 @@ class VistaProducto extends Component {
     }
   }
 
+  ofertarSubasta(precio) {
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+    }
+    else{
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+
+      //console.log(this.prop.id)
+      realizarOfertaSubasta(decoded.identity.login,this.props.id,precio).then(res=> {
+        if(res=="ERROR"){
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'La puja debe superar el precio actual';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+        else{
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Puja realizada';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+      })
+
+      this.setState({
+        precioOferta: ''
+      });
+    }
+  }
+
   registrese(){
   	window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
   }
@@ -148,7 +182,7 @@ class VistaProducto extends Component {
       precio = <h3>Precio: {this.props.precio}</h3>
     }
     else{
-      precio = <h3>Precio actual de subasta: {this.props.precio}</h3>
+      precio = <h3>Precio actual de subastas: {this.props.precio}</h3>
       horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
     }
 
@@ -178,7 +212,10 @@ class VistaProducto extends Component {
                   onChange={this.onChange} />
                 </Form.Group>
                 <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
-                  Hacer oferta
+                  Hacer ofert
+                </Button>
+                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
+                  Hacer oferta Subasta
                 </Button>
                 </ButtonGroup>
                 </div>

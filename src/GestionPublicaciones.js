@@ -211,7 +211,7 @@ export const anadirSubasta = newProductoSubasta => {
 export const tipoProducto = id => {
     return axios
         .get(`obtenerTipoProducto/${id}`, {
-  
+
         })
         .then(res => {
           return res.data
@@ -221,7 +221,7 @@ export const tipoProducto = id => {
 export const infoVenta = id => {
     return axios
         .get(`obtenerDatosVenta/${id}`, {
-  
+
         })
         .then(res => {
           var data = []
@@ -389,6 +389,21 @@ export const eliminarSubasta = subasta => {
             })
         .then((res) => {
             console.log(res)
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
+
+  export const realizarOfertaSubasta = (usuario, id, precio) => {
+    return axios
+        .post(
+            `hacerOfertaVentaSubasta/${id}/${precio}`, {
+                usuario: usuario
+            })
+        .then((res) => {
+            console.log(res.data)
+            return res.data
         })
         .catch((res) => {
             console.log(res)

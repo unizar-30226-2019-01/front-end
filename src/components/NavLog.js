@@ -48,7 +48,7 @@ class NavLog extends Component {
 			})
 			this.setState({ redirect: true });
 		}
-	
+
 			this.setState({ validated: true });
 	}
 

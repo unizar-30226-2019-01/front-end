@@ -175,6 +175,7 @@ class SubirProducto extends Component {
       }
     }
     this.setState({ validated: true });
+    //setTimeout(()=>this.props.callback(), 3000)
   }
 
   changeVentSubst (valor) {
