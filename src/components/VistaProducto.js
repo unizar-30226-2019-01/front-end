@@ -95,14 +95,66 @@ class VistaProducto extends Component {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
 
+      realizarOferta(decoded.identity.login,this.props.id,precio).then(res => {
+				if(res=="Error"){
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: red;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Precio inferior al producto';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+        else if(res=="Realizada"){
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: red;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Ya has realizado una oferta, espere a ser aceptada';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+        else{
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Oferta realizada';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+			})
+      this.setState({
+        precioOferta: ''
+      });
+    }
+  }
+
+  ofertarSubasta(precio) {
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+    }
+    else{
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+
       //console.log(this.prop.id)
-      realizarOferta(decoded.identity.login,this.props.id,precio);
-      var aviso = document.createElement('div');
-      aviso.setAttribute('id', 'aviso');
-      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
-      aviso.innerHTML = 'Oferta realizada';
-      document.body.appendChild(aviso);
-      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      realizarOfertaSubasta(decoded.identity.login,this.props.id,precio).then(res=> {
+        if(res=="ERROR"){
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: red;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'La puja debe superar el precio actual';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+        else{
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Puja realizada';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+      })
+
       this.setState({
         precioOferta: ''
       });
@@ -213,6 +265,9 @@ class VistaProducto extends Component {
                 </Form.Group>
                 <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
                   Hacer ofert
+                </Button>
+                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
+                  Hacer oferta Subasta
                 </Button>
                 <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
                   Hacer oferta Subasta
