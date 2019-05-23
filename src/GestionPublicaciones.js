@@ -411,11 +411,10 @@ export const eliminarSubasta = subasta => {
         })
   }
 
-  export const realizarOfertaSubasta = (usuario, id, precio) => {
+  export const queEs = id => {
     return axios
         .post(
-            `hacerOfertaVentaSubasta/${id}/${precio}`, {
-                usuario: usuario
+            `queEsBack/${id}`, {
             })
         .then((res) => {
             console.log(res.data)
