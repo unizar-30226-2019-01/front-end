@@ -158,9 +158,13 @@ class VistaProductoPerfil extends Component {
                       Copiar URL
                     </Button>
 
-                    <Button className="mr-sm-4" variant="secondary"> {/*onClick=() => aqui redirigir al chat*/}
-                      Ver ofertas
-                    </Button>
+                    <Link
+                          to={{pathname: `/ofertas`,
+                              prod:{id: this.props.id}}} >
+                      <Button className="mr-sm-4" variant="success" >
+                        Ver ofertas
+                      </Button>
+                      </Link>
 
                     {editarProdOSubs}
 

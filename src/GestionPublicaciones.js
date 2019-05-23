@@ -410,3 +410,63 @@ export const eliminarSubasta = subasta => {
             console.log(res)
         })
   }
+
+  export const listarOfertas = (id) => {
+    return axios
+        .get(`listarOfertas/${id}`, {
+            headers: { "Content-type": "application/json" }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach((key) => {
+                var val = res.data[key]
+                data.push([val.precio, val.usuario])
+            })
+
+            return data
+        })
+  }
+
+  export const aceptarOferta = (usuario, id) => {
+    return axios
+        .post(
+            `aceptarOfertaVenta/${id}`, {
+                usuario: usuario
+            })
+        .then((res) => {
+            console.log(res.data)
+            return res.data
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
+
+  export const eliminarOferta = (usuario, id) => {
+    return axios
+        .post(
+            `eliminarOfertaVenta/${id}`, {
+                usuario: usuario
+            })
+        .then((res) => {
+            console.log(res.data)
+            return res.data
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
+
+  export const eliminarTodasOferta = (id) => {
+    return axios
+        .post(
+            `eliminartodasOfertasVenta/${id}`, {
+            })
+        .then((res) => {
+            console.log(res.data)
+            return res.data
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
