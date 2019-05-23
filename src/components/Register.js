@@ -35,6 +35,7 @@ class Register extends Component {
   handleSubmit(event) { //Cada vez que se envie el formulario
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
+      window.alert("Imagen obligatoria")
       event.preventDefault(); //Evita refrescar la pantalla (si hay entradas no validas)
       event.stopPropagation();
     }
