@@ -15,6 +15,7 @@ import EditarSubasta from './components/EditarSubasta';
 import Favoritos from './components/Favoritos';
 import Chat from './components/Chat';
 import Producto from './components/Producto';
+import Report from './components/Report';
 
 
 const AppRoutes = () =>
@@ -30,6 +31,7 @@ const AppRoutes = () =>
       <Route exact path="/chat" component={Chat} />
       <Route exact path="/producto" component={Producto} />
       <Route exact path="/" component={App} />
+      <Route exact path="/Report" component={Report} />
     </Switch>
   </div>;
 

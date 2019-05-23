@@ -1,43 +1,150 @@
 import React, { Component } from 'react';
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Container from 'react-bootstrap/Container';
+import NavLogReg from './NavLogReg';
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
+import { infoReport } from '../GestionUsuarios';
 
 
-
-class App extends Component {
+class Report extends Component {
     constructor(props) {
+
+        console.log("ENTRA al report")
+
         super(props)
         this.state = {
-          vendedor: props.location.datos.vendedor ,
-          producto: props.location.datos.articulo
+          //vendedor: props.location.datos.vendedor ,          
+          //producto: props.location.datos.articulo ,
+          texto: '',
+          //tipoDenuncia: '',
 
+          validated: false
         }
+        console.log(this.state)
+
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.handleSubmit.bind(this)   //Prevencion de campos vacios
+    }
+
+    handleSubmit(event) { //Cada vez que se envie el formulario
+      const form = event.currentTarget;
+      if (form.checkValidity() === false) {
+        event.preventDefault(); //Evita refrescar la pantalla (si hay entradas no validas)
+        event.stopPropagation();
       }
+      else{
+        event.preventDefault()
+  
+        const infoReport = {
+          vendedor: this.state.vendedor,
+          producto: this.state.producto,
+          //tipoDenuncia: this.state.tipoDenuncia,
+          texto: this.state.texto
+        }
+        register(newUser).then(res => {
+          this.setState({
+            respuestaBD: res
+          })
+        })
+        this.setState({ redirect: true });
+      }
+      this.setState({ validated: true });
+    }
+
+    onChange(e) {
+        console.log(this.state)
+        //Indica que el campo que se actualiza con el valor obtenido del input
+        this.setState({ [e.target.name]: e.target.value }) 
+    }
 
 
+    render(){
+        const { validated } = this.state;
+        return(
+            <div className="App">
+            <NavLogReg/>
+            <br />
+              <br />
+              <div className="row">
+                <div className = "col"> </div>           {/* Margen de la izquierda */}
+                <div className="col-8">
+                    <h1>
+                    Reportar al usuario {this.state.vendedor} por venta de {this.state.producto}
+                    </h1>
+                    <Form
+                      noValidate
+                      validated={validated}
+                      onSubmit={e => this.handleSubmit(e)}
+                    >
+                  
+            {/*
+                    <fieldset>
+                        <Form.Group as={Row}>
+                        <Form.Label as="legend" column sm={2}>
+                            Motivo de la denuncia:
+                        </Form.Label>
+                         <Col sm={10}>
+                            <Form.Check
+                            type="radio"
+                            label="Fraude"
+                            name="fraude"
+                            id="formHorizontalRadios1"
+                            value={this.state.value}
+                            onChange={this.onChange} 
+                            />
+                            <Form.Check
+                            type="radio"
+                            label="Mal comportamiento o abuso"
+                            name="formHorizontalRadios"
+                            id="formHorizontalRadios2"
+                            value={this.state.value}
+                            onChange={this.onChange} 
+                            />
+                            <Form.Check
+                            type="radio"
+                            label="Artículo en mal estado"
+                            name="formHorizontalRadios"
+                            id="formHorizontalRadios3"
+                            value={this.state.value}
+                            onChange={this.onChange} 
+                            />
+                            <Form.Check
+                            type="radio"
+                            label="Otros"
+                            name="formHorizontalRadios"
+                            id="formHorizontalRadios4"
+                            />
+
+                        </Col>
+                        </Form.Group>
+                    </fieldset>
+                */}
+                    <textarea 
+                        rows="10" 
+                        cols="100"
+                        required
+                        placeholder="Indique los motivos de su denuncia"
+                        value={this.state.value} 
+                        onChange={this.onChange} 
+                    />
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+                  <Button
+                    type="submit"
+                    className="btn btn-lg btn-primary btn-block">
+                    Enviar informe negativo
+                  </Button>
+                  </Form>
+                </div>
+                <div className = "col"></div> {/* Margen de la derecha */}               
+              </div>
+            </div> 
+        );
+    }
 }
-
 export default Report;
