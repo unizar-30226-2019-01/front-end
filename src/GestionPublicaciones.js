@@ -211,7 +211,7 @@ export const anadirSubasta = newProductoSubasta => {
 export const tipoProducto = id => {
     return axios
         .get(`obtenerTipoProducto/${id}`, {
-  
+
         })
         .then(res => {
           return res.data
@@ -221,7 +221,7 @@ export const tipoProducto = id => {
 export const infoVenta = id => {
     return axios
         .get(`obtenerDatosVenta/${id}`, {
-  
+
         })
         .then(res => {
           var data = []
@@ -274,24 +274,52 @@ export const getFotos = id => {
         })
   }
 
-  export const actualizarProducto = producto => {
-    return axios
-        .post(`modificarVenta`, {
-            idP: producto.id,
-            nombre: producto.nombre,
-            fecha: producto.fecha,
-            categoria: producto.categoria,
-            descripcion: producto.descripcion,
-            foto: producto.foto,
-            precio: producto.precio
-        })
-        .then(response => {
-          return response.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
-  }
+export const actualizarProducto = productoEditado => {
+  return axios
+      .post('modificarVenta', {
+          idP: productoEditado.id,
+          nombre: productoEditado.nombre,
+          descripcion: productoEditado.descripcion,
+          categoria: productoEditado.categoria,
+          fotoP: productoEditado.fotoP,
+          foto1: productoEditado.foto1,
+          foto2: productoEditado.foto2,
+          foto3: productoEditado.foto3,
+          fotoPAntigua: productoEditado.fotoPAntigua,
+          foto1Antigua: productoEditado.foto1Antigua,
+          foto2Antigua: productoEditado.foto2Antigua,
+          foto3Antigua: productoEditado.foto3Antigua,
+          precio: productoEditado.precio,
+          fecha: productoEditado.fecha
+      })
+      .then(res => {
+          return res.data
+      }).catch(err => {
+        return err})
+}
+
+export const actualizarSubasta = subastaEditada => {
+  return axios
+      .post('modificarSubasta', {
+          idP: subastaEditada.id,
+          nombre: subastaEditada.nombre,
+          descripcion: subastaEditada.descripcion,
+          categoria: subastaEditada.categoria,
+          fotoP: subastaEditada.fotoP,
+          foto1: subastaEditada.foto1,
+          foto2: subastaEditada.foto2,
+          foto3: subastaEditada.foto3,
+          fotoPAntigua: subastaEditada.fotoPAntigua,
+          foto1Antigua: subastaEditada.foto1Antigua,
+          foto2Antigua: subastaEditada.foto2Antigua,
+          foto3Antigua: subastaEditada.foto3Antigua,
+          fecha: subastaEditada.fecha
+      })
+      .then(res => {
+          return res.data
+      }).catch(err => {
+        return err})
+}
 
 export const eliminarProducto = producto => {
     return axios

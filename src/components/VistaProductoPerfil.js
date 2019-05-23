@@ -79,21 +79,22 @@ class VistaProductoPerfil extends Component {
   }
 
   render() {
-
-    let fotosMostrar=[[this.props.fotoP]]
-    if(this.state.primeraVez){
-      getFotos(this.props.id).then(data => {
-        console.log("HOLA3")
-        this.setState({
-            fot: [...data],
-            primeraVez: false
-        },
-            () => {
-                console.log(this.state.term)
-            })
-      })
+    let fotosMostrar=[[]]
+    if(this.props.show){
+      fotosMostrar=[[this.props.fotoP]]
+      if(this.state.primeraVez){
+        getFotos(this.props.id).then(data => {
+          this.setState({
+              fot: [...data],
+              primeraVez: false
+          },
+              () => {
+                  console.log(this.state.term)
+              })
+        })
+      }
+      Array.prototype.push.apply(fotosMostrar, this.state.fot);
     }
-    Array.prototype.push.apply(fotosMostrar, this.state.fot);
 
     let contenido
     if (!this.props.fav) {
@@ -119,7 +120,6 @@ class VistaProductoPerfil extends Component {
 
     let editarProdOSubs
     if(this.props.fechaLimite==""){
-      console.log(this.props.categoria)
       editarProdOSubs = <Link
                           to={{pathname: `/EditarProducto`,
                               prod:{id: this.props.id,
@@ -140,7 +140,8 @@ class VistaProductoPerfil extends Component {
                                     nombre: this.props.nombre,
                                     descripcion: this.props.descripcion,
                                     categoria: this.props.categoria,
-                                    precio: this.props.precio}}} >
+                                    fotos: fotosMostrar,
+                                    fechaLimite: this.props.fechaLimite}}} >
                       <Button className="mr-sm-4" variant="info" >
                         Editar
                       </Button>
