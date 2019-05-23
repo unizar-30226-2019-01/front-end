@@ -48,8 +48,7 @@ class Register extends Component {
         apellidos: this.state.apellidos,
         telefono: this.state.telefono,
         email: this.state.email,
-        foto: this.state.foto,
-        telefono: this.state.telefono
+        foto: this.state.foto
       }
       register(newUser).then(res => {
 				this.setState({
