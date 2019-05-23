@@ -11,7 +11,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
-import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, queEs } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
@@ -197,11 +197,13 @@ class VistaProducto extends Component {
     let precio
     let horaYFechaSubasta
     if(this.props.fechaLimite==""){
-      precio = <h3>Precio: {this.props.precio}</h3>
+      precio = <h3>Precio: {this.props.precio}€</h3>
     }
     else{
-      precio = <h3>Precio actual: {this.props.precio}</h3>
-      horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
+      precio = <h3>Precio actual: {this.props.precio}€</h3>
+      horaYFechaSubasta =
+      <div><h3>Fecha límite: {this.props.fechaLimite}</h3>
+      <h3>Hora límite:  {this.props.horaLimite}</h3></div>
     }
 
     let chatYoferta
@@ -209,8 +211,7 @@ class VistaProducto extends Component {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
       if (this.props.vendedor != decoded.identity.login){
-        queEs(this.props.id).then(res=> {
-          if(res=="Venta"){
+          if(this.props.fechaLimite==""){
              chatYoferta =
              			<div>
                      <ButtonGroup aria-label="Basic example">
@@ -261,16 +262,16 @@ class VistaProducto extends Component {
                            </Form.Group>
 
                            <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
-                             Hacer oferta Subasta
+                             Hacer puja
                            </Button>
                            </ButtonGroup>
                            </div>
                 }
-              })
       }
     }
     else{
-    	//No estas logueado
+      //No estas logueado
+      console.log("no log")
        chatYoferta =
        			<div>
 	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
