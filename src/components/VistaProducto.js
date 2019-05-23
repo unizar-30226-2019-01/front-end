@@ -28,7 +28,7 @@ class VistaProducto extends Component {
       fotos:this.props.fotoP,
       fot: [],
       primeraVez: true,
-      precioOferta: ''
+      precioOferta: '',
     }; //Para conseguir la valoracion del vendedor
 
     this.onChange = this.onChange.bind(this)
@@ -166,21 +166,23 @@ class VistaProducto extends Component {
   }
 
   render() {
-
-    let fotosMostrar=[[this.props.fotoP]]
-    if(this.state.primeraVez){
-      getFotos(this.props.id).then(data => {
-        console.log("HOLA3")
-        this.setState({
-            fot: [...data],
-            primeraVez: false
-        },
-            () => {
-                console.log(this.state.term)
-            })
-      })
+    let fotosMostrar=[[]]
+    if(this.props.show){
+      fotosMostrar=[[this.props.fotoP]]
+      if(this.state.primeraVez){
+        getFotos(this.props.id).then(data => {
+          console.log("HOLA3")
+          this.setState({
+              fot: [...data],
+              primeraVez: false
+          },
+              () => {
+                  console.log(this.state.term)
+              })
+        })
+      }
+      Array.prototype.push.apply(fotosMostrar, this.state.fot);
     }
-    Array.prototype.push.apply(fotosMostrar, this.state.fot);
 
     let contenido
     if (!this.props.fav) {
