@@ -14,8 +14,7 @@ import { getSubastas } from '../GestionPublicaciones';
 import { getSubastasMayorMenor } from '../GestionPublicaciones';
 import { getSubastasMenorMayor } from '../GestionPublicaciones';
 
-import { eliminarProducto, getFotos } from '../GestionPublicaciones';
-import { eliminarSubasta } from '../GestionPublicaciones';
+import { eliminarFavorito, getFotos } from '../GestionPublicaciones';
 
 import {Input} from "mdbreact"; //npm install mdbreact
 import Form from 'react-bootstrap/Form';
@@ -73,35 +72,11 @@ class Productos extends Component {
       this.setState({lugar:this.props.lugar})
   }
 
-  eliminarProductoPadre(index, esVenta){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
-    if(esVenta==""){ //Si esVenta esta vacio, es pq no hay fecha limite, o sea es un producto y NO una subasta
-      eliminarProducto(this.state.id)
-      this.setState({
-        modalShow: false,
-        cargar: false,
-        productos: this.state.productos.filter((elemento, i)=>{
-            return  i!==index
-            /*esto lo q hace es recorrer el vector productos,
-              y lo modifica eliminando todo aquel que NO cumpla
-              la condicion. en este caso, cuando encuentre la posicion
-              del elemento index, lo eliminara*/
-        })
-      });
+  eliminarFavoritoPadre(index){
+    const fav = {
+        usuario: this.state.usuario
     }
-    else{
-      eliminarSubasta(this.state.id)
-      this.setState({
-        modalShow: false,
-        cargar: false,
-        subastas: this.state.subastas.filter((elemento, i)=>{
-            return  i!==index
-            /*esto lo q hace es recorrer el vector productos,
-              y lo modifica eliminando todo aquel que NO cumpla
-              la condicion. en este caso, cuando encuentre la posicion
-              del elemento index, lo eliminara*/
-        })
-      });
-    }
+    eliminarFavorito(fav,this.state.id)
   }
 
   onChange = e => {
@@ -321,7 +296,6 @@ class Productos extends Component {
                 </div>
             </form>
             <VistaProducto
-                fav={false}
                 show={this.state.modalShow}
                 id={this.state.id}
                 cargar={this.state.cargar}
@@ -335,7 +309,7 @@ class Productos extends Component {
                 horaLimite={this.state.horaLimite}
                 fotoP={this.state.fotoMostrar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}
-                callback = {this.eliminarProductoPadre.bind(this)}
+                callback = {this.eliminarFavoritoPadre.bind(this)}
             />
         </div>
     )

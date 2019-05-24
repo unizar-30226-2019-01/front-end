@@ -75,7 +75,7 @@ class Perfil extends Component {
     getEnVentaUsuario(usuario).then(data => {
         this.setState({
             EnVenta: [...data],
-            login: usuario.login                    
+            login: usuario.login
         },
             () => {
                 console.log(this.state.term)
@@ -118,7 +118,7 @@ class Perfil extends Component {
       login: this.state.login
     }
     console.log(user)
-   deleteUser(user)  
+   deleteUser(user)
    this.setState({redirect: true});
   }
 
@@ -128,7 +128,7 @@ class Perfil extends Component {
     this.setState({redirect: true});
   }
 
-  eliminarProductoPadre(index, esVenta){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
+  eliminarProductoPadre(index, esVenta, fechaHoy, fechaL){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
     if(esVenta==""){ //Si esVenta esta vacio, es pq no hay fecha limite, o sea es un producto y NO una subasta
       eliminarProducto(this.state.id)
       this.setState({
@@ -144,22 +144,31 @@ class Perfil extends Component {
       });
     }
     else{
-      eliminarSubasta(this.state.id)
-      this.setState({
-        modalShow: false,
-        cargar: false,
-        subastas: this.state.subastas.filter((elemento, i)=>{
-            return  i!==index
-            /*esto lo q hace es recorrer el vector productos,
-              y lo modifica eliminando todo aquel que NO cumpla
-              la condicion. en este caso, cuando encuentre la posicion
-              del elemento index, lo eliminara*/
-        })
-      });
+      if((+fechaHoy+2)>(+fechaL)){
+        window.alert("Su subasta termina en un plazo inferior a dos días. Ya no puede editarla ni eliminarla. Póngase en contacto con el ganador cuando finalice el plazo")
+        this.setState({
+          modalShow: false,
+          cargar: false,
+        });
+      }
+      else{
+        //eliminarSubasta(this.state.id)
+        this.setState({
+          modalShow: false,
+          cargar: false,
+          /*subastas: this.state.subastas.filter((elemento, i)=>{
+              return  i!==index
+              /*esto lo q hace es recorrer el vector productos,
+                y lo modifica eliminando todo aquel que NO cumpla
+                la condicion. en este caso, cuando encuentre la posicion
+                del elemento index, lo eliminara*/
+          //})
+        });
+      }
     }
   }
 
-  
+
 
   render() {
     let modalClose = () => this.setState({ modalShow: false, cargar: false }); //Para gestionar VistaProductoPerfil (guille)
@@ -223,8 +232,7 @@ class Perfil extends Component {
                             <p>Opciones</p>
                             <Link
                                 to={{
-                                    pathname: `/favoritos`,
-                                    prod:{usuario: this.state.login}}} >
+                                    pathname: `/favoritos`}} >
                             <Button className="mr-sm-4" variant="primary" >
                             Favoritos
                             </Button>
@@ -388,7 +396,6 @@ class Perfil extends Component {
                 </div>
             </form>
             <VistaProductoPerfil
-                fav={false}
                 show={this.state.modalShow}
                 id={this.state.id}
                 cargar={this.state.cargar}
