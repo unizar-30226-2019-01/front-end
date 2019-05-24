@@ -152,17 +152,17 @@ class Perfil extends Component {
         });
       }
       else{
-        //eliminarSubasta(this.state.id)
+        eliminarSubasta(this.state.id)
         this.setState({
           modalShow: false,
           cargar: false,
-          /*subastas: this.state.subastas.filter((elemento, i)=>{
+          subastas: this.state.subastas.filter((elemento, i)=>{
               return  i!==index
               /*esto lo q hace es recorrer el vector productos,
                 y lo modifica eliminando todo aquel que NO cumpla
                 la condicion. en este caso, cuando encuentre la posicion
                 del elemento index, lo eliminara*/
-          //})
+          })
         });
       }
     }
