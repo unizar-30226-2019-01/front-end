@@ -41,6 +41,8 @@ class SubirProducto extends Component {
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onChangePrecio = this.onChangePrecio.bind(this)
+
   }
 
   componentDidMount() {
@@ -59,15 +61,29 @@ class SubirProducto extends Component {
       console.log(this.state.vendedor)
     }
   }
-  onChangePrecio(e){
-    const numDec=e.target.value.split(".")
-    console.log(numDec)
-    console.log(e.target.value)
 
-    this.setState({ [e.target.name]: e.target.value })
-  }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
+  }
+
+  onChangePrecio(e) {
+    var punto = e.target.value.split(".")
+    var coma = e.target.value.split(",")
+    var escribir = e.target.value
+    if(punto[1] != undefined){
+      if(punto[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.confirm("El limite de decimales es 2")
+      }
+    }
+    else if (coma[1] != undefined){
+      if(coma[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.confirm("El limite de decimales es 2")
+      }
+    }
+
+    this.setState({ [e.target.name]: escribir })
   }
 
   onSubmit(e) {
