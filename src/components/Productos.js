@@ -90,7 +90,7 @@ class Productos extends Component {
     if( search !== "" && productos[0].toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
         return null
     }
-    if( this.state.precio !== 0 && productos[4] > this.state.precio){
+    if(this.state.precio !== 0 && this.state.precio<1000 && productos[4] > this.state.precio){
       return null
     }
 
@@ -140,8 +140,7 @@ class Productos extends Component {
     if( search !== "" && subastas[0].toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
         return null
     }
-    console.log(this.state.precio)
-    if( this.state.precio !== 0 && subastas[4] > this.state.precio){
+    if( this.state.precio !== 0 && (subastas[4] > this.state.precio)){
       return null
     }
 

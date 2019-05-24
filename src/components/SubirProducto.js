@@ -275,9 +275,7 @@ handleOnChange3 (event) {
 
 cambiarProvincia (prov) {
   this.setState({provincia: prov});
-}
-cambiarCCAA (com) {
-  this.setState({ccaa: com});
+  console.log(this.state.provincia)
 }
 
   render(){
@@ -322,6 +320,13 @@ cambiarCCAA (com) {
           return <Redirect push to="/" />;
         }
       }
+    }
+    let botonSubir
+    if(this.state.provincia!==""){
+      botonSubir=
+      <div className = "text-center">
+        <Button className="botonSubir" type="submit">Subir producto</Button>
+      </div>
     }
 
     let contenido //Para cambiar vista entre producto o subasta
@@ -471,8 +476,9 @@ cambiarCCAA (com) {
                   zoom={5}
                   callback={this.cambiarProvincia.bind(this)}
                 />
-                <br/> <br/>
-                <Button type="submit">Subir</Button>
+                <br />
+                <br />
+                {botonSubir}
               </Form>
             </Col>
             <Col xs={3} />

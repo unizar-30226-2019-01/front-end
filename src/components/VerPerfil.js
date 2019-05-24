@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
-import jwt_decode from 'jwt-decode'
+//import jwt_decode from 'jwt-decode'
 import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
 import '../css/perfil.css';
-import bichardo from '../images/bichardo.jpg';
-import { deleteUser, infoUsuario } from '../GestionUsuarios';
+import { infoUsuario } from '../GestionUsuarios';
 import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
-import VistaProductoPerfil from './VistaProductoPerfil';
+import VistaProducto from './VistaProducto';
 import NavLogReg from './NavLogReg';
-
-import { eliminarProducto } from '../GestionPublicaciones';
-import { eliminarSubasta } from '../GestionPublicaciones';
 
 import {Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
 
-class Perfil extends Component {
-  constructor() {
-    super()
+class VerPerfil extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
       login: '',
       datos: [],
@@ -47,27 +43,18 @@ class Perfil extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-        console.log("no existe")
-
+    const usuario = {
+        login: this.props.location.datos.vendedor
     }
-    else{
-        console.log("existe")
-        const token = localStorage.usertoken
-        const decoded = jwt_decode(token)
-        const usuario = {
-            login: decoded.identity.login
-        }
-        infoUsuario(decoded.identity.login).then(data => {
-        this.setState({
-          datos: data
-        },
-        () => {
-            console.log("devuelvo")
-        })
-      })
-        this.getAll(usuario)
-    }
+    infoUsuario(this.props.location.datos.vendedor).then(data => {
+    this.setState({
+        datos: data
+    },
+    () => {
+        console.log("devuelvo")
+    })
+    })
+    this.getAll(usuario)
   }
 
   getAll = (usuario) => {
@@ -109,66 +96,6 @@ class Perfil extends Component {
   })
 
 }
-
-  onDelete = e => {
-    e.preventDefault()
-    localStorage.removeItem('usertoken')
-    console.log("ENTRA al onDelete")
-    const user = {
-      login: this.state.login
-    }
-    console.log(user)
-   deleteUser(user)
-   this.setState({redirect: true});
-  }
-
-  cerrarSesion = e => {
-    e.preventDefault()
-    localStorage.removeItem('usertoken')
-    this.setState({redirect: true});
-  }
-
-  eliminarProductoPadre(index, esVenta, fechaHoy, fechaL){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
-    if(esVenta==""){ //Si esVenta esta vacio, es pq no hay fecha limite, o sea es un producto y NO una subasta
-      eliminarProducto(this.state.id)
-      this.setState({
-        modalShow: false,
-        cargar: false,
-        EnVenta: this.state.EnVenta.filter((elemento, i)=>{
-            return  i!==index
-            /*esto lo q hace es recorrer el vector productos,
-              y lo modifica eliminando todo aquel que NO cumpla
-              la condicion. en este caso, cuando encuentre la posicion
-              del elemento index, lo eliminara*/
-        })
-      });
-    }
-    else{
-      if((+fechaHoy+2)>(+fechaL)){
-        window.alert("Su subasta termina en un plazo inferior a dos días. Ya no puede editarla ni eliminarla. Póngase en contacto con el ganador cuando finalice el plazo")
-        this.setState({
-          modalShow: false,
-          cargar: false,
-        });
-      }
-      else{
-        //eliminarSubasta(this.state.id)
-        this.setState({
-          modalShow: false,
-          cargar: false,
-          /*subastas: this.state.subastas.filter((elemento, i)=>{
-              return  i!==index
-              /*esto lo q hace es recorrer el vector productos,
-                y lo modifica eliminando todo aquel que NO cumpla
-                la condicion. en este caso, cuando encuentre la posicion
-                del elemento index, lo eliminara*/
-          //})
-        });
-      }
-    }
-  }
-
-
 
   render() {
     let modalClose = () => this.setState({ modalShow: false, cargar: false }); //Para gestionar VistaProductoPerfil (guille)
@@ -219,16 +146,15 @@ class Perfil extends Component {
                         </div>
                     </div>
                     <div class="col-md-2">
-                    <Link to="/editarPerfil">
-                        <button className="btn btn-primary mr-sm-2 ml-sm-2">
-                            Editar perfil
-                        </button>
-                    </Link>
+
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-work">
+
+                        {/* 
                             <p>Opciones</p>
                             <Link
                                 to={{
@@ -237,20 +163,8 @@ class Perfil extends Component {
                             Favoritos
                             </Button>
                             </Link>
-                            <Link to="/chat">
-                            <button className="btn btn-primary mr-sm-2 ml-sm-2">
-                                Chats
-                            </button>
-                            </Link>
-                            <p>Opciones</p>
-                            <button className="btn btn-danger mr-sm-2"
-                                onClick={this.cerrarSesion.bind(this)}>
-                                Cerrar Sesión
-                            </button>
-                            <button className="btn btn-danger ml-sm-2"
-                                onClick={this.onDelete.bind(this)}>
-                                Eliminar
-                            </button>
+                        */}
+
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -266,7 +180,6 @@ class Perfil extends Component {
                                     <p className="card-text">{productos[4]}€</p>
                                     </div>
                                     <div className="card-footer"> {/*Para gestionar VistaProductoPerfil (guille)*/}
-                                    <div className="text-center">
                                     <Button
                                         variant="outline-primary"
                                         onClick={() => this.setState({ modalShow: true,
@@ -284,7 +197,6 @@ class Perfil extends Component {
                                                                        cargar: true})} >
                                         Ver producto
                                     </Button>
-                                    </div>
                                     </div> {/* Fin para gestionar VistaProductoPerfil (guille)*/}
                                 </div>
                                 </div>
@@ -397,7 +309,7 @@ class Perfil extends Component {
                     </div>
                 </div>
             </form>
-            <VistaProductoPerfil
+            <VistaProducto
                 show={this.state.modalShow}
                 id={this.state.id}
                 cargar={this.state.cargar}
@@ -413,7 +325,6 @@ class Perfil extends Component {
                 fotoP={this.state.fotoMostrar}
                 editable={this.state.sePuedeEditar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}
-                callback = {this.eliminarProductoPadre.bind(this)}
               />
         </div>
         </div>
@@ -422,4 +333,4 @@ class Perfil extends Component {
   }
 }
 
-export default Perfil
+export default VerPerfil

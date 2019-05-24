@@ -24,27 +24,30 @@ class VistaProducto extends Component {
       fotos:this.props.fotoP,
       fot: [],
       primeraVez: true,
+      primeraVezURL: true,
       precioOferta: ''
     }; //Para conseguir la valoracion del vendedor
 
     this.onChange = this.onChange.bind(this)
-    this.changeRating = this.changeRating.bind(this);
+    //this.changeRating = this.changeRating.bind(this);
   }
 
-  componentWillReceiveProps(){
+  /*componentWillReceiveProps(){
     this.setState({primeraVez:true})
-  }
+  }*/
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
 
+/*
   //Esto no vendria aqui pero es un ejemplo de como realizar una valoracion
   changeRating( newRating, name ) {
     this.setState({
       rating: newRating
     });
   }
+*/
 
   getlink(id) {
     var aux = document.createElement('input');
@@ -52,13 +55,17 @@ class VistaProducto extends Component {
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
-    var aviso = document.createElement('div');
-    aviso.setAttribute('id', 'aviso');
-    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-    aviso.innerHTML = 'URL copiada';
-    document.body.appendChild(aviso);
-    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     document.body.removeChild(aux);
+    if(this.state.primeraVezURL){
+      this.setState({ primeraVezURL: false });
+      var aviso = document.createElement('div');
+      aviso.setAttribute('id', 'aviso');
+      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+      aviso.innerHTML = 'URL copiada';
+      document.body.appendChild(aviso);
+      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      setTimeout(() => {this.setState({ primeraVezURL: true });}, 1980);
+    }
   }
 
   marcarFavorito(usu,publicacion){
@@ -75,12 +82,6 @@ class VistaProducto extends Component {
       console.log(usu)
       crearFavorito(fav,publicacion)
       this.setState({fav: "Favorito existe"});
-      var aviso = document.createElement('div');
-      aviso.setAttribute('id', 'aviso');
-      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-      aviso.innerHTML = 'Añadido a FAVORITOS';
-      document.body.appendChild(aviso);
-      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     }
   }
 
@@ -91,6 +92,7 @@ class VistaProducto extends Component {
 
   esFavorito(usu,publicacion){
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        console.log("AQUIIIII")
         this.setState({fav: "Favorito no existe"});
     }
     else{
@@ -203,10 +205,11 @@ class VistaProducto extends Component {
               })
         })
 
-        this.esFavorito(this.props.usuario,this.props.id)
+        if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null){
+          this.esFavorito(this.props.usuario,this.props.id)
+        }
       }
       Array.prototype.push.apply(fotosMostrar, this.state.fot);
-
     }
 
     if (this.state.fav=="Favorito no existe") {
@@ -235,6 +238,7 @@ class VistaProducto extends Component {
 
     let chatYoferta
     let botonReportar
+    let botonPerfil
     if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
@@ -266,6 +270,19 @@ class VistaProducto extends Component {
                       </Button>
                       </ButtonGroup>
                       </div>
+                    botonPerfil=
+                      <div>
+                        <Link to={{
+                          pathname:'/VerPerfil',
+                          datos:{
+                            vendedor:this.props.vendedor
+                          }
+                        }}>
+                        <Button variant="outline-dark">
+                          VENDEDOR: {this.props.vendedor}
+                        </Button>
+                        </Link>
+                      </div>
 
                     botonReportar=
                       <div>
@@ -278,7 +295,7 @@ class VistaProducto extends Component {
                             articulo:this.props.nombre
                           }
                         }}>
-                          <Button className="mr-sm-4" variant="danger">
+                          <Button className="ml-sm-4" variant="danger">
                             Reportar vendedor
                           </Button>
                         </Link>
@@ -312,6 +329,20 @@ class VistaProducto extends Component {
                            </ButtonGroup>
                         </div>
 
+                      botonPerfil=
+                        <div>
+                          <Link to={{
+                            pathname:'/VerPerfil',
+                            datos:{
+                              vendedor:this.props.vendedor
+                            }
+                          }}>
+                          <Button variant="outline-dark">
+                            VENDEDOR: {this.props.vendedor}
+                          </Button>
+                          </Link>
+                        </div>
+
                     botonReportar=
                         <div>
                           <Link to={{
@@ -323,12 +354,27 @@ class VistaProducto extends Component {
                               articulo:this.props.nombre
                             }
                           }}>
-                            <Button className="mr-sm-4" variant="danger">
+                            <Button className="ml-sm-4" variant="danger">
                               Reportar vendedor
                             </Button>
                           </Link>
                         </div>
           }
+      }
+      else{ //Si estas mirando un producto tuyo: 'ver perfil' redirige a tu pantalla de gestion del perfil
+        botonPerfil=
+          <div>
+            <Link to={{
+              pathname:'/Perfil',
+              datos:{
+                vendedor:this.props.vendedor
+              }
+            }}>
+            <Button variant="outline-dark">
+              VENDEDOR: {this.props.vendedor}
+            </Button>
+            </Link>
+          </div>
       }
     }
     else{
@@ -343,6 +389,21 @@ class VistaProducto extends Component {
                   Hacer oferta
                 </Button>
                 </div>
+
+              botonPerfil=
+                <div>
+                  <Link to={{
+                    pathname:'/VerPerfil',
+                    datos:{
+                      vendedor:this.props.vendedor
+                    }
+                  }}>
+                  <Button variant="outline-dark">
+                    VENDEDOR: {this.props.vendedor}
+                  </Button>
+                  </Link>
+                </div>
+
         botonReportar=
             <div>
               <Button className="mr-sm-4" variant="danger" onClick={() => this.registrese()}>
@@ -369,11 +430,12 @@ class VistaProducto extends Component {
           <Container>
             <Row className="show-grid">
               <Col xs={6}>
-                <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
-                  VENDEDOR: {this.props.vendedor}
-                </Button>
+              <ButtonGroup aria-label="Basic example">
 
+                {botonPerfil}
                 {botonReportar}
+
+                </ButtonGroup>
 
               </Col>
               <Col xs={3}>
@@ -381,9 +443,20 @@ class VistaProducto extends Component {
               </Col>
               <Col xs={3}>
                 <div className="w-100 text-left">
-                  <StarRatings rating={this.state.rating} changeRating={this.changeRating}
-                    starRatedColor="yellow" numberOfStars={5} name='rating'
-                    starDimension="20px" starSpacing="5px"
+                  <StarRatings
+                    //changeRating={this.changeRating}
+                    rating={this.state.rating}
+
+                    starRatedColor="yellow"
+                    numberOfStars={5}
+                    starDimension="20px"
+                    starSpacing="5px"
+
+                    //name='rating'
+                    //id='rating'
+                    value={this.state.rating}
+                    onChange={this.onChange}
+
                   />
                 </div>
               </Col>
@@ -427,7 +500,7 @@ class VistaProducto extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>
+          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Cerrar</Button>
         </Modal.Footer>
       </Modal>
     );
