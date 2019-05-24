@@ -94,3 +94,21 @@ export const infoUsuario = login => {
         return data
     })
 }
+
+export const reportar = infoReport => {
+  return axios
+  
+    .post(`reportar/${infoReport.producto}`, {    //pasar el id del producto por parametro xq sino falla
+      denunciante: infoReport.denunciante,
+      vendedor: infoReport.vendedor,
+      //tipoDenuncia: infoReport.tipoDenuncia,
+      texto: infoReport.texto,
+    })
+    .then(response => {
+      if(response.data != "Error"){
+        console.log("token")
+        //localStorage.setItem('usertoken', response.data)
+      }
+      return response.data
+    })
+}

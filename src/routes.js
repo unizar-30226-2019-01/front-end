@@ -15,6 +15,7 @@ import EditarSubasta from './components/EditarSubasta';
 import Favoritos from './components/Favoritos';
 import Chat from './components/Chat';
 import Producto from './components/Producto';
+import Report from './components/Report';
 import Ofertas from './components/Ofertas';
 
 
@@ -32,6 +33,7 @@ const AppRoutes = () =>
       <Route exact path="/producto" component={Producto} />
       <Route exact path="/ofertas" component={Ofertas} />
       <Route exact path="/" component={App} />
+      <Route exact path="/Report" component={Report} />
     </Switch>
   </div>;
 
