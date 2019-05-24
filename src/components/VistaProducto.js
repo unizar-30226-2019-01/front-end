@@ -29,6 +29,7 @@ class VistaProducto extends Component {
     }; //Para conseguir la valoracion del vendedor
 
     this.onChange = this.onChange.bind(this)
+    this.onChangePrecio = this.onChangePrecio.bind(this)
     //this.changeRating = this.changeRating.bind(this);
   }
 
@@ -38,6 +39,25 @@ class VistaProducto extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
+  }
+  onChangePrecio(e) {
+    var punto = e.target.value.split(".")
+    var coma = e.target.value.split(",")
+    var escribir = e.target.value
+    if(punto[1] != undefined){
+      if(punto[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.confirm("El limite de decimales es 2")
+      }
+    }
+    else if (coma[1] != undefined){
+      if(coma[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.confirm("El limite de decimales es 2")
+      }
+    }
+
+    this.setState({ [e.target.name]: escribir })
   }
 
 /*
@@ -261,7 +281,7 @@ class VistaProducto extends Component {
                         <Form.Control type="number" placeholder="Precio"
                         name="precioOferta" min="1" step="any"
                         value={this.state.precioOferta}
-                        onChange={this.onChange} />
+                        onChange={this.onChangePrecio} />
                       </Form.Group>
 
                       <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
@@ -319,7 +339,7 @@ class VistaProducto extends Component {
                              <Form.Control type="number" placeholder="Precio"
                              name="precioOferta" min="1" step="any"
                              value={this.state.precioOferta}
-                             onChange={this.onChange} />
+                             onChange={this.onChangePrecio} />
                            </Form.Group>
 
                            <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
