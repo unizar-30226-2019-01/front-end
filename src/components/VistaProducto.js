@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto, consultarFavorito } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Report from './Report';
@@ -237,6 +237,7 @@ class VistaProducto extends Component {
 
     let chatYoferta
     let botonReportar
+    let botonPerfil
     if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
@@ -268,6 +269,19 @@ class VistaProducto extends Component {
                       </Button>
                       </ButtonGroup>
                       </div>
+                    botonPerfil=
+                      <div>
+                        <Link to={{
+                          pathname:'/VerPerfil',
+                          datos:{
+                            vendedor:this.props.vendedor  
+                          }
+                        }}>
+                        <Button variant="outline-dark">
+                          VENDEDOR: {this.props.vendedor}
+                        </Button>
+                        </Link>
+                      </div>
 
                     botonReportar=
                       <div>
@@ -280,7 +294,7 @@ class VistaProducto extends Component {
                             articulo:this.props.nombre
                           }
                         }}>
-                          <Button className="mr-sm-4" variant="danger">
+                          <Button className="ml-sm-4" variant="danger">
                             Reportar vendedor
                           </Button>
                         </Link>
@@ -314,6 +328,20 @@ class VistaProducto extends Component {
                            </ButtonGroup>
                         </div>
 
+                      botonPerfil=
+                        <div>
+                          <Link to={{
+                            pathname:'/VerPerfil',
+                            datos:{
+                              vendedor:this.props.vendedor  
+                            }
+                          }}>
+                          <Button variant="outline-dark">
+                            VENDEDOR: {this.props.vendedor}
+                          </Button>
+                          </Link>
+                        </div>
+                  
                     botonReportar=
                         <div>
                           <Link to={{
@@ -325,12 +353,27 @@ class VistaProducto extends Component {
                               articulo:this.props.nombre
                             }
                           }}>
-                            <Button className="mr-sm-4" variant="danger">
+                            <Button className="ml-sm-4" variant="danger">
                               Reportar vendedor
                             </Button>
                           </Link>
                         </div>
           }
+      }
+      else{ //Si estas mirando un producto tuyo: 'ver perfil' redirige a tu pantalla de gestion del perfil
+        botonPerfil=
+          <div>
+            <Link to={{
+              pathname:'/Perfil',
+              datos:{
+                vendedor:this.props.vendedor  
+              }
+            }}>
+            <Button variant="outline-dark">
+              VENDEDOR: {this.props.vendedor}
+            </Button>
+            </Link>
+          </div>
       }
     }
     else{
@@ -345,6 +388,21 @@ class VistaProducto extends Component {
                   Hacer oferta
                 </Button>
                 </div>
+
+              botonPerfil=
+                <div>
+                  <Link to={{
+                    pathname:'/VerPerfil',
+                    datos:{
+                      vendedor:this.props.vendedor  
+                    }
+                  }}>
+                  <Button variant="outline-dark">
+                    VENDEDOR: {this.props.vendedor}
+                  </Button>
+                  </Link>
+                </div>
+
         botonReportar=
             <div>
               <Button className="mr-sm-4" variant="danger" onClick={() => this.registrese()}>
@@ -371,11 +429,12 @@ class VistaProducto extends Component {
           <Container>
             <Row className="show-grid">
               <Col xs={6}>
-                <Button variant="outline-dark"> {/*onClick=() => aqui redirigir al vendedor*/}
-                  VENDEDOR: {this.props.vendedor}
-                </Button>
+              <ButtonGroup aria-label="Basic example">
 
+                {botonPerfil}
                 {botonReportar}
+                
+                </ButtonGroup>
 
               </Col>
               <Col xs={3}>
@@ -384,14 +443,19 @@ class VistaProducto extends Component {
               <Col xs={3}>
                 <div className="w-100 text-left">
                   <StarRatings 
-                  //changeRating={this.changeRating}
-                    rating={this.state.rating} 
+                    //changeRating={this.changeRating}
+                    //rating={this.state.rating} 
                     
                     starRatedColor="yellow" 
-                    numberOfStars={5} 
-                    name='rating'
+                    numberOfStars={5}
                     starDimension="20px" 
                     starSpacing="5px"
+
+                    //name='rating'
+                    //id='rating'
+                    value={this.state.rating}
+                    onChange={this.onChange}
+
                   />
                 </div>
               </Col>

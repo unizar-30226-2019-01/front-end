@@ -17,6 +17,7 @@ import Chat from './components/Chat';
 import Producto from './components/Producto';
 import Report from './components/Report';
 import Ofertas from './components/Ofertas';
+import VerPerfil from './components/VerPerfil';
 
 
 const AppRoutes = () =>
@@ -34,6 +35,7 @@ const AppRoutes = () =>
       <Route exact path="/ofertas" component={Ofertas} />
       <Route exact path="/" component={App} />
       <Route exact path="/Report" component={Report} />
+      <Route exact path="/VerPerfil" component={VerPerfil} />
     </Switch>
   </div>;
 
