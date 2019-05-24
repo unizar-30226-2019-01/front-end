@@ -8,30 +8,27 @@ import Container from 'react-bootstrap/Container';
 import NavLogReg from './NavLogReg';
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
-import { infoReport } from '../GestionUsuarios';
+import { reportar, infoUsuario } from '../GestionUsuarios';
 
 
 class Report extends Component {
     constructor(props) {
-
-        console.log("ENTRA al report")
-
         super(props)
         this.state = {
-          //vendedor: props.location.datos.vendedor ,          
-          //producto: props.location.datos.articulo ,
+          denunciante: props.location.datos.denunciante ,  
+          vendedor: props.location.datos.vendedor ,          
+          producto: props.location.datos.articulo ,
           texto: '',
           //tipoDenuncia: '',
 
           validated: false
         }
-        console.log(this.state)
-
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.handleSubmit.bind(this)   //Prevencion de campos vacios
     }
 
     handleSubmit(event) { //Cada vez que se envie el formulario
+      
       const form = event.currentTarget;
       if (form.checkValidity() === false) {
         event.preventDefault(); //Evita refrescar la pantalla (si hay entradas no validas)
@@ -39,18 +36,25 @@ class Report extends Component {
       }
       else{
         event.preventDefault()
-  
+        
+        console.log("Denunsiante:")
+        console.log(this.state.denunciante)
+
         const infoReport = {
+          denunciante: this.state.denunciante,
           vendedor: this.state.vendedor,
           producto: this.state.producto,
           //tipoDenuncia: this.state.tipoDenuncia,
           texto: this.state.texto
         }
-        register(newUser).then(res => {
+        console.log("infoReport :")
+        console.log(infoReport)
+        
+        reportar(infoReport).then(res => {
           this.setState({
             respuestaBD: res
           })
-        })
+        })  
         this.setState({ redirect: true });
       }
       this.setState({ validated: true });
@@ -65,6 +69,10 @@ class Report extends Component {
 
     render(){
         const { validated } = this.state;
+        if (this.state.redirect){
+          return <Redirect push to="/" />;
+        }
+
         return(
             <div className="App">
             <NavLogReg/>
@@ -124,14 +132,32 @@ class Report extends Component {
                         </Form.Group>
                     </fieldset>
                 */}
+
+                {/* 
                     <textarea 
+                        required
                         rows="10" 
                         cols="100"
-                        required
+                        name="texto"
                         placeholder="Indique los motivos de su denuncia"
-                        value={this.state.value} 
+                        value={this.state.texto} 
                         onChange={this.onChange} 
                     />
+                  */}
+
+                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                        <Form.Control as="textarea" 
+                          rows="10" 
+                          required
+                          name="texto"
+                          placeholder="Indique los motivos de su denuncia"
+                          value={this.state.texto} 
+                          onChange={this.onChange}                           
+                        
+                        />
+                    </Form.Group>
+
+
 
 
                   <Button

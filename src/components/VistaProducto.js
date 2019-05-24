@@ -8,23 +8,10 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import bichardo from '../images/bichardo.jpg';
-import bixorobar from '../images/bixorobar.jpg';
-import bixopolilla from '../images/bixopolilla.jpg';
 import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
-
-
-
-
-
 import Report from './Report';
-
-
-
-
-
 
 class VistaProducto extends Component {
   constructor(props) {
@@ -214,10 +201,11 @@ class VistaProducto extends Component {
     }
 
     let chatYoferta
+    let botonReportar
     if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
-      if (this.props.vendedor != decoded.identity.login){
+      if (this.props.vendedor != decoded.identity.login){   // Si user != vendedor
        chatYoferta =
        			<div>
                <ButtonGroup aria-label="Basic example">
@@ -246,6 +234,23 @@ class VistaProducto extends Component {
                 </Button>
                 </ButtonGroup>
                 </div>
+
+        botonReportar=
+              <div>
+                <Link to={{
+                  pathname:'/Report',
+                  datos:{
+                    denunciante: decoded.identity.login,
+                    passDenunciante:  decoded.identity.password,
+                    vendedor:this.props.vendedor,
+                    articulo:this.props.nombre
+                  }
+                }}>
+                  <Button className="mr-sm-4" variant="danger">
+                    Reportar vendedor
+                  </Button>
+                </Link>
+              </div>
       }
     }
     else{
@@ -259,6 +264,12 @@ class VistaProducto extends Component {
                   Hacer oferta
                 </Button>
                 </div>
+        botonReportar= 
+            <div>
+              <Button className="mr-sm-4" variant="danger" onClick={() => this.registrese()}>
+                Reportar vendedor
+              </Button>
+            </div>
     }
 
     return (
@@ -283,18 +294,7 @@ class VistaProducto extends Component {
                   VENDEDOR: {this.props.vendedor}
                 </Button>
 
-                <Link to={{
-                  pathname:'/Report',
-                  datos:{
-                    //console.
-                    vendedor:this.props.vendedor,
-                    articulo:this.props.nombre
-                  }
-                }}>
-                  <Button className="ml-sm-4" variant="danger">
-                    Reportar vendedor
-                  </Button>
-                </Link>
+                {botonReportar}
                     
               </Col>
               <Col xs={3}>
