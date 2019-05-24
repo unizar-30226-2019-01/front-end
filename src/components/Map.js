@@ -202,6 +202,7 @@ this.setState( {
    }
   );
  };
+
 render(){
 const AsyncMap = withScriptjs(
    withGoogleMap(

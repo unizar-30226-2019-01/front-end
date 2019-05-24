@@ -24,6 +24,7 @@ class VistaProducto extends Component {
       fotos:this.props.fotoP,
       fot: [],
       primeraVez: true,
+      primeraVezURL: true,
       precioOferta: ''
     }; //Para conseguir la valoracion del vendedor
 
@@ -31,9 +32,9 @@ class VistaProducto extends Component {
     //this.changeRating = this.changeRating.bind(this);
   }
 
-  componentWillReceiveProps(){
+  /*componentWillReceiveProps(){
     this.setState({primeraVez:true})
-  }
+  }*/
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -54,13 +55,17 @@ class VistaProducto extends Component {
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
-    var aviso = document.createElement('div');
-    aviso.setAttribute('id', 'aviso');
-    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-    aviso.innerHTML = 'URL copiada';
-    document.body.appendChild(aviso);
-    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     document.body.removeChild(aux);
+    if(this.state.primeraVezURL){
+      this.setState({ primeraVezURL: false });
+      var aviso = document.createElement('div');
+      aviso.setAttribute('id', 'aviso');
+      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+      aviso.innerHTML = 'URL copiada';
+      document.body.appendChild(aviso);
+      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      setTimeout(() => {this.setState({ primeraVezURL: true });}, 1980);
+    }
   }
 
   marcarFavorito(usu,publicacion){
@@ -77,12 +82,6 @@ class VistaProducto extends Component {
       console.log(usu)
       crearFavorito(fav,publicacion)
       this.setState({fav: "Favorito existe"});
-      var aviso = document.createElement('div');
-      aviso.setAttribute('id', 'aviso');
-      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-      aviso.innerHTML = 'Añadido a FAVORITOS';
-      document.body.appendChild(aviso);
-      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     }
   }
 
@@ -93,6 +92,7 @@ class VistaProducto extends Component {
 
   esFavorito(usu,publicacion){
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        console.log("AQUIIIII")
         this.setState({fav: "Favorito no existe"});
     }
     else{
@@ -205,10 +205,11 @@ class VistaProducto extends Component {
               })
         })
 
-        this.esFavorito(this.props.usuario,this.props.id)
+        if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null){
+          this.esFavorito(this.props.usuario,this.props.id)
+        }
       }
       Array.prototype.push.apply(fotosMostrar, this.state.fot);
-
     }
 
     if (this.state.fav=="Favorito no existe") {
@@ -274,7 +275,7 @@ class VistaProducto extends Component {
                         <Link to={{
                           pathname:'/VerPerfil',
                           datos:{
-                            vendedor:this.props.vendedor  
+                            vendedor:this.props.vendedor
                           }
                         }}>
                         <Button variant="outline-dark">
@@ -333,7 +334,7 @@ class VistaProducto extends Component {
                           <Link to={{
                             pathname:'/VerPerfil',
                             datos:{
-                              vendedor:this.props.vendedor  
+                              vendedor:this.props.vendedor
                             }
                           }}>
                           <Button variant="outline-dark">
@@ -341,7 +342,7 @@ class VistaProducto extends Component {
                           </Button>
                           </Link>
                         </div>
-                  
+
                     botonReportar=
                         <div>
                           <Link to={{
@@ -366,7 +367,7 @@ class VistaProducto extends Component {
             <Link to={{
               pathname:'/Perfil',
               datos:{
-                vendedor:this.props.vendedor  
+                vendedor:this.props.vendedor
               }
             }}>
             <Button variant="outline-dark">
@@ -394,7 +395,7 @@ class VistaProducto extends Component {
                   <Link to={{
                     pathname:'/VerPerfil',
                     datos:{
-                      vendedor:this.props.vendedor  
+                      vendedor:this.props.vendedor
                     }
                   }}>
                   <Button variant="outline-dark">
@@ -433,7 +434,7 @@ class VistaProducto extends Component {
 
                 {botonPerfil}
                 {botonReportar}
-                
+
                 </ButtonGroup>
 
               </Col>
@@ -442,13 +443,13 @@ class VistaProducto extends Component {
               </Col>
               <Col xs={3}>
                 <div className="w-100 text-left">
-                  <StarRatings 
+                  <StarRatings
                     //changeRating={this.changeRating}
-                    //rating={this.state.rating} 
-                    
-                    starRatedColor="yellow" 
+                    //rating={this.state.rating}
+
+                    starRatedColor="yellow"
                     numberOfStars={5}
-                    starDimension="20px" 
+                    starDimension="20px"
                     starSpacing="5px"
 
                     //name='rating'
@@ -499,7 +500,7 @@ class VistaProducto extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>
+          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Cerrar</Button>
         </Modal.Footer>
       </Modal>
     );
