@@ -28,7 +28,7 @@ class VistaProducto extends Component {
     }; //Para conseguir la valoracion del vendedor
 
     this.onChange = this.onChange.bind(this)
-    this.changeRating = this.changeRating.bind(this);
+    //this.changeRating = this.changeRating.bind(this);
   }
 
   componentWillReceiveProps(){
@@ -39,12 +39,14 @@ class VistaProducto extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
+/*
   //Esto no vendria aqui pero es un ejemplo de como realizar una valoracion
   changeRating( newRating, name ) {
     this.setState({
       rating: newRating
     });
   }
+*/
 
   getlink(id) {
     var aux = document.createElement('input');
@@ -352,9 +354,15 @@ class VistaProducto extends Component {
               </Col>
               <Col xs={3}>
                 <div className="w-100 text-left">
-                  <StarRatings rating={this.state.rating} changeRating={this.changeRating}
-                    starRatedColor="yellow" numberOfStars={5} name='rating'
-                    starDimension="20px" starSpacing="5px"
+                  <StarRatings 
+                  //changeRating={this.changeRating}
+                    rating={this.state.rating} 
+                    
+                    starRatedColor="yellow" 
+                    numberOfStars={5} 
+                    name='rating'
+                    starDimension="20px" 
+                    starSpacing="5px"
                   />
                 </div>
               </Col>
