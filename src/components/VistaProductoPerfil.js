@@ -62,7 +62,7 @@ class VistaProductoPerfil extends Component {
       }
       var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
       var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
-      
+
       this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
     }
   }
@@ -72,13 +72,17 @@ class VistaProductoPerfil extends Component {
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
-    var aviso = document.createElement('div');
-    aviso.setAttribute('id', 'aviso');
-    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-    aviso.innerHTML = 'URL copiada';
-    document.body.appendChild(aviso);
-    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     document.body.removeChild(aux);
+    if(this.state.primeraVezURL){
+      this.setState({ primeraVezURL: false });
+      var aviso = document.createElement('div');
+      aviso.setAttribute('id', 'aviso');
+      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+      aviso.innerHTML = 'URL copiada';
+      document.body.appendChild(aviso);
+      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      setTimeout(() => {this.setState({ primeraVezURL: true });}, 1980);
+    }
   }
 
   render() {
