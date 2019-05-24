@@ -84,7 +84,7 @@ class Sidebar extends Component {
               <a className="dropdown-item" href="#"></a>
               <a>&nbsp;&nbsp;<img src={todo}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={coche}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <img src={electronica}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src={electronica}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={telefonia}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <a>&nbsp;&nbsp;<img src={deporte}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={inmobiliaria}></img>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -98,7 +98,7 @@ class Sidebar extends Component {
               <a className="dropdown-item" href="#"></a>
               <a>&nbsp;&nbsp;<img src={moto}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={bici}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <img src={videojuego}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src={videojuego}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={hogar}></img>&nbsp;&nbsp;&nbsp;&nbsp;
               <a>&nbsp;&nbsp;<img src={moda}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={electrodomestico}></img>&nbsp;
@@ -111,8 +111,8 @@ class Sidebar extends Component {
               <a className="dropdown-item" href="#"></a>
               <a>&nbsp;&nbsp;<img src={libro}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={niño}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <img src={empleo}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <img src={construccion}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src={empleo}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src={construccion}></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <a>&nbsp;&nbsp;<img src={coleccionismo}></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <img src={otro}></img>&nbsp;
             </div>

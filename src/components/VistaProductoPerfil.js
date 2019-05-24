@@ -24,6 +24,7 @@ class VistaProductoPerfil extends Component {
       id: this.props.id,
       fot: [],
       primeraVez: true,
+      primeraVezURL: true,
       redirige:false
     }; //Para conseguir la valoracion del vendedor
 
