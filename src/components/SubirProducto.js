@@ -59,7 +59,13 @@ class SubirProducto extends Component {
       console.log(this.state.vendedor)
     }
   }
+  onChangePrecio(e){
+    const numDec=e.target.value.split(".")
+    console.log(numDec)
+    console.log(e.target.value)
 
+    this.setState({ [e.target.name]: e.target.value })
+  }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -328,9 +334,8 @@ cambiarProvincia (prov) {
                     <Form.Control placeholder="Introduzca precio"
                     required
                     name="precio"
-                    type="number"
 										value={this.state.precio}
-										onChange={this.onChange} />
+										onChange={this.onChangePrecio} />
                   </Form.Group>
     } else {
       contenido = <Form>
@@ -341,7 +346,7 @@ cambiarProvincia (prov) {
                     name="precio"
                     type="number"
 										value={this.state.precio}
-										onChange={this.onChange}  />
+										onChange={this.onChangePrecio}  />
                   </Form.Group>
                   <Form.Group controlId="fechaLimite">
                       <Form.Label>Fecha límite</Form.Label>
