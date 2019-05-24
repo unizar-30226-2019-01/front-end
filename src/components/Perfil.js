@@ -201,7 +201,7 @@ class Perfil extends Component {
                                     <h5>
                                       Teléfono:  {this.state.datos[7]}
                                     </h5>
-                                    <p class="proile-rating">Valoración : <span>{this.state.datos[6]}/10</span></p>
+                                    <p class="proile-rating">Valoración : <span>{this.state.datos[6]}/5</span></p>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">En venta</a>

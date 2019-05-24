@@ -73,7 +73,7 @@ class SubirProducto extends Component {
     if(punto[1] != undefined){
       if(punto[1].length > 2){
         escribir=e.target.value.substring(0,e.target.value.length-1)
-        window.confirm("El limite de decimales es 2")
+        window.alert("El limite de decimales es 2")
       }
     }
     else if (coma[1] != undefined){
