@@ -8,7 +8,19 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+import { crearFavorito, eliminarFavorito, consultarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
+=======
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto, consultarFavorito } from '../GestionPublicaciones';
+>>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
+=======
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto, consultarFavorito } from '../GestionPublicaciones';
+>>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
+=======
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto, consultarFavorito } from '../GestionPublicaciones';
+>>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Report from './Report';
@@ -427,7 +439,7 @@ class VistaProducto extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>
+          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Cerrar</Button>
         </Modal.Footer>
       </Modal>
     );

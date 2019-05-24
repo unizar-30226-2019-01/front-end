@@ -32,7 +32,8 @@ class Sidebar extends Component {
    super(props);
    //this.state = {isToggleOn: true};
    this.state = {
-       precio:""
+       precio:"",
+       precio2:""
    };
    // This binding is necessary to make `this` work in the callback
    this.precioMaximo = this.precioMaximo.bind(this);
@@ -48,7 +49,12 @@ class Sidebar extends Component {
 
   precioMaximo(e) {
      //document.getElementById('precioActual').value=e.target.value;
-     this.setState({precio:e.target.value});
+     if(e.target.value==1000){
+       this.setState({precio2:"+1000",precio:e.target.value});
+     }
+     else{
+       this.setState({precio2:e.target.value,precio:e.target.value});
+     }
   }
 
   cambiarProvincia(prov){
@@ -145,8 +151,22 @@ class Sidebar extends Component {
             <div className="col"> </div>
             <div className="col-8">
             <input type="range" className="custom-range" id="customRange1" min="0" max="1000" step="10" onChange={this.precioMaximo}/>
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
             <input type="text" className="trans-box" id="precioActual" size="1" value={this.state.precio} />
+            <div className = "text-center">
+=======
+            <input type="text" className="trans-box" id="precioActual" size="1" value={this.state.precio2} />
+>>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
+=======
+            <input type="text" className="trans-box" id="precioActual" size="1" value={this.state.precio2} />
+>>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
+=======
+            <input type="text" className="trans-box" id="precioActual" size="1" value={this.state.precio2} />
+>>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
             <Button variant="primary"className="mx-auto" onClick={()=>this.props.callback2(this.state.precio)}> MAX €</Button>
+            </div>
             </div>
             <div className="col"> </div>
             </div>

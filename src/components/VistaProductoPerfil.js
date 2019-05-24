@@ -229,7 +229,7 @@ class VistaProductoPerfil extends Component {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Close</Button>
+          <Button onClick={this.props.onHide /* usas la variable onHide q te manda el padre (closeModal)*/} >Cerrar</Button>
         </Modal.Footer>
       </Modal>
     );

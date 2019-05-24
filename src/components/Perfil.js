@@ -266,6 +266,7 @@ class Perfil extends Component {
                                     <p className="card-text">{productos[4]}€</p>
                                     </div>
                                     <div className="card-footer"> {/*Para gestionar VistaProductoPerfil (guille)*/}
+                                    <div className="text-center">
                                     <Button
                                         variant="outline-primary"
                                         onClick={() => this.setState({ modalShow: true,
@@ -283,6 +284,7 @@ class Perfil extends Component {
                                                                        cargar: true})} >
                                         Ver producto
                                     </Button>
+                                    </div>
                                     </div> {/* Fin para gestionar VistaProductoPerfil (guille)*/}
                                 </div>
                                 </div>
