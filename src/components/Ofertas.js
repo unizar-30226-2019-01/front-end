@@ -31,7 +31,7 @@ class Perfil extends Component {
   }
 
   componentDidMount() {
-    
+
     listarOfertas(this.state.id).then(data => {
         this.setState({
             ofertas: data
@@ -77,11 +77,11 @@ class Perfil extends Component {
       });
   }
 
-  
+
 
 
   render() {
-    
+
     if (this.state.redirect){
       return <Redirect push to="/" />;
     }
@@ -99,12 +99,12 @@ class Perfil extends Component {
                     <div class="col-md-6">
                         <div class="profile-head">
                         <label>Producto: </label>
-                                    <h5>
+                                    <h1>
                                         {this.state.datos[1]}
-                                    </h5>
-                                    <h6>
+                                    </h1>
+                                    <h4>
                                         {this.state.datos[2]}
-                                    </h6>
+                                    </h4>
                                     <br/>
                                     <br/>
                                 <table border="0" cellspacing="0" cellpadding="0">
@@ -119,10 +119,10 @@ class Perfil extends Component {
                                 <tr>
                             <td class="text-left"><h3>{oferta[1]}</h3>Precio: {oferta[0]}€ </td>
                             <br/><br/>
-                            <td class="unit"><Button variant="primary"  onClick={() => this.aceptarOferta(oferta[1])}>
+                            <td><Button variant="primary"  onClick={() => this.aceptarOferta(oferta[1])}>
                                         Aceptar
                                     </Button></td>
-                            <td class="qty"><Button variant="danger"  onClick={() => this.rechazarOferta(index,oferta[1])}>
+                            <td><Button variant="danger"  onClick={() => this.rechazarOferta(index,oferta[1])}>
                                         Cancelar
                                     </Button></td>
                         </tr>
@@ -133,7 +133,7 @@ class Perfil extends Component {
                         </div>
                     </div>
                 </div>
-            </form>           
+            </form>
         </div>
     </div>
 
