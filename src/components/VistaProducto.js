@@ -102,7 +102,6 @@ class VistaProducto extends Component {
       const fav = {
         usuario: decoded.identity.login
       }
-      console.log(usu)
       consultarFavorito(fav,publicacion).then(data => {
         this.setState({
             fav: data

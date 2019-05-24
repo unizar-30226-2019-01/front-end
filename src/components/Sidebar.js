@@ -55,6 +55,8 @@ class Sidebar extends Component {
      else{
        this.setState({precio2:e.target.value,precio:e.target.value});
      }
+     //console.log(this.state.precio)
+     //this.props.callback2(this.state.precio)
   }
 
   cambiarProvincia(prov){

@@ -20,7 +20,7 @@ import {Input} from "mdbreact"; //npm install mdbreact
 import Form from 'react-bootstrap/Form';
 
 
-class Productos extends Component {
+class ProductosPrecio extends Component {
 
   constructor(args) {
     super(args)
@@ -67,7 +67,6 @@ class Productos extends Component {
 
   componentWillReceiveProps (){
       this.getAll()
-      console.log("AQUIIIIIII")
       this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
       this.setState({lugar:this.props.lugar})
@@ -295,4 +294,4 @@ class Productos extends Component {
     )
   }
 }
-export default Productos
+export default ProductosPrecio

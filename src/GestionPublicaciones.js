@@ -13,8 +13,7 @@ export const getProductos = () => {
                 //var fotos = getFotos(val.id)
                 data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal, val.Provincia])
             })
-            console.log(data)
-
+            //console.log(data)
             return data
         })
   }

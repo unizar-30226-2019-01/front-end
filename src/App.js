@@ -17,7 +17,7 @@ class App extends Component {
 
   componentDidMount() {
     //localStorage.clear();
-    console.log("ELIMINO TOKENS")
+    //console.log("ELIMINO TOKENS")
   }
 
   constructor(props) {
@@ -46,22 +46,28 @@ class App extends Component {
     this.setState({categoria:c});
   }
 
-  categoriaSelec(l){
-    this.setState({lugar:l});
-  }
-
   lugar(prov){
     this.setState({lugar:prov})
   }
 
   render() {
+    let magiaPrecio
+    if(this.state.precio!=0){
+      console.log("KO")
+      magiaPrecio=this.state.precio
+      console.log(magiaPrecio)
+    }
+    else{
+      console.log("KO CERO")
+      magiaPrecio=0
+    }
     let barra;
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-      console.log("no existe")
+      //console.log("no existe")
       barra = <NavLog/>
     }
     else{
-      console.log("existe")
+      //console.log("existe")
       barra = <NavLogReg/>
 
     }
@@ -70,7 +76,7 @@ class App extends Component {
         {barra}
         <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} callback4={this.lugar.bind(this)} />
         <div className="App-header">
-          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria} lugar={this.state.lugar}/>
+          <Productos mostrar={this.state.mostrar} precio={magiaPrecio} categoria={this.state.categoria} lugar={this.state.lugar}/>
         </div>
       </div>
     );
