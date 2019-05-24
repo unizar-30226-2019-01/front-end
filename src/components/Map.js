@@ -266,9 +266,7 @@ let map;
        <input type="text" name="state" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.state }/>
       </div>
      </div>
-     <div className = "text-center">
      <Button onClick={() => this.props.callback(this.state.area)} className="mr-sm-4" variant="secondary">Confirmar localizacion</Button>
-     </div>
     </div>
 } else {
    map = <div style={{height: this.props.height}} />

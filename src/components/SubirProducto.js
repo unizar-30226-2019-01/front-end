@@ -468,7 +468,8 @@ cambiarProvincia (prov) {
                   zoom={5}
                   callback={this.cambiarProvincia.bind(this)}
                 />
-                <br/>
+                <br />
+                <br />
                 {botonSubir}
               </Form>
             </Col>
