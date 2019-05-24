@@ -73,3 +73,9 @@ bottom:10px;
   left:500px;
   width: 300px;
 }
+
+.botonSubir{
+  position:absolute;
+  top:1277px;
+  right:180px;
+}

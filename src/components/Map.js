@@ -202,6 +202,7 @@ this.setState( {
    }
   );
  };
+
 render(){
 const AsyncMap = withScriptjs(
    withGoogleMap(
@@ -266,6 +267,7 @@ let map;
       </div>
      </div>
      <Button onClick={() => this.props.callback(this.state.area)} className="mr-sm-4" variant="secondary">Confirmar localizacion</Button>
+
     </div>
 } else {
    map = <div style={{height: this.props.height}} />

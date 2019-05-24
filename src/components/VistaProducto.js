@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto, consultarFavorito } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Report from './Report';
