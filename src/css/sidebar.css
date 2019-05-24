@@ -75,7 +75,7 @@ bottom:10px;
 }
 
 .botonSubir{
-  position:absolute;
-  top:1289px;
-  right:180px;
+  position:relative;
+  top:-80px;
+  right:20px;
 }
