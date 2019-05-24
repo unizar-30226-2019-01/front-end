@@ -260,7 +260,7 @@ class Perfil extends Component {
                                 {this.state.EnVenta.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={productos[6]} />
+                                    <img className="card-img-top" src={productos[6]} width="150" height="170" />
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
