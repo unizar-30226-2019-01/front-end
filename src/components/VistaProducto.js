@@ -19,12 +19,12 @@ class VistaProducto extends Component {
     this.state = {
       esVenta: true,
       rating: 4,
-      fav: this.props.fav,
+      fav: "Favorito no existe",
       id: this.props.id,
       fotos:this.props.fotoP,
       fot: [],
       primeraVez: true,
-      precioOferta: '',
+      precioOferta: ''
     }; //Para conseguir la valoracion del vendedor
 
     this.onChange = this.onChange.bind(this)
@@ -76,12 +76,38 @@ class VistaProducto extends Component {
       }
       console.log(usu)
       crearFavorito(fav,publicacion)
+      this.setState({fav: "Favorito existe"});
       var aviso = document.createElement('div');
       aviso.setAttribute('id', 'aviso');
       aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
       aviso.innerHTML = 'Añadido a FAVORITOS';
       document.body.appendChild(aviso);
       document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+    }
+  }
+
+  desmarcarFavorito(){
+      this.setState({fav: "Favorito no existe"});
+      this.props.callback(this.props.indice)
+  }
+
+  esFavorito(usu,publicacion){
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        this.setState({fav: "Favorito no existe"});
+    }
+    else{
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+
+      const fav = {
+        usuario: decoded.identity.login
+      }
+      console.log(usu)
+      consultarFavorito(fav,publicacion).then(data => {
+        this.setState({
+            fav: data
+        })
+      })
     }
   }
 
@@ -165,11 +191,11 @@ class VistaProducto extends Component {
 
   render() {
     let fotosMostrar=[[]]
+    let contenido
     if(this.props.show){
       fotosMostrar=[[this.props.fotoP]]
       if(this.state.primeraVez){
         getFotos(this.props.id).then(data => {
-          console.log("HOLA3")
           this.setState({
               fot: [...data],
               primeraVez: false
@@ -178,17 +204,20 @@ class VistaProducto extends Component {
                   console.log(this.state.term)
               })
         })
+
+        this.esFavorito(this.props.usuario,this.props.id)
       }
       Array.prototype.push.apply(fotosMostrar, this.state.fot);
+
     }
 
-    let contenido
-    if (!this.props.fav) {
+    if (this.state.fav=="Favorito no existe") {
       contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.props.usuario,this.props.id)}>
          FAVORITO
         </Button>
-    } else {
-      contenido = <Button className="mr-sm-4" variant="warning" onClick={() =>this.props.callback(this.props.indice)}>
+    }
+    else if(this.state.fav=="Favorito existe"){
+      contenido = <Button className="mr-sm-4" variant="warning" onClick={() => this.desmarcarFavorito()}>
           Eliminar
         de FAVORITOS
         </Button>

@@ -363,6 +363,20 @@ export const eliminarSubasta = subasta => {
         })
   }
 
+  export const consultarFavorito = (producto, id) => {
+    return axios
+        .post(
+            `esFavorito/${id}`, {
+                usuario: producto.usuario
+            })
+        .then((res) => {
+            return res.data
+        })
+        .catch((err) => {
+            return err
+        })
+  }
+
   export const eliminarFavorito = (producto, id) => {
     return axios
         .post(
@@ -386,7 +400,7 @@ export const eliminarSubasta = subasta => {
             var data = []
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
-                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal])
+                data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal, val.Provincia])
             })
 
             return data

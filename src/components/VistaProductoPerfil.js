@@ -10,7 +10,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import bichardo from '../images/bichardo.jpg';
 import bixorobar from '../images/bixorobar.jpg';
 import bixopolilla from '../images/bixopolilla.jpg';
-import { crearFavorito, eliminarFavorito, getFotos } from '../GestionPublicaciones';
+import { getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
@@ -21,10 +21,10 @@ class VistaProductoPerfil extends Component {
     this.state = {
       esVenta: true,
       rating: 4,
-      fav: this.props.fav,
       id: this.props.id,
       fot: [],
-      primeraVez: true
+      primeraVez: true,
+      redirige:false
     }; //Para conseguir la valoracion del vendedor
 
     this.changeRating = this.changeRating.bind(this);
@@ -41,6 +41,31 @@ class VistaProductoPerfil extends Component {
     });
   }
 
+  comprobacionEliminar(){
+    if(this.props.fechaLimite==""){
+      this.props.callback(this.props.indice, this.props.fechaLimite, 0, 0)
+    }
+    else{
+      var day = new Date();
+      var dd = day.getDate();
+      var mm = day.getMonth()+1;
+      var yy = day.getFullYear();
+      var fecha = yy+'-'+mm+'-'+dd
+      var separador="-",
+          fechaHoy=fecha.split(separador),
+          fechaL=(this.props.fechaLimite).split(separador);
+      if(fechaHoy[1].length==1){
+        fechaHoy[1]= "0"+fechaHoy[1]
+      }
+      if(fechaHoy[2].length==1){
+        fechaHoy[2]= "0"+fechaHoy[2]
+      }
+      var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
+      var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
+      
+      this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
+    }
+  }
   getlink(id) {
     var aux = document.createElement('input');
     aux.setAttribute('value', "http://localhost:3000/producto?id=" + id);
@@ -56,29 +81,10 @@ class VistaProductoPerfil extends Component {
     document.body.removeChild(aux);
   }
 
-  marcarFavorito(usu,publicacion){
-    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
-    }
-    else{
-      const token = localStorage.usertoken
-      const decoded = jwt_decode(token)
-
-      const fav = {
-        usuario: decoded.identity.login
-      }
-      console.log(usu)
-      crearFavorito(fav,publicacion)
-      var aviso = document.createElement('div');
-      aviso.setAttribute('id', 'aviso');
-      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-      aviso.innerHTML = 'Añadido a FAVORITOS';
-      document.body.appendChild(aviso);
-      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
-    }
-  }
-
   render() {
+    if(this.state.redirige){
+      return <Redirect push to="/Perfil" />;
+    }
     let fotosMostrar=[[]]
     if(this.props.show){
       fotosMostrar=[[this.props.fotoP]]
@@ -94,18 +100,6 @@ class VistaProductoPerfil extends Component {
         })
       }
       Array.prototype.push.apply(fotosMostrar, this.state.fot);
-    }
-
-    let contenido
-    if (!this.props.fav) {
-      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.props.usuario,this.props.id)}>
-         FAVORITO
-        </Button>
-    } else {
-      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() =>this.props.callback(this.props.indice)}>
-          Eliminar
-        de FAVORITOS
-        </Button>
     }
 
     let precio
@@ -153,8 +147,6 @@ class VistaProductoPerfil extends Component {
       editarONo= <div className="col-md-9 text-right">
                   <ButtonGroup toggle>
 
-                    {contenido}
-
                     <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
                       Copiar URL
                     </Button>
@@ -169,7 +161,7 @@ class VistaProductoPerfil extends Component {
 
                     {editarProdOSubs}
 
-                    <Button variant="danger"  onClick={() => this.props.callback(this.props.indice, this.props.fechaLimite)}>
+                    <Button variant="danger"  onClick={() => this.comprobacionEliminar()}>
                       Eliminar
                     </Button>
                   </ButtonGroup>
