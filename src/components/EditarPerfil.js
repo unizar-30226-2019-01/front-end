@@ -130,7 +130,7 @@ class EditarPerfil extends Component {
 
                 <td> 
                 	<Form.Group controlId="foto"> 
-                   <img src={this.state.datos[4]} alt="Falla la foto" width="100%" height="100%"/> 
+                   <img src={this.state.datos[4]} alt="" width="100%" height="100%"/> 
                             <div class="file btn btn-lg btn-primary">
                                 Cambiar foto:
                                 <input type='file' onChange={this.handleOnChange.bind(this)}/>
@@ -148,7 +148,7 @@ class EditarPerfil extends Component {
                 readOnly
                 name="login"
                 defaultValue={this.state.datos[0]}
-                //onChange={this.onChange}    No se permite modificar el login, no???
+                //onChange={this.onChange}    No se permite modificar el login
 				      />
 				    </Form.Group>
 				</td>
@@ -160,6 +160,7 @@ class EditarPerfil extends Component {
               <Form.Control 
                 required
                 name="nombre"
+                id="nombre"
                 defaultValue={this.state.nombre}
 				      	value={this.state.nombre}
                 onChange={this.OnChange}
