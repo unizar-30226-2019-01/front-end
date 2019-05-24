@@ -22,26 +22,25 @@ class SubirProducto extends Component {
     this.state = {
       venta: true,
       nombre: '',
-      fecha: '',
-			lugar: '',
-			categoria: '',
       descripcion: '',
-      vendedor: '',
-      precio: '',
-      fechaLimite: '',
-      horaLimite: '',
+      categoria: '',
       foto: '',
-      uploadValue: 0,
-      picture: '',
       foto1: '',
       foto2: '',
       foto3: '',
-      provincia:""
+      fecha: '',
+      precio: '',
+      fechaLimite: '',
+      horaLimite: '',
+			lugar: '',
+      provincia:"",
+      picture: '',
+      vendedor: '',
+      uploadValue: 0,
+      validated: false
     }
-    this.state = { validated: false };
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.es_bisiesto = this.es_bisiesto.bind(this)
   }
 
   componentDidMount() {
@@ -65,10 +64,6 @@ class SubirProducto extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  es_bisiesto(year) {
-	   return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)
-  }
-
   onSubmit(e) {
     e.preventDefault() //Con esto se evita recargar la pagina
 
@@ -83,23 +78,22 @@ class SubirProducto extends Component {
       var dd = day.getDate();
       var mm = day.getMonth()+1;
       var yy = day.getFullYear();
-
       var fecha = yy+'-'+mm+'-'+dd
       console.log(this.state.foto1)
 
       if(this.state.venta){
         const newProducto = {
           nombre: this.state.nombre,
-          fecha: fecha,
-    			categoria: this.state.categoria,
           descripcion: this.state.descripcion,
-          vendedor: this.state.vendedor,
-          precio: this.state.precio,
+          categoria: this.state.categoria,
           foto: this.state.foto,
           foto1: this.state.foto1,
           foto2: this.state.foto2,
           foto3: this.state.foto3,
-          provincia: this.state.provincia
+          precio: this.state.precio,
+          vendedor: this.state.vendedor,
+          provincia: this.state.provincia,
+          fecha: fecha
         };
         anadirProducto(newProducto).then(data => {
           this.setState({
