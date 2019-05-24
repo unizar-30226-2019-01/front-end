@@ -46,10 +46,6 @@ class App extends Component {
     this.setState({categoria:c});
   }
 
-  categoriaSelec(l){
-    this.setState({lugar:l});
-  }
-
   lugar(prov){
     this.setState({lugar:prov})
   }
