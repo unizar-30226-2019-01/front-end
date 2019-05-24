@@ -18,6 +18,7 @@ import Producto from './components/Producto';
 import Report from './components/Report';
 import Ofertas from './components/Ofertas';
 import VerPerfil from './components/VerPerfil';
+import Magia from './components/Magia';
 
 
 const AppRoutes = () =>
@@ -36,6 +37,7 @@ const AppRoutes = () =>
       <Route exact path="/" component={App} />
       <Route exact path="/Report" component={Report} />
       <Route exact path="/VerPerfil" component={VerPerfil} />
+      <Route exact path="/Magia" component={Magia} />
     </Switch>
   </div>;
 

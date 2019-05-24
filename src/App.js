@@ -17,16 +17,30 @@ class App extends Component {
 
   componentDidMount() {
     //localStorage.clear();
-    console.log("ELIMINO TOKENS")
+    //console.log("ELIMINO TOKENS")
   }
 
   constructor(props) {
     super(props);
-    this.state = {
-      mostrar:0,
-      precio:0,
-      categoria:"",
-      lugar:""
+    if(props.location.prod==undefined){
+      this.state = {
+        mostrar:0,
+        precio:"",
+        precioAnt:"",
+        categoria:"",
+        lugar:"",
+        lugarAnt:""
+      }
+    }
+    else{
+      this.state = {
+        mostrar:0,
+        precio:props.location.prod.precioMagia,
+        precioAnt:props.location.prod.precioMagia,
+        categoria:"",
+        lugar:props.location.prod.lugarMagia,
+        lugarAnt:props.location.prod.lugarMagia
+      }
     }
     this.ordenacion = this.ordenacion.bind(this);
     this.maximoPrecio = this.maximoPrecio.bind(this);
@@ -51,22 +65,35 @@ class App extends Component {
   }
 
   render() {
+    if((this.state.precio!=this.state.precioAnt) || (this.state.lugar!=this.state.lugarAnt)){
+      return <Redirect push to={{pathname: `/Magia`,
+                                prod:{precioMagia:this.state.precio,
+                                      lugarMagia:this.state.lugar}}} />;
+    }
+
+    let precioAPasar
+    if(this.state.precio==""){
+      precioAPasar = 0
+    }
+    else{
+      precioAPasar = this.state.precio
+    }
+
     let barra;
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-      console.log("no existe")
       barra = <NavLog/>
     }
     else{
-      console.log("existe")
       barra = <NavLogReg/>
 
     }
+    console.log(this.state.lugar)
     return (
       <div className="App">
         {barra}
-        <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} callback4={this.lugar.bind(this)} />
+        <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} callback4={this.lugar.bind(this)} precioText={this.state.precio} lugarText={this.state.lugar}/>
         <div className="App-header">
-          <Productos mostrar={this.state.mostrar} precio={this.state.precio} categoria={this.state.categoria} lugar={this.state.lugar}/>
+          <Productos mostrar={this.state.mostrar} precio={precioAPasar} categoria={this.state.categoria} lugar={this.state.lugar}/>
         </div>
       </div>
     );
