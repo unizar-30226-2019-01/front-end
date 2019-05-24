@@ -12,6 +12,7 @@ constructor( props ){
    address: '',
    city: '',
    area: '',
+   lugarText: this.props.lugarText,
    state: '',
    mapPosition: {
     lat: this.props.center.lat,
@@ -203,6 +204,13 @@ this.setState( {
   );
  };
 render(){
+  let mostrar
+  if(this.state.lugarText=="" && this.state.area=="Zaragoza"){
+    mostrar=""
+  }
+  else{
+    mostrar = this.state.area
+  }
 const AsyncMap = withScriptjs(
    withGoogleMap(
     props => (
@@ -254,7 +262,7 @@ let map;
      <div>
       <div className="form-group">
        <label htmlFor="">Localidad</label>
-       <input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
+       <input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ mostrar }/>
       </div>
      </div>
      <Button onClick={() => this.props.callback(this.state.area)}>Aceptar posicion</Button>

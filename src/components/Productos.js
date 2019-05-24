@@ -38,12 +38,12 @@ class Productos extends Component {
         descripcionMostrar:'',
         fotoMostrar:'',
         search:"",
-        precio:0,
+        precio:this.props.precio,
         categoria:"",
         fechaLimite: "",
         horaLimite: "",
         cargar: false,
-        lugar: ""
+        lugar: this.props.lugar
 
     };
     this.renderProductos = this.renderProductos.bind(this);
@@ -67,10 +67,7 @@ class Productos extends Component {
 
   componentWillReceiveProps (){
       this.getAll()
-      console.log("AQUIIIIIII")
-      this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
-      this.setState({lugar:this.props.lugar})
   }
 
   eliminarFavoritoPadre(index){
@@ -231,6 +228,7 @@ class Productos extends Component {
   }
 
   render() {
+    console.log(this.props.lugar)
     let modalClose = () => this.setState({ modalShow: false,
                                             cargar: false }); //Para gestionar vistaProducto (guille)
 

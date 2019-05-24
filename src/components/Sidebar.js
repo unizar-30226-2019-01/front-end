@@ -33,7 +33,9 @@ class Sidebar extends Component {
    //this.state = {isToggleOn: true};
    this.state = {
        precio:"",
-       precio2:""
+       precio2:"",
+       precioAux:this.props.precioText,
+       lugarText:this.props.lugarText
    };
    // This binding is necessary to make `this` work in the callback
    this.precioMaximo = this.precioMaximo.bind(this);
@@ -64,6 +66,16 @@ class Sidebar extends Component {
   }
 
   render() {
+    let money
+    if(this.state.precioAux==""){
+      money = "--"
+    }
+    else if(this.state.precioAux==1000){
+      money = "+1000"
+    }
+    else{
+      money = this.state.precioAux
+    }
 
     return(
 
@@ -148,7 +160,7 @@ class Sidebar extends Component {
                 height: 1
             }}
         />
-            <label >Precio maximo</label>
+            <label >Precio máximo: {money}</label>
             <div className="row">
             <div className="col"> </div>
             <div className="col-8">
@@ -172,6 +184,7 @@ class Sidebar extends Component {
               center={{lat: 41.6517501, lng: -0.9300005}}
               height='0px' //para que no se vea el mapa
               zoom={5}
+              lugarText={this.state.lugarText}
               callback={this.cambiarProvincia.bind(this)}
             />
             <hr
