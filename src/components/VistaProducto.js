@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, consultarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Report from './Report';
@@ -24,6 +24,7 @@ class VistaProducto extends Component {
       fotos:this.props.fotoP,
       fot: [],
       primeraVez: true,
+      primeraVezURL: true,
       precioOferta: ''
     }; //Para conseguir la valoracion del vendedor
 
@@ -31,9 +32,9 @@ class VistaProducto extends Component {
     this.changeRating = this.changeRating.bind(this);
   }
 
-  componentWillReceiveProps(){
+  /*componentWillReceiveProps(){
     this.setState({primeraVez:true})
-  }
+  }*/
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -52,13 +53,6 @@ class VistaProducto extends Component {
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
-    var aviso = document.createElement('div');
-    aviso.setAttribute('id', 'aviso');
-    aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-    aviso.innerHTML = 'URL copiada';
-    document.body.appendChild(aviso);
-    document.load = setTimeout('document.body.removeChild(aviso)', 2000);
-    document.body.removeChild(aux);
   }
 
   marcarFavorito(usu,publicacion){
@@ -75,12 +69,6 @@ class VistaProducto extends Component {
       console.log(usu)
       crearFavorito(fav,publicacion)
       this.setState({fav: "Favorito existe"});
-      var aviso = document.createElement('div');
-      aviso.setAttribute('id', 'aviso');
-      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-      aviso.innerHTML = 'Añadido a FAVORITOS';
-      document.body.appendChild(aviso);
-      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
     }
   }
 
@@ -91,6 +79,7 @@ class VistaProducto extends Component {
 
   esFavorito(usu,publicacion){
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        console.log("AQUIIIII")
         this.setState({fav: "Favorito no existe"});
     }
     else{
@@ -203,10 +192,11 @@ class VistaProducto extends Component {
               })
         })
 
-        this.esFavorito(this.props.usuario,this.props.id)
+        if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null){
+          this.esFavorito(this.props.usuario,this.props.id)
+        }
       }
       Array.prototype.push.apply(fotosMostrar, this.state.fot);
-
     }
 
     if (this.state.fav=="Favorito no existe") {
