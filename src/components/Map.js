@@ -268,19 +268,7 @@ let map;
      </div>
      <div className = "text-center">
      <Button onClick={() => this.props.callback(this.state.area)} className="mr-sm-4" variant="secondary">Confirmar localizacion</Button>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
      </div>
-=======
-
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
-=======
-
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
-=======
-
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
     </div>
 } else {
    map = <div style={{height: this.props.height}} />

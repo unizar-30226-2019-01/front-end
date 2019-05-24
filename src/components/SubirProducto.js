@@ -315,7 +315,10 @@ cambiarProvincia (prov) {
     }
     let botonSubir
     if(this.state.provincia!==""){
-      botonSubir=<Button className="botonSubir" type="submit">Subir producto</Button>
+      botonSubir=
+      <div className = "text-center">
+        <Button className="botonSubir" type="submit">Subir producto</Button>
+      </div>
     }
 
     let contenido //Para cambiar vista entre producto o subasta
@@ -465,30 +468,8 @@ cambiarProvincia (prov) {
                   zoom={5}
                   callback={this.cambiarProvincia.bind(this)}
                 />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <br/>
-                <div className = "text-center">
-                <Button type="submit">Subir</Button>
-                </div>
-=======
-=======
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
-=======
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
-
                 <br/>
                 {botonSubir}
-
-
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
-=======
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
-=======
->>>>>>> 2f1d30632f78cafcdb49794871dea826917befef
               </Form>
             </Col>
             <Col xs={3} />
