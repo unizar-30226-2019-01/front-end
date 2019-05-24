@@ -183,6 +183,10 @@ class SubirProducto extends Component {
                 this.setState({
                     respuestaBDSubasta: data
                 })
+                if(data=="Exito"){
+                  //setTimeout(this.acabarSubasta, 20000);
+                  console.log("puesto")
+                }
               })
               this.setState({redirect: true});
             }
@@ -191,6 +195,10 @@ class SubirProducto extends Component {
       }
     }
     this.setState({ validated: true });
+  }
+
+  acabarSubasta(){
+    console.log("TIMEOUT")
   }
 
   changeVentSubst (valor) {

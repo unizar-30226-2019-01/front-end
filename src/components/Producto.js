@@ -9,7 +9,7 @@ import '../css/App.css';
 import NavLog from '../components/NavLog';
 import NavLogReg from '../components/NavLogReg';
 import Carousel from 'react-bootstrap/Carousel';
-import { crearFavorito, eliminarFavorito, getFotos, tipoProducto, infoVenta, infoSubasta } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, tipoProducto, infoVenta, infoSubasta, realizarOferta, realizarOfertaSubasta, consultarFavorito } from '../GestionPublicaciones';
 
 import Form from 'react-bootstrap/Form';
 
@@ -19,18 +19,21 @@ import * as firebase from 'firebase'
 
 class Producto extends Component {
 
-  constructor(args) {
-    super(args)
+  constructor(props) {
+    super(props)
     this.state = {
-        modalShow: false,
         id: this.getParameterByName('id', window.location.href),
         datos1: [],
         fotos: '',
         fot: [],
-        primeraVez: true
+        primeraVez: true,
+        fechaLimite: '',
+        fav: "Favorito no existe",
+        precioOferta: ''
     };
+    this.onChange = this.onChange.bind(this)
 
-}
+}   
 
   componentDidMount () {
     tipoProducto(this.state.id).then(res => {
@@ -50,13 +53,17 @@ class Producto extends Component {
             infoSubasta(this.state.id).then(data => {
                 this.setState({
                   datos1: data,
-                  fotos: data[4]
+                  fotos: data[4],
+                  fechaLimite: data[8]
                 })
             })
         }
     })
-
 }
+
+onChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
     
 
   getParameterByName(name, url) {
@@ -81,9 +88,119 @@ class Producto extends Component {
     document.body.removeChild(aux);
   }
 
-  marcarFavorito(usu,publicacion){
+  ofertar(precio) {
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
         window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+    }
+    else{
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+
+      realizarOferta(decoded.identity.login,this.state.datos1[0],precio).then(res => {
+				if(res=="Error"){
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: red;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Precio inferior al producto';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+        else if(res=="Realizada"){
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: red;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Ya has realizado una oferta, espere a ser aceptada';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+        else{
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Oferta realizada';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+			})
+      this.setState({
+        precioOferta: ''
+      });
+    }
+  }
+
+  ofertarSubasta(precio) {
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta por favor")
+    }
+    else{
+      const token = localStorage.usertoken
+      const decoded = jwt_decode(token)
+
+      //console.log(this.prop.id)
+      realizarOfertaSubasta(decoded.identity.login,this.state.datos1[0],precio).then(res=> {
+        if(res=="ERROR"){
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: red;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'La puja debe superar el precio actual';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+        else{
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Puja realizada';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+        }
+      })
+
+      this.setState({
+        precioOferta: ''
+      });
+    }
+  }
+
+  registrese(){
+  	window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
+  }
+
+    desmarcarFavorito(){
+        const token = localStorage.usertoken
+        const decoded = jwt_decode(token)
+        this.setState({fav: "Favorito no existe"});
+        const fav = {
+            usuario: decoded.identity.login
+        }
+        eliminarFavorito(fav,this.state.datos1[0])
+    }
+
+    esFavorito(usu,publicacion){
+
+        if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+            console.log("AQUIIIII")
+            this.setState({fav: "Favorito no existe"});
+        }
+        else{
+            const token = localStorage.usertoken
+            const decoded = jwt_decode(token)
+
+            const fav = {
+                usuario: decoded.identity.login
+            }
+            console.log("miro fav")
+            consultarFavorito(fav,publicacion).then(data => {
+                this.setState({
+                    fav: data
+                })
+            })
+        }
+}
+
+marcarFavorito(usu,publicacion){
+    if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
+        window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
     }
     else{
       const token = localStorage.usertoken
@@ -94,12 +211,7 @@ class Producto extends Component {
       }
       console.log(usu)
       crearFavorito(fav,publicacion)
-      var aviso = document.createElement('div');
-      aviso.setAttribute('id', 'aviso');
-      aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
-      aviso.innerHTML = 'Añadido a FAVORITOS';
-      document.body.appendChild(aviso);
-      document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      this.setState({fav: "Favorito existe"});
     }
   }
 
@@ -107,58 +219,185 @@ class Producto extends Component {
 
   render() {
 
-
     let chatYoferta
+    let botonReportar
+    let botonPerfil
     if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
-      if (this.props.vendedor != decoded.identity.login){
-       chatYoferta =
-       			<div>
-               <ButtonGroup aria-label="Basic example">
-       			<Link to={{
-                	pathname:'/chat',
-                	datos:{
-                		vendedor:this.props.vendedor,
-                		articulo:this.props.nombre
-                	}
-                }}>
-	                <Button className="mr-sm-4" variant="success">
-	                  Chat con vendedor
-	                </Button>
-                </Link>
-                <Form.Group controlId="s">
-                  <Form.Control type="number" placeholder="Precio"
-                  name="precioOferta" min="1" step="any"
-                  value={this.state.precioOferta}
-                  onChange={this.onChange} />
-                </Form.Group>
-                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
-                  Hacer oferta
-                </Button>
-                </ButtonGroup>
-                </div>
+      if (this.state.datos1[5] != decoded.identity.login){   // Si user != vendedor
+          if(this.state.fechaLimite==""){   // Si es compra normal
+             chatYoferta =
+             			<div>
+                     <ButtonGroup aria-label="Basic example">
+             			<Link to={{
+                      	pathname:'/chat',
+                      	datos:{
+                      		vendedor:this.state.datos1[5],
+                      		articulo:this.state.datos1[1]
+                      	}
+                      }}>
+      	                <Button className="mr-sm-4" variant="success">
+      	                  Chat con vendedor
+      	                </Button>
+                      </Link>
+                      <Form.Group controlId="s">
+                        <Form.Control type="number" placeholder="Precio"
+                        name="precioOferta" min="1" step="any"
+                        value={this.state.precioOferta}
+                        onChange={this.onChange} />
+                      </Form.Group>
+
+                      <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
+                        Hacer oferta
+                      </Button>
+                      </ButtonGroup>
+                      </div>
+                    botonPerfil=
+                      <div>
+                        <Link to={{
+                          pathname:'/VerPerfil',
+                          datos:{
+                            vendedor:this.state.datos1[5]
+                          }
+                        }}>
+                        <Button variant="outline-dark">
+                          VENDEDOR: {this.state.datos1[5]}
+                        </Button>
+                        </Link>
+                      </div>
+
+                    botonReportar=
+                      <div>
+                        <Link to={{
+                          pathname:'/Report',
+                          datos:{
+                            denunciante: decoded.identity.login,
+                            passDenunciante:  decoded.identity.password,
+                            vendedor:this.state.datos1[5],
+                            articulo:this.state.datos1[1]
+                          }
+                        }}>
+                          <Button className="ml-sm-4" variant="danger">
+                            Reportar vendedor
+                          </Button>
+                        </Link>
+                      </div>
+                }
+                else{   //Si es subasta
+                  chatYoferta =
+                       <div>
+                          <ButtonGroup aria-label="Basic example">
+                       <Link to={{
+                             pathname:'/chat',
+                             datos:{
+                               vendedor:this.state.datos1[5],
+                               articulo:this.state.datos1[1]
+                             }
+                           }}>
+                             <Button className="mr-sm-4" variant="success">
+                               Chat con vendedor
+                             </Button>
+                           </Link>
+                           <Form.Group controlId="s">
+                            <Form.Control type="number" placeholder="Precio"
+                            name="precioOferta" min="1" step="any"
+                            value={this.state.precioOferta}
+                            onChange={this.onChange} />
+                        </Form.Group>
+
+                           <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
+                             Hacer puja
+                           </Button>
+                           </ButtonGroup>
+                        </div>
+
+                      botonPerfil=
+                        <div>
+                          <Link to={{
+                            pathname:'/VerPerfil',
+                            datos:{
+                              vendedor:this.state.datos1[5]
+                            }
+                          }}>
+                          <Button variant="outline-dark">
+                            VENDEDOR: {this.state.datos1[5]}
+                          </Button>
+                          </Link>
+                        </div>
+
+                    botonReportar=
+                        <div>
+                          <Link to={{
+                            pathname:'/Report',
+                            datos:{
+                              denunciante: decoded.identity.login,
+                              passDenunciante:  decoded.identity.password,
+                              vendedor:this.state.datos1[5],
+                              articulo:this.state.datos1[1]
+                            }
+                          }}>
+                            <Button className="ml-sm-4" variant="danger">
+                              Reportar vendedor
+                            </Button>
+                          </Link>
+                        </div>
+          }
+      }
+      else{ //Si estas mirando un producto tuyo: 'ver perfil' redirige a tu pantalla de gestion del perfil
+        botonPerfil=
+          <div>
+            <Link to={{
+              pathname:'/Perfil',
+              datos:{
+                vendedor:this.state.datos1[5]
+              }
+            }}>
+            <Button variant="outline-dark">
+              VENDEDOR: {this.state.datos1[5]}
+            </Button>
+            </Link>
+          </div>
       }
     }
     else{
-    	//No estas logueado
+      //No estas logueado
+      console.log("no log")
        chatYoferta =
        			<div>
 	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
 	              Chat con vendedor
 	            </Button>
-                <Form.Group controlId="s">
-                  <Form.Control type="number" placeholder="Precio"
-                  name="precioOferta" min="1" step="any"
-                  value={this.state.precioOferta}
-                  onChange={this.onChange} />
-                </Form.Group>
                 <Button className="mr-sm-4" variant="secondary" onClick={() => this.registrese()}>
                   Hacer oferta
                 </Button>
                 </div>
+
+              botonPerfil=
+                <div>
+                  <Link to={{
+                    pathname:'/VerPerfil',
+                    datos:{
+                      vendedor:this.state.datos1[5]
+                    }
+                  }}>
+                  <Button variant="outline-dark">
+                    VENDEDOR: {this.state.datos1[5]}
+                  </Button>
+                  </Link>
+                </div>
+
+        botonReportar=
+            <div>
+              <Button className="mr-sm-4" variant="danger" onClick={() => this.registrese()}>
+                Reportar vendedor
+              </Button>
+            </div>
     }
 
+
+    
+    let contenido
     let fotosMostrar=[[this.state.fotos]]
     if(this.state.primeraVez){
       getFotos(this.state.id).then(data => {
@@ -171,31 +410,45 @@ class Producto extends Component {
                 console.log(this.state.term)
             })
       })
+      if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null){
+            this.esFavorito(this.state.datos1[5],this.state.id)
+        }
     }
+
     Array.prototype.push.apply(fotosMostrar, this.state.fot);
 
-    let contenido
-    if (!this.props.fav) {
-      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.props.usuario,this.props.id)}>
-         FAVORITO
-        </Button>
-    } else {
-      contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() =>this.props.callback(this.props.indice)}>
-          Eliminar
-        de FAVORITOS
-        </Button>
+    if (this.state.fav=="Favorito no existe") {
+        contenido = <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.marcarFavorito(this.state.datos1[5],this.state.datos1[0])}>
+           FAVORITO
+          </Button>
+      }
+      else if(this.state.fav=="Favorito existe"){
+        contenido = <Button className="mr-sm-4" variant="warning" onClick={() => this.desmarcarFavorito()}>
+            Eliminar
+          de FAVORITOS
+          </Button>
+      }
+
+    let barra
+    if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null){
+        barra = <NavLogReg/>
+    }
+    else{
+        barra = <NavLog/>
     }
 
 
     if (this.state.redirect){
         return <Redirect push to="/" />;
-      }
+    }
+
+
 
 
     if(this.state.tipo=="Venta"){
         return(
             <div className="Perfil">
-            <NavLog/>
+            {barra}
             <div class="container emp-profile">
             <form method="post">
                 <div class="row">
@@ -214,6 +467,14 @@ class Producto extends Component {
                                 </Carousel.Item>
                                 ))}
                             </Carousel>
+                            <br/>
+                            <br/>
+                            <ButtonGroup aria-label="Basic example">
+
+                {botonPerfil}
+                {botonReportar}
+
+                </ButtonGroup>
                             <br/>
                             <br/>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -251,14 +512,6 @@ class Producto extends Component {
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>Vendedor:</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{this.state.datos1[5]}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 <label>Categoría</label>
                                             </div>
                                             <div class="col-md-6">
@@ -280,7 +533,7 @@ class Producto extends Component {
                                         <ButtonGroup toggle>
                                         {contenido}
 
-                                        <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
+                                        <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.state.datos1[0])}>
                                         Copiar URL
                                         </Button>
 
@@ -297,7 +550,7 @@ class Producto extends Component {
     else{
         return(
             <div className="Perfil">
-            <NavLog/>
+            {barra}
             <div class="container emp-profile">
             <form method="post">
                 <div class="row">
@@ -316,6 +569,14 @@ class Producto extends Component {
                                 </Carousel.Item>
                                 ))}
                             </Carousel>
+                            <br/>
+                            <br/>
+                            <ButtonGroup aria-label="Basic example">
+
+                {botonPerfil}
+                {botonReportar}
+
+                </ButtonGroup>
                             <br/>
                             <br/>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -377,14 +638,6 @@ class Producto extends Component {
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>Vendedor:</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{this.state.datos1[5]}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 <label>Categoría</label>
                                             </div>
                                             <div class="col-md-6">
@@ -405,8 +658,8 @@ class Producto extends Component {
                                         <ButtonGroup toggle>
                                         {contenido}
 
-                                        <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
-                                        Copiar URL
+                                        <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.state.datos1[0])}>
+                                            Copiar URL
                                         </Button>
 
                                         {chatYoferta}

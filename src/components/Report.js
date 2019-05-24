@@ -82,7 +82,7 @@ class Report extends Component {
                 <div className = "col"> </div>           {/* Margen de la izquierda */}
                 <div className="col-8">
                     <h1>
-                    Reportar al usuario {this.state.vendedor} por venta de {this.state.producto}
+                    Reportar al usuario {this.state.vendedor} por venta del producto {this.state.producto}
                     </h1>
                     <Form
                       noValidate

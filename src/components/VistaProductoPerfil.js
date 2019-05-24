@@ -43,28 +43,30 @@ class VistaProductoPerfil extends Component {
   }
 
   comprobacionEliminar(){
-    if(this.props.fechaLimite==""){
-      this.props.callback(this.props.indice, this.props.fechaLimite, 0, 0)
-    }
-    else{
-      var day = new Date();
-      var dd = day.getDate();
-      var mm = day.getMonth()+1;
-      var yy = day.getFullYear();
-      var fecha = yy+'-'+mm+'-'+dd
-      var separador="-",
-          fechaHoy=fecha.split(separador),
-          fechaL=(this.props.fechaLimite).split(separador);
-      if(fechaHoy[1].length==1){
-        fechaHoy[1]= "0"+fechaHoy[1]
+    if(window.confirm("¿Estás seguro?")){
+      if(this.props.fechaLimite==""){
+        this.props.callback(this.props.indice, this.props.fechaLimite, 0, 0)
       }
-      if(fechaHoy[2].length==1){
-        fechaHoy[2]= "0"+fechaHoy[2]
+      else{
+        var day = new Date();
+        var dd = day.getDate();
+        var mm = day.getMonth()+1;
+        var yy = day.getFullYear();
+        var fecha = yy+'-'+mm+'-'+dd
+        var separador="-",
+            fechaHoy=fecha.split(separador),
+            fechaL=(this.props.fechaLimite).split(separador);
+        if(fechaHoy[1].length==1){
+          fechaHoy[1]= "0"+fechaHoy[1]
+        }
+        if(fechaHoy[2].length==1){
+          fechaHoy[2]= "0"+fechaHoy[2]
+        }
+        var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
+        var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
+  
+        this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
       }
-      var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
-      var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
-
-      this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
     }
   }
   getlink(id) {
@@ -113,8 +115,10 @@ class VistaProductoPerfil extends Component {
       precio = <h3>Precio: {this.props.precio}</h3>
     }
     else{
-      precio = <h3>Precio actual de subasta: {this.props.precio}</h3>
-      horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
+      precio = <h3>Precio actual: {this.props.precio}€</h3>
+      horaYFechaSubasta =
+      <div><h3>Fecha límite: {this.props.fechaLimite}</h3>
+      <h3>Hora límite:  {this.props.horaLimite}</h3></div>
     }
 
     let editarProdOSubs
@@ -149,28 +153,47 @@ class VistaProductoPerfil extends Component {
 
     let editarONo
     if(this.props.editable){
-      editarONo= <div className="col-md-9 text-right">
-                  <ButtonGroup toggle>
+      if(this.props.fechaLimite==""){
+        editarONo= <div className="col-md-9 text-right">
+        <ButtonGroup toggle>
 
-                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
-                      Copiar URL
-                    </Button>
+          <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
+            Copiar URL
+          </Button>
 
-                    <Link
-                          to={{pathname: `/ofertas`,
-                              prod:{id: this.props.id}}} >
-                      <Button className="mr-sm-4" variant="success" >
-                        Ver ofertas
-                      </Button>
-                      </Link>
+          <Link
+                to={{pathname: `/ofertas`,
+                    prod:{id: this.props.id}}} >
+            <Button className="mr-sm-4" variant="success" >
+              Ver ofertas
+            </Button>
+            </Link>
 
-                    {editarProdOSubs}
+          {editarProdOSubs}
 
-                    <Button variant="danger"  onClick={() => this.comprobacionEliminar()}>
-                      Eliminar
-                    </Button>
-                  </ButtonGroup>
-                </div>
+          <Button variant="danger"  onClick={() => this.comprobacionEliminar()}>
+            Eliminar
+          </Button>
+        </ButtonGroup>
+      </div>
+      }
+      else{
+        editarONo= <div className="col-md-9 text-right">
+        <ButtonGroup toggle>
+
+          <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
+            Copiar URL
+          </Button>
+
+          {editarProdOSubs}
+
+          <Button variant="danger"  onClick={() => this.comprobacionEliminar()}>
+            Eliminar
+          </Button>
+        </ButtonGroup>
+      </div>
+      }
+      
     }
 
     return (
