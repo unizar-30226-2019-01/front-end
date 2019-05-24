@@ -163,7 +163,7 @@ class EditarPerfil extends Component {
                 id="nombre"
                 defaultValue={this.state.nombre}
 				      	value={this.state.nombre}
-                onChange={this.OnChange}
+                onChange={this.onChange}
 				      />
 				    </Form.Group>
 				</td>
