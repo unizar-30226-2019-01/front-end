@@ -445,7 +445,7 @@ class VistaProducto extends Component {
                 <div className="w-100 text-left">
                   <StarRatings
                     //changeRating={this.changeRating}
-                    //rating={this.state.rating}
+                    rating={this.state.rating}
 
                     starRatedColor="yellow"
                     numberOfStars={5}
