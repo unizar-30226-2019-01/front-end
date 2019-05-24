@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta } from '../GestionPublicaciones';
+import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Report from './Report';
@@ -24,7 +24,7 @@ class VistaProducto extends Component {
       fotos:this.props.fotoP,
       fot: [],
       primeraVez: true,
-      precioOferta: ''
+      precioOferta: '',
     }; //Para conseguir la valoracion del vendedor
 
     this.onChange = this.onChange.bind(this)
@@ -162,21 +162,23 @@ class VistaProducto extends Component {
   }
 
   render() {
-
-    let fotosMostrar=[[this.props.fotoP]]
-    if(this.state.primeraVez){
-      getFotos(this.props.id).then(data => {
-        console.log("HOLA3")
-        this.setState({
-            fot: [...data],
-            primeraVez: false
-        },
-            () => {
-                console.log(this.state.term)
-            })
-      })
+    let fotosMostrar=[[]]
+    if(this.props.show){
+      fotosMostrar=[[this.props.fotoP]]
+      if(this.state.primeraVez){
+        getFotos(this.props.id).then(data => {
+          console.log("HOLA3")
+          this.setState({
+              fot: [...data],
+              primeraVez: false
+          },
+              () => {
+                  console.log(this.state.term)
+              })
+        })
+      }
+      Array.prototype.push.apply(fotosMostrar, this.state.fot);
     }
-    Array.prototype.push.apply(fotosMostrar, this.state.fot);
 
     let contenido
     if (!this.props.fav) {
@@ -193,11 +195,13 @@ class VistaProducto extends Component {
     let precio
     let horaYFechaSubasta
     if(this.props.fechaLimite==""){
-      precio = <h3>Precio: {this.props.precio}</h3>
+      precio = <h3>Precio: {this.props.precio}€</h3>
     }
     else{
-      precio = <h3>Precio actual de subasta: {this.props.precio}</h3>
-      horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
+      precio = <h3>Precio actual: {this.props.precio}€</h3>
+      horaYFechaSubasta =
+      <div><h3>Fecha límite: {this.props.fechaLimite}</h3>
+      <h3>Hora límite:  {this.props.horaLimite}</h3></div>
     }
 
     let chatYoferta
@@ -206,55 +210,84 @@ class VistaProducto extends Component {
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
       if (this.props.vendedor != decoded.identity.login){   // Si user != vendedor
-       chatYoferta =
-       			<div>
-               <ButtonGroup aria-label="Basic example">
-       			<Link to={{
-                	pathname:'/chat',
-                	datos:{
-                		vendedor:this.props.vendedor,
-                		articulo:this.props.nombre
-                	}
-                }}>
-	                <Button className="mr-sm-4" variant="success">
-	                  Chat con vendedor
-	                </Button>
-                </Link>
-                <Form.Group controlId="s">
-                  <Form.Control type="number" placeholder="Precio"
-                  name="precioOferta" min="1" step="any"
-                  value={this.state.precioOferta}
-                  onChange={this.onChange} />
-                </Form.Group>
-                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
-                  Hacer oferta
-                </Button>
-                <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
-                  Hacer oferta Subasta
-                </Button>
-                </ButtonGroup>
-                </div>
+          if(this.props.fechaLimite==""){   // Si es compra normal
+             chatYoferta =
+             			<div>
+                     <ButtonGroup aria-label="Basic example">
+             			<Link to={{
+                      	pathname:'/chat',
+                      	datos:{
+                      		vendedor:this.props.vendedor,
+                      		articulo:this.props.nombre
+                      	}
+                      }}>
+      	                <Button className="mr-sm-4" variant="success">
+      	                  Chat con vendedor
+      	                </Button>
+                      </Link>
+                      <Form.Group controlId="s">
+                        <Form.Control type="number" placeholder="Precio"
+                        name="precioOferta" min="1" step="any"
+                        value={this.state.precioOferta}
+                        onChange={this.onChange} />
+                      </Form.Group>
 
-        botonReportar=
-              <div>
-                <Link to={{
-                  pathname:'/Report',
-                  datos:{
-                    denunciante: decoded.identity.login,
-                    passDenunciante:  decoded.identity.password,
-                    vendedor:this.props.vendedor,
-                    articulo:this.props.nombre
-                  }
-                }}>
-                  <Button className="mr-sm-4" variant="danger">
-                    Reportar vendedor
-                  </Button>
-                </Link>
-              </div>
+                      <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
+                        Hacer oferta
+                      </Button>
+                      </ButtonGroup>
+                      </div>
+
+                    botonReportar=
+                      <div>
+                        <Link to={{
+                          pathname:'/Report',
+                          datos:{
+                            denunciante: decoded.identity.login,
+                            passDenunciante:  decoded.identity.password,
+                            vendedor:this.props.vendedor,
+                            articulo:this.props.nombre
+                          }
+                        }}>
+                          <Button className="mr-sm-4" variant="danger">
+                            Reportar vendedor
+                          </Button>
+                        </Link>
+                      </div>
+                }
+                else{   //Si es subasta
+                  chatYoferta =
+                       <div>
+                          <ButtonGroup aria-label="Basic example">
+                       <Link to={{
+                             pathname:'/chat',
+                             datos:{
+                               vendedor:this.props.vendedor,
+                               articulo:this.props.nombre
+                             }
+                           }}>
+                             <Button className="mr-sm-4" variant="success">
+                               Chat con vendedor
+                             </Button>
+                           </Link>
+                           <Form.Group controlId="s">
+                             <Form.Control type="number" placeholder="Precio"
+                             name="precioOferta" min="1" step="any"
+                             value={this.state.precioOferta}
+                             onChange={this.onChange} />
+                           </Form.Group>
+
+                           <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
+                             Hacer puja
+                           </Button>
+                           </ButtonGroup>
+                           </div>
+                }
       }
     }
     else{
-    	//No estas logueado
+      //No estas logueado
+      console.log("no log")
        chatYoferta =
        			<div>
 	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
@@ -264,7 +297,7 @@ class VistaProducto extends Component {
                   Hacer oferta
                 </Button>
                 </div>
-        botonReportar= 
+        botonReportar=
             <div>
               <Button className="mr-sm-4" variant="danger" onClick={() => this.registrese()}>
                 Reportar vendedor
@@ -295,7 +328,7 @@ class VistaProducto extends Component {
                 </Button>
 
                 {botonReportar}
-                    
+
               </Col>
               <Col xs={3}>
                   <h6 className="w-100 text-right" id="exampleModalLabel">Valoracion vendedor:</h6>
