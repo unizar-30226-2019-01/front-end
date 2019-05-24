@@ -108,8 +108,10 @@ class VistaProductoPerfil extends Component {
       precio = <h3>Precio: {this.props.precio}</h3>
     }
     else{
-      precio = <h3>Precio actual de subasta: {this.props.precio}</h3>
-      horaYFechaSubasta = <h3>Fecha y hora límite: {this.props.fechaLimite} a las {this.props.horaLimite}</h3>
+      precio = <h3>Precio actual: {this.props.precio}€</h3>
+      horaYFechaSubasta =
+      <div><h3>Fecha límite: {this.props.fechaLimite}</h3>
+      <h3>Hora límite:  {this.props.horaLimite}</h3></div>
     }
 
     let editarProdOSubs
@@ -144,28 +146,47 @@ class VistaProductoPerfil extends Component {
 
     let editarONo
     if(this.props.editable){
-      editarONo= <div className="col-md-9 text-right">
-                  <ButtonGroup toggle>
+      if(this.props.fechaLimite==""){
+        editarONo= <div className="col-md-9 text-right">
+        <ButtonGroup toggle>
 
-                    <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
-                      Copiar URL
-                    </Button>
+          <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
+            Copiar URL
+          </Button>
 
-                    <Link
-                          to={{pathname: `/ofertas`,
-                              prod:{id: this.props.id}}} >
-                      <Button className="mr-sm-4" variant="success" >
-                        Ver ofertas
-                      </Button>
-                      </Link>
+          <Link
+                to={{pathname: `/ofertas`,
+                    prod:{id: this.props.id}}} >
+            <Button className="mr-sm-4" variant="success" >
+              Ver ofertas
+            </Button>
+            </Link>
 
-                    {editarProdOSubs}
+          {editarProdOSubs}
 
-                    <Button variant="danger"  onClick={() => this.comprobacionEliminar()}>
-                      Eliminar
-                    </Button>
-                  </ButtonGroup>
-                </div>
+          <Button variant="danger"  onClick={() => this.comprobacionEliminar()}>
+            Eliminar
+          </Button>
+        </ButtonGroup>
+      </div>
+      }
+      else{
+        editarONo= <div className="col-md-9 text-right">
+        <ButtonGroup toggle>
+
+          <Button className="mr-sm-4" variant="dark"  onClick={() => this.getlink(this.props.id)}>
+            Copiar URL
+          </Button>
+
+          {editarProdOSubs}
+
+          <Button variant="danger"  onClick={() => this.comprobacionEliminar()}>
+            Eliminar
+          </Button>
+        </ButtonGroup>
+      </div>
+      }
+      
     }
 
     return (
