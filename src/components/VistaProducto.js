@@ -281,8 +281,25 @@ class VistaProducto extends Component {
                              Hacer puja
                            </Button>
                            </ButtonGroup>
-                           </div>
-                }
+                        </div>
+
+                    botonReportar=
+                        <div>
+                          <Link to={{
+                            pathname:'/Report',
+                            datos:{
+                              denunciante: decoded.identity.login,
+                              passDenunciante:  decoded.identity.password,
+                              vendedor:this.props.vendedor,
+                              articulo:this.props.nombre
+                            }
+                          }}>
+                            <Button className="mr-sm-4" variant="danger">
+                              Reportar vendedor
+                            </Button>
+                          </Link>
+                        </div>
+          }
       }
     }
     else{
