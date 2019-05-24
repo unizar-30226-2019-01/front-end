@@ -381,6 +381,7 @@ cambiarProvincia (prov) {
                   <Form.Control
                   placeholder="Nombre"
                   required
+                  maxlength="17"
                   name="nombre"
 										value={this.state.nombre}
 										onChange={this.onChange} />
