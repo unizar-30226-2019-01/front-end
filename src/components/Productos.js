@@ -39,7 +39,7 @@ class Productos extends Component {
         fotoMostrar:'',
         search:"",
         precio:this.props.precio,
-        categoria:"",
+        categoria:this.props.categoria,
         fechaLimite: "",
         horaLimite: "",
         cargar: false,
@@ -65,10 +65,10 @@ class Productos extends Component {
     this.getAll()
   }
 
-  componentWillReceiveProps (){
+  /*componentWillReceiveProps (){
       this.getAll()
       this.setState({categoria:this.props.categoria})
-  }
+  }*/
 
   eliminarFavoritoPadre(index){
     const fav = {
@@ -198,14 +198,12 @@ class Productos extends Component {
       }
       else if(this.props.mostrar==1){
         getProductosMayorMenor().then(data => {
-            console.log("HOLA2")
             this.setState({
                 productos: [...data]
             })
         })
 
         getSubastasMayorMenor().then(data => {
-            console.log("HOLA2")
             this.setState({
                 subastas: [...data]
             })
@@ -219,7 +217,6 @@ class Productos extends Component {
         })
 
         getSubastasMenorMayor().then(data => {
-            console.log("HOLA2")
             this.setState({
                 subastas: [...data]
             })
@@ -228,7 +225,6 @@ class Productos extends Component {
   }
 
   render() {
-    console.log(this.props.lugar)
     let modalClose = () => this.setState({ modalShow: false,
                                             cargar: false }); //Para gestionar vistaProducto (guille)
 

@@ -35,7 +35,9 @@ class Sidebar extends Component {
        precio:"",
        precio2:"",
        precioAux:this.props.precioText,
-       lugarText:this.props.lugarText
+       lugarText:this.props.lugarText,
+       catText:this.props.catText,
+       ubiText:this.props.ubiText
    };
    // This binding is necessary to make `this` work in the callback
    this.precioMaximo = this.precioMaximo.bind(this);
@@ -77,12 +79,38 @@ class Sidebar extends Component {
       money = this.state.precioAux
     }
 
+    let cat
+    if(this.state.catText==""){
+      cat = "Todas"
+    }
+    else{
+      cat = this.state.catText
+    }
+
+    let ubi
+    if(this.state.ubiText==""){
+      ubi = "--"
+    }
+    else{
+      if(this.state.ubiText.length<=27){
+        ubi = this.state.ubiText
+        console.log(ubi.length)
+      }
+      else{
+        let inicio = 0,
+            fin=24;
+        ubi = (this.state.ubiText).substring(inicio, fin)
+        ubi = ubi + "..."
+      }
+    }
+
     return(
 
       <div className="sidebar">
 
           <br />
         <div className="sidebarHijo">
+        <label>Categoría actual: {cat}</label>
           <div className="btn-group dropright">
             <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Categorias
@@ -179,6 +207,7 @@ class Sidebar extends Component {
               }}
           />
 
+            <label>Ubicación actual: {ubi}</label>
             <MapSidebar
               google={this.props.google}
               center={{lat: 41.6517501, lng: -0.9300005}}

@@ -34,10 +34,12 @@ class App extends Component {
     }
     else{
       this.state = {
-        mostrar:0,
+        mostrar:props.location.prod.mostrarMagia,
+        mostrarAnt:props.location.prod.mostrarMagia,
         precio:props.location.prod.precioMagia,
         precioAnt:props.location.prod.precioMagia,
-        categoria:"",
+        categoria:props.location.prod.categoriaMagia,
+        categoriaAnt:props.location.prod.categoriaMagia,
         lugar:props.location.prod.lugarMagia,
         lugarAnt:props.location.prod.lugarMagia
       }
@@ -65,10 +67,12 @@ class App extends Component {
   }
 
   render() {
-    if((this.state.precio!=this.state.precioAnt) || (this.state.lugar!=this.state.lugarAnt)){
+    if((this.state.precio!=this.state.precioAnt) || (this.state.lugar!=this.state.lugarAnt) || (this.state.categoria!=this.state.categoriaAnt) || (this.state.mostrar!=this.state.mostrarAnt)){
       return <Redirect push to={{pathname: `/Magia`,
                                 prod:{precioMagia:this.state.precio,
-                                      lugarMagia:this.state.lugar}}} />;
+                                      lugarMagia:this.state.lugar,
+                                      categoriaMagia:this.state.categoria,
+                                      mostrarMagia:this.state.mostrar}}} />;
     }
 
     let precioAPasar
@@ -87,11 +91,11 @@ class App extends Component {
       barra = <NavLogReg/>
 
     }
-    console.log(this.state.lugar)
+
     return (
       <div className="App">
         {barra}
-        <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} callback4={this.lugar.bind(this)} precioText={this.state.precio} lugarText={this.state.lugar}/>
+        <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} callback4={this.lugar.bind(this)} precioText={this.state.precio} lugarText={this.state.lugar} catText={this.state.categoria} ubiText={this.state.lugar}/>
         <div className="App-header">
           <Productos mostrar={this.state.mostrar} precio={precioAPasar} categoria={this.state.categoria} lugar={this.state.lugar}/>
         </div>

@@ -10,10 +10,23 @@ class Magia extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {
-      funsionaPorfa:true,
-      precio:props.location.prod.precioMagia,
-      lugar:props.location.prod.lugarMagia
+    if(props.location.prod==undefined){
+      this.state = {
+        funsionaPorfa:false,
+        precio:'',
+        lugar:'',
+        categoria:'',
+        mostrar:''
+      }
+    }
+    else{
+      this.state = {
+        funsionaPorfa:true,
+        precio:props.location.prod.precioMagia,
+        lugar:props.location.prod.lugarMagia,
+        categoria:props.location.prod.categoriaMagia,
+        mostrar:props.location.prod.mostrarMagia,
+      }
     }
   }
 
@@ -21,7 +34,12 @@ class Magia extends Component{
     if(this.state.funsionaPorfa){
       return <Redirect push to={{pathname: `/`,
                                 prod:{precioMagia:this.state.precio,
-                                      lugarMagia:this.state.lugar}}} />;
+                                      lugarMagia:this.state.lugar,
+                                      categoriaMagia:this.state.categoria,
+                                      mostrarMagia:this.state.mostrar}}} />;
+    }
+    else{
+      return <Redirect push to="/" />;
     }
     return (
       <h5>dioss</h5>
