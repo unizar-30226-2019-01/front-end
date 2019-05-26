@@ -466,7 +466,7 @@ class VistaProducto extends Component {
                     //changeRating={this.changeRating}
                     rating={this.state.rating}
 
-                    starRatedColor="yellow"
+                    starRatedColor="gold"
                     numberOfStars={5}
                     starDimension="20px"
                     starSpacing="5px"
