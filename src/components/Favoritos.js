@@ -34,7 +34,8 @@ class Favoritos extends Component {
         categoria:"",
         fechaLimite: "",
         horaLimite: "",
-        cargar: false
+        cargar: false,
+        valoracionMostrar: ""
     };
 }
 
@@ -125,6 +126,7 @@ class Favoritos extends Component {
                                              fotoMostrar: productos[6],
                                              fechaLimite: "",
                                              horaLimite: "",
+                                             valoracionMostrar: productos[8],
                                              cargar: true})} >
               Ver producto
             </Button>
@@ -156,6 +158,7 @@ class Favoritos extends Component {
                                              fotoMostrar: subastas[8],
                                              fechaLimite: subastas[6],
                                              horaLimite: subastas[7],
+                                             valoracionMostrar: subastas[9],
                                              cargar: true})} >
               Ver producto
             </Button>
@@ -219,6 +222,7 @@ class Favoritos extends Component {
               descripcion={this.state.descripcionMostrar}
               fechaLimite={this.state.fechaLimite}
               horaLimite={this.state.horaLimite}
+              valoracion={this.state.valoracionMostrar}
               fotoP={this.state.fotoMostrar}
               onHide={modalClose /*modalClose pone a false modalShow*/}
               callback = {this.eliminarFavoritoPadre.bind(this)}

@@ -11,6 +11,7 @@ export const register = newUser => {
       email: newUser.email,
       foto: newUser.foto,
       telefono: newUser.telefono
+      //puntuacion: 2.5   //Inicializamos a 2.5 estrellas
     })
     .then(response => {
       if(response.data != "Error"){
@@ -62,6 +63,7 @@ export const actualizarInfo = user => {
 export const deleteUser = user => {
 
   console.log("ENTRA al deleteUser de GestionUsuarios")
+  console.log(user)
 
   return axios
       .post(`delete`, {
@@ -78,8 +80,9 @@ export const deleteUser = user => {
 
 export const infoUsuario = login => {
   return axios
-      .get(`infoUsuario/${login}`, {
 
+      .post('infoUsuario', {
+        usuario: login
       })
       .then(res => {
         var data = []
@@ -91,6 +94,10 @@ export const infoUsuario = login => {
         data[5]=res.data.Password
         data[6]=res.data.Puntuacion
         data[7]=res.data.Telefono
+
+        console.log("DEVUELVE infousuario")
+        console.log(data)
+
         return data
     })
 }

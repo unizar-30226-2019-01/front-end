@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
 import { crearFavorito, eliminarFavorito, getFotos, realizarOferta, realizarOfertaSubasta, tipoProducto, consultarFavorito } from '../GestionPublicaciones';
+import { infoUsuario } from '../GestionUsuarios';
 import jwt_decode from 'jwt-decode'
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Report from './Report';
@@ -18,7 +19,7 @@ class VistaProducto extends Component {
     super(props);
     this.state = {
       esVenta: true,
-      rating: 4,
+      rating: "",
       fav: "Favorito no existe",
       id: this.props.id,
       fotos:this.props.fotoP,
@@ -189,7 +190,9 @@ class VistaProducto extends Component {
   	window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
   }
 
+  
   render() {
+
     let fotosMostrar=[[]]
     let contenido
     if(this.props.show){
@@ -406,13 +409,16 @@ class VistaProducto extends Component {
 
         botonReportar=
             <div>
-              <Button className="mr-sm-4" variant="danger" onClick={() => this.registrese()}>
+              <Button className="ml-sm-4" variant="danger" onClick={() => this.registrese()}>
                 Reportar vendedor
               </Button>
             </div>
     }
 
+    console.log("RATING del vendedor:")
+    console.log(this.state.rating)
     return (
+
       <Modal
         {...this.props /*si quitas esto no se muestra el producto
         para obtener los parametros que pasa el padre es necesario*/}
@@ -443,21 +449,14 @@ class VistaProducto extends Component {
               </Col>
               <Col xs={3}>
                 <div className="w-100 text-left">
-                  <StarRatings
-                    //changeRating={this.changeRating}
-                    rating={this.state.rating}
 
-                    starRatedColor="yellow"
-                    numberOfStars={5}
-                    starDimension="20px"
-                    starSpacing="5px"
-
-                    //name='rating'
-                    //id='rating'
-                    value={this.state.rating}
-                    onChange={this.onChange}
-
-                  />
+                <StarRatings
+                  starRatedColor="yellow"
+                  numberOfStars={5}
+                  starDimension="20px"
+                  starSpacing="5px"
+                  rating={this.props.valoracion}
+                />
                 </div>
               </Col>
             </Row>

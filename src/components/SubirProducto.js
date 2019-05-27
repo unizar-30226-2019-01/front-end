@@ -135,7 +135,7 @@ class SubirProducto extends Component {
             }
             var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
             var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
-            if(fechaLD<=fechaHoyD){
+            if(fechaLD<fechaHoyD){        // Cambiar para poder meter fecha actual
               this.setState({
                   fechaAnterior: true,
                   redirect: true

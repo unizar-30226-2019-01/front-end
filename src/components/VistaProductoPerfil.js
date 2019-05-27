@@ -7,9 +7,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Carousel from 'react-bootstrap/Carousel';
-import bichardo from '../images/bichardo.jpg';
-import bixorobar from '../images/bixorobar.jpg';
-import bixopolilla from '../images/bixopolilla.jpg';
 import { getFotos } from '../GestionPublicaciones';
 import jwt_decode from 'jwt-decode'
 
@@ -221,10 +218,15 @@ class VistaProductoPerfil extends Component {
               </Col>
               <Col xs={3}>
                 <div className="w-100 text-left">
-                  <StarRatings rating={this.state.rating} changeRating={this.changeRating}
-                    starRatedColor="yellow" numberOfStars={5} name='rating'
-                    starDimension="20px" starSpacing="5px"
-                  />
+
+                <StarRatings
+                  starRatedColor="yellow"
+                  numberOfStars={5}
+                  starDimension="20px"
+                  starSpacing="5px"
+                  rating={this.props.valoracion}
+                />
+
                 </div>
               </Col>
             </Row>

@@ -5,7 +5,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import '../css/perfil.css';
 import bichardo from '../images/bichardo.jpg';
 import { deleteUser, infoUsuario } from '../GestionUsuarios';
-import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas } from '../GestionPublicaciones';
+import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas, getProductosComprados, valorarProducto } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
 import VistaProductoPerfil from './VistaProductoPerfil';
 import NavLogReg from './NavLogReg';
@@ -14,6 +14,7 @@ import { eliminarProducto } from '../GestionPublicaciones';
 import { eliminarSubasta } from '../GestionPublicaciones';
 
 import {Redirect } from 'react-router-dom';
+import StarRatings from 'react-star-ratings';
 import * as firebase from 'firebase'
 
 class Perfil extends Component {
@@ -26,6 +27,7 @@ class Perfil extends Component {
       subastas: [],
       vendidos: [],
       subastados: [],
+      comprados: [],
       foto: '',
       picture: '',
       modalShow: false,
@@ -42,8 +44,12 @@ class Perfil extends Component {
       fechaLimite: "",
       horaLimite: "",
       sePuedeEditar: true,
-      categoriaMostrar: ''
+      categoriaMostrar: '',
+      rating: 0,
+     // puntuacionUsuario: 0         // datos[6]
+      valoracionMostrar: ""
     }
+    this.changeRating = this.changeRating.bind(this)
   }
 
   componentDidMount() {
@@ -69,6 +75,13 @@ class Perfil extends Component {
         this.getAll(usuario)
     }
   }
+
+  changeRating( newRating, newVendedor, name ) {    //OJO con el newVendedor, borrar
+    this.setState({
+      rating: newRating
+    });
+  }
+
 
   getAll = (usuario) => {
     console.log(usuario.login)
@@ -108,6 +121,15 @@ class Perfil extends Component {
           })
   })
 
+  getProductosComprados(usuario).then(data => {
+    this.setState({
+        comprados: [...data]
+    },
+        () => {
+            console.log(this.state.term)
+        })
+  })
+
 }
 
   onDelete = e => {
@@ -127,6 +149,15 @@ class Perfil extends Component {
     localStorage.removeItem('usertoken')
     this.setState({redirect: true});
   }
+
+  valorar (id, valoracion) {
+    //e.preventDefault()
+    
+    valorarProducto (id, valoracion)
+
+    //this.setState({redirect: true});
+  }
+
 
   eliminarProductoPadre(index, esVenta, fechaHoy, fechaL){   //HAY QUE MANEJAR QUE SI ELIMINAS UNA SUBASTA, NO DEJE EN ALGUNOS CASOS
     if(esVenta==""){ //Si esVenta esta vacio, es pq no hay fecha limite, o sea es un producto y NO una subasta
@@ -201,7 +232,23 @@ class Perfil extends Component {
                                     <h5>
                                       Teléfono:  {this.state.datos[7]}
                                     </h5>
-                                    <p class="proile-rating">Valoración : <span>{this.state.datos[6]}/10</span></p>
+                                     <p class="profile-rating">
+                                    <h5>Valoración: 
+                                      <span>
+                                        <StarRatings
+                                          starRatedColor="yellow"
+                                          numberOfStars={5}
+                                          starDimension="20px"
+                                          starSpacing="5px"
+                                          rating={this.state.datos[6]}
+                                        />
+                                        {console.log("PUNTUACION como vendedor:")}
+                                        {console.log(this.state.datos[6])}
+                                      </span>
+                                      </h5>
+                                    </p>
+                      
+
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">En venta</a>
@@ -214,6 +261,9 @@ class Perfil extends Component {
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="subastados-tab" data-toggle="tab" href="#subastados" role="tab" aria-controls="subastados" aria-selected="false">Subastados</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="comprados-tab" data-toggle="tab" href="#comprados" role="tab" aria-controls="comprados" aria-selected="false">Comprados</a>
                                 </li>
                             </ul>
                         </div>
@@ -270,7 +320,7 @@ class Perfil extends Component {
                                     <Button
                                         variant="outline-primary"
                                         onClick={() => this.setState({ modalShow: true,
-                                                                       id: productos[1],
+                                                                       id: productos[5],
                                                                        indiceMostrar: index,
                                                                        nombreMostrar: productos[0],
                                                                        vendedorMostrar: productos[3],
@@ -280,6 +330,7 @@ class Perfil extends Component {
                                                                        fotoMostrar: productos[6],
                                                                        fechaLimite: "",
                                                                        horaLimite: "",
+                                                                       valoracionMostrar: productos[8],
                                                                        sePuedeEditar: true,
                                                                        cargar: true})} >
                                         Ver producto
@@ -393,6 +444,49 @@ class Perfil extends Component {
                                 ))}
                             </div>
                             </div>
+                            {/* COMPRADOS */}
+                            <div class="tab-pane fade" id="comprados" role="tabpanel" aria-labelledby="comprados-tab">
+                            <div className="card-deck">
+                                {this.state.comprados.map((productos, index) => (
+                                <div className="card-deck" rows="4" columns="4">
+                                <div className="card ml-md-4 mr-md-4">
+                                  <img className="card-img-top" src={productos[5]} width="100" height="170" />
+                                  <div className="card-body">
+                                    <h5 className="card-title">{productos[0]}</h5>
+                                  </div>
+                                  <div className="card-footer"> {}
+
+                              
+                                    <StarRatings
+                                      starRatedColor="yellow"
+                                      numberOfStars={5}
+                                      starDimension="20px"
+                                      starSpacing="5px"
+                                      name="rating"
+                                      rating={this.state.rating}
+                                      
+                                      changeRating={this.changeRating}
+                                      
+                                      //onClick={this.valorar(productos[1],this.state.rating)}
+                                    />
+
+                                    {console.log("NewRating:")}
+                                    {console.log(this.state.rating)}
+                             
+                                <button className="btn btn-danger mr-sm-2"
+                                  //onClick={this.valorar.bind(this)} 
+                                  //onClick={valorarProducto(       productos[1]        ,this.state.rating)}  
+                                                                //Tengo que sacar el id del producto en concreto: index
+                                >
+                                  Valorar
+                                </button>
+                            
+                                  </div> {}
+                                </div>
+                                </div>
+                                ))}
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -410,6 +504,7 @@ class Perfil extends Component {
                 categoria={this.state.categoriaMostrar}
                 fechaLimite={this.state.fechaLimite}
                 horaLimite={this.state.horaLimite}
+                valoracion={this.state.valoracionMostrar}
                 fotoP={this.state.fotoMostrar}
                 editable={this.state.sePuedeEditar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}

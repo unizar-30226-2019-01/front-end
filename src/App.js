@@ -17,7 +17,7 @@ class App extends Component {
 
   componentDidMount() {
     //localStorage.clear();
-    console.log("ELIMINO TOKENS")
+    //console.log("ELIMINO TOKENS")
   }
 
   constructor(props) {

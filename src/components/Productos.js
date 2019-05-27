@@ -43,8 +43,8 @@ class Productos extends Component {
         fechaLimite: "",
         horaLimite: "",
         cargar: false,
-        lugar: ""
-
+        lugar: "",
+        valoracionMostrar: ""
     };
     this.renderProductos = this.renderProductos.bind(this);
     this.renderSubastas = this.renderSubastas.bind(this);
@@ -123,10 +123,13 @@ class Productos extends Component {
                                              descripcionMostrar: productos[2],
                                              fotoMostrar: productos[6],
                                              fechaLimite: "",
+                                             valoracionMostrar: productos[8],
                                              horaLimite: "",
                                              cargar: true})} >
               Ver producto
             </Button>
+            
+
           </div> {}
         </div>
         </div>
@@ -175,6 +178,7 @@ class Productos extends Component {
                                              fotoMostrar: subastas[8],
                                              fechaLimite: subastas[6],
                                              horaLimite: subastas[7],
+                                             valoracionMostrar: subastas[10],
                                              cargar: true})} >
               Ver producto
             </Button>
@@ -306,11 +310,15 @@ class Productos extends Component {
                 descripcion={this.state.descripcionMostrar}
                 fechaLimite={this.state.fechaLimite}
                 horaLimite={this.state.horaLimite}
+                valoracion={this.state.valoracionMostrar} 
                 fotoP={this.state.fotoMostrar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}
                 callback = {this.eliminarFavoritoPadre.bind(this)}
             />
+                            
         </div>
+
+        
     )
   }
 }
