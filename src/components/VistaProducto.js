@@ -27,10 +27,9 @@ class VistaProducto extends Component {
       primeraVez: true,
       primeraVezURL: true,
       precioOferta: ''
-    }; //Para conseguir la valoracion del vendedor
+    }; 
 
     this.onChange = this.onChange.bind(this)
-    //this.changeRating = this.changeRating.bind(this);
   }
 
   /*componentWillReceiveProps(){
@@ -40,15 +39,6 @@ class VistaProducto extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
-
-/*
-  //Esto no vendria aqui pero es un ejemplo de como realizar una valoracion
-  changeRating( newRating, name ) {
-    this.setState({
-      rating: newRating
-    });
-  }
-*/
 
   getlink(id) {
     var aux = document.createElement('input');
@@ -415,8 +405,6 @@ class VistaProducto extends Component {
             </div>
     }
 
-    console.log("RATING del vendedor:")
-    console.log(this.state.rating)
     return (
 
       <Modal
@@ -451,7 +439,7 @@ class VistaProducto extends Component {
                 <div className="w-100 text-left">
 
                 <StarRatings
-                  starRatedColor="yellow"
+                  starRatedColor="gold"
                   numberOfStars={5}
                   starDimension="20px"
                   starSpacing="5px"

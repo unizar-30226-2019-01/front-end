@@ -23,21 +23,23 @@ class VistaProductoPerfil extends Component {
       primeraVez: true,
       primeraVezURL: true,
       redirige:false
-    }; //Para conseguir la valoracion del vendedor
+    }; 
 
-    this.changeRating = this.changeRating.bind(this);
+    //this.changeRating = this.changeRating.bind(this);
   }
 
   componentWillReceiveProps(){
     this.setState({primeraVez:true})
   }
 
+  /*
   //Esto no vendria aqui pero es un ejemplo de como realizar una valoracion
   changeRating( newRating, name ) {
     this.setState({
       rating: newRating
     });
   }
+  */
 
   comprobacionEliminar(){
     if(this.props.fechaLimite==""){
@@ -84,6 +86,9 @@ class VistaProductoPerfil extends Component {
   }
 
   render() {
+    console.log("ID que le llega al VistaProductoPerfil:")
+    console.log(this.props.id)
+
     if(this.state.redirige){
       return <Redirect push to="/Perfil" />;
     }
@@ -220,7 +225,7 @@ class VistaProductoPerfil extends Component {
                 <div className="w-100 text-left">
 
                 <StarRatings
-                  starRatedColor="yellow"
+                  starRatedColor="gold"
                   numberOfStars={5}
                   starDimension="20px"
                   starSpacing="5px"

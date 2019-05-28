@@ -182,6 +182,10 @@ class Productos extends Component {
                                              cargar: true})} >
               Ver producto
             </Button>
+
+                {console.log("ID de la subasta:")}
+                {console.log(this.state.id)}
+
           </div> {}
         </div>
         </div>
@@ -317,8 +321,6 @@ class Productos extends Component {
             />
                             
         </div>
-
-        
     )
   }
 }

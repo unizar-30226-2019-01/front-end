@@ -46,7 +46,6 @@ class Perfil extends Component {
       sePuedeEditar: true,
       categoriaMostrar: '',
       rating: 0,
-     // puntuacionUsuario: 0         // datos[6]
       valoracionMostrar: ""
     }
     this.changeRating = this.changeRating.bind(this)
@@ -236,7 +235,7 @@ class Perfil extends Component {
                                     <h5>Valoración: 
                                       <span>
                                         <StarRatings
-                                          starRatedColor="yellow"
+                                          starRatedColor="gold"
                                           numberOfStars={5}
                                           starDimension="20px"
                                           starSpacing="5px"
@@ -366,6 +365,7 @@ class Perfil extends Component {
                                                                        fotoMostrar: productos[8],
                                                                        fechaLimite: productos[6],
                                                                        horaLimite: productos[7],
+                                                                       valoracionMostrar: productos[10],
                                                                        sePuedeEditar: true,
                                                                        cargar: true})} >
                                         Ver producto
@@ -400,6 +400,7 @@ class Perfil extends Component {
                                                                        fotoMostrar: productos[6],
                                                                        fechaLimite: "",
                                                                        horaLimite: "",
+                                                                       valoracionMostrar: productos[8], 
                                                                        sePuedeEditar: false,
                                                                        cargar: true})} >
                                         Ver producto
@@ -415,7 +416,11 @@ class Perfil extends Component {
                                 {this.state.subastados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[6]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[8]} width="100" height="170" />
+
+                                  {console.log("IMAGEN de la subasta:")}
+                                  {console.log(productos[6])}
+
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -434,8 +439,10 @@ class Perfil extends Component {
                                                                      fotoMostrar: productos[8],
                                                                      fechaLimite: productos[6],
                                                                      horaLimite: productos[7],
+                                                                     valoracionMostrar: productos[10],
                                                                      sePuedeEditar: false,
                                                                      cargar: true})} >
+                                                                       
                                       Ver producto
                                     </Button>
                                   </div> {}
@@ -458,7 +465,7 @@ class Perfil extends Component {
 
                               
                                     <StarRatings
-                                      starRatedColor="yellow"
+                                      starRatedColor="gold"
                                       numberOfStars={5}
                                       starDimension="20px"
                                       starSpacing="5px"
@@ -467,7 +474,7 @@ class Perfil extends Component {
                                       
                                       changeRating={this.changeRating}
                                       
-                                      //onClick={this.valorar(productos[1],this.state.rating)}
+                                      //onClick={this.valorar(productos[1],this.state.rating)}    Si lo descomento se clica solo
                                     />
 
                                     {console.log("NewRating:")}

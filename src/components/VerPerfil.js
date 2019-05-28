@@ -143,14 +143,12 @@ class VerPerfil extends Component {
                                     <h5>Valoración: 
                                       <span>
                                         <StarRatings
-                                          starRatedColor="yellow"
+                                          starRatedColor="gold"
                                           numberOfStars={5}
                                           starDimension="20px"
                                           starSpacing="5px"
-                                          rating={this.state.datos[6]}
+                                          rating={this.state.datos[6] /* Valoracion en la cabecera del perfil */ }  
                                         />
-                                        {console.log("USUARIO")} 
-                                        {console.log(this.state.datos[0])}
                                         {console.log("PUNTUACION como vendedor:")} 
                                         {console.log(this.state.datos[6])}
                                       </span>
@@ -258,6 +256,7 @@ class VerPerfil extends Component {
                                                                        fotoMostrar: productos[8],
                                                                        fechaLimite: productos[6],
                                                                        horaLimite: productos[7],
+                                                                       valoracionMostrar: productos[10],
                                                                        sePuedeEditar: true,
                                                                        cargar: true})} >
                                         Ver producto
@@ -292,6 +291,7 @@ class VerPerfil extends Component {
                                                                        fotoMostrar: productos[6],
                                                                        fechaLimite: "",
                                                                        horaLimite: "",
+                                                                       valoracionMostrar: productos[8],
                                                                        sePuedeEditar: false,
                                                                        cargar: true})} >
                                         Ver producto
@@ -307,7 +307,7 @@ class VerPerfil extends Component {
                                 {this.state.subastados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[6]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[8]} width="100" height="170" />
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -326,6 +326,7 @@ class VerPerfil extends Component {
                                                                      fotoMostrar: productos[8],
                                                                      fechaLimite: productos[6],
                                                                      horaLimite: productos[7],
+                                                                     valoracionMostrar: productos[10],
                                                                      sePuedeEditar: false,
                                                                      cargar: true})} >
                                       Ver producto
