@@ -41,6 +41,8 @@ class SubirProducto extends Component {
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onChangePrecio = this.onChangePrecio.bind(this)
+
   }
 
   componentDidMount() {
@@ -62,6 +64,26 @@ class SubirProducto extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
+  }
+
+  onChangePrecio(e) {
+    var punto = e.target.value.split(".")
+    var coma = e.target.value.split(",")
+    var escribir = e.target.value
+    if(punto[1] != undefined){
+      if(punto[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.alert("El limite de decimales es 2")
+      }
+    }
+    else if (coma[1] != undefined){
+      if(coma[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.confirm("El limite de decimales es 2")
+      }
+    }
+
+    this.setState({ [e.target.name]: escribir })
   }
 
   onSubmit(e) {
@@ -336,9 +358,8 @@ cambiarProvincia (prov) {
                     <Form.Control placeholder="Introduzca precio"
                     required
                     name="precio"
-                    type="number"
 										value={this.state.precio}
-										onChange={this.onChange} />
+										onChange={this.onChangePrecio} />
                   </Form.Group>
     } else {
       contenido = <Form>
@@ -349,7 +370,7 @@ cambiarProvincia (prov) {
                     name="precio"
                     type="number"
 										value={this.state.precio}
-										onChange={this.onChange}  />
+										onChange={this.onChangePrecio}  />
                   </Form.Group>
                   <Form.Group controlId="fechaLimite">
                       <Form.Label>Fecha límite</Form.Label>

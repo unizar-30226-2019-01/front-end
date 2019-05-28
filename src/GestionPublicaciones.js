@@ -16,8 +16,7 @@ export const getProductos = () => {
 
                 data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal, val.Provincia, val.Puntuacion])
             })
-            console.log(data)
-
+            //console.log(data)
             return data
         })
   }

@@ -42,28 +42,30 @@ class VistaProductoPerfil extends Component {
   */
 
   comprobacionEliminar(){
-    if(this.props.fechaLimite==""){
-      this.props.callback(this.props.indice, this.props.fechaLimite, 0, 0)
-    }
-    else{
-      var day = new Date();
-      var dd = day.getDate();
-      var mm = day.getMonth()+1;
-      var yy = day.getFullYear();
-      var fecha = yy+'-'+mm+'-'+dd
-      var separador="-",
-          fechaHoy=fecha.split(separador),
-          fechaL=(this.props.fechaLimite).split(separador);
-      if(fechaHoy[1].length==1){
-        fechaHoy[1]= "0"+fechaHoy[1]
+    if(window.confirm("¿Estás seguro?")){
+      if(this.props.fechaLimite==""){
+        this.props.callback(this.props.indice, this.props.fechaLimite, 0, 0)
       }
-      if(fechaHoy[2].length==1){
-        fechaHoy[2]= "0"+fechaHoy[2]
+      else{
+        var day = new Date();
+        var dd = day.getDate();
+        var mm = day.getMonth()+1;
+        var yy = day.getFullYear();
+        var fecha = yy+'-'+mm+'-'+dd
+        var separador="-",
+            fechaHoy=fecha.split(separador),
+            fechaL=(this.props.fechaLimite).split(separador);
+        if(fechaHoy[1].length==1){
+          fechaHoy[1]= "0"+fechaHoy[1]
+        }
+        if(fechaHoy[2].length==1){
+          fechaHoy[2]= "0"+fechaHoy[2]
+        }
+        var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
+        var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
+  
+        this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
       }
-      var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
-      var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
-
-      this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
     }
   }
   getlink(id) {

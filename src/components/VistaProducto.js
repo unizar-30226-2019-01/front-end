@@ -27,9 +27,10 @@ class VistaProducto extends Component {
       primeraVez: true,
       primeraVezURL: true,
       precioOferta: ''
-    }; 
+    };
 
     this.onChange = this.onChange.bind(this)
+    this.onChangePrecio = this.onChangePrecio.bind(this)
   }
 
   /*componentWillReceiveProps(){
@@ -38,6 +39,25 @@ class VistaProducto extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
+  }
+  onChangePrecio(e) {
+    var punto = e.target.value.split(".")
+    var coma = e.target.value.split(",")
+    var escribir = e.target.value
+    if(punto[1] != undefined){
+      if(punto[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.confirm("El limite de decimales es 2")
+      }
+    }
+    else if (coma[1] != undefined){
+      if(coma[1].length > 2){
+        escribir=e.target.value.substring(0,e.target.value.length-1)
+        window.confirm("El limite de decimales es 2")
+      }
+    }
+
+    this.setState({ [e.target.name]: escribir })
   }
 
   getlink(id) {
@@ -93,7 +113,6 @@ class VistaProducto extends Component {
       const fav = {
         usuario: decoded.identity.login
       }
-      console.log(usu)
       consultarFavorito(fav,publicacion).then(data => {
         this.setState({
             fav: data
@@ -180,7 +199,7 @@ class VistaProducto extends Component {
   	window.alert("Regístrese o inicie sesión si ya posee una cuenta, por favor.")
   }
 
-  
+
   render() {
 
     let fotosMostrar=[[]]
@@ -255,7 +274,7 @@ class VistaProducto extends Component {
                         <Form.Control type="number" placeholder="Precio"
                         name="precioOferta" min="1" step="any"
                         value={this.state.precioOferta}
-                        onChange={this.onChange} />
+                        onChange={this.onChangePrecio} />
                       </Form.Group>
 
                       <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertar(this.state.precioOferta)}>
@@ -313,7 +332,7 @@ class VistaProducto extends Component {
                              <Form.Control type="number" placeholder="Precio"
                              name="precioOferta" min="1" step="any"
                              value={this.state.precioOferta}
-                             onChange={this.onChange} />
+                             onChange={this.onChangePrecio} />
                            </Form.Group>
 
                            <Button className="mr-sm-4" pro variant="secondary" onClick={() => this.ofertarSubasta(this.state.precioOferta)}>
@@ -437,7 +456,6 @@ class VistaProducto extends Component {
               </Col>
               <Col xs={3}>
                 <div className="w-100 text-left">
-
                 <StarRatings
                   starRatedColor="gold"
                   numberOfStars={5}

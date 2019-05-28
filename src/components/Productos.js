@@ -38,12 +38,12 @@ class Productos extends Component {
         descripcionMostrar:'',
         fotoMostrar:'',
         search:"",
-        precio:0,
-        categoria:"",
+        precio:this.props.precio,
+        categoria:this.props.categoria,
         fechaLimite: "",
         horaLimite: "",
         cargar: false,
-        lugar: "",
+        lugar: this.props.lugar,
         valoracionMostrar: ""
     };
     this.renderProductos = this.renderProductos.bind(this);
@@ -52,10 +52,10 @@ class Productos extends Component {
 
   componentDidMount () {
     if (localStorage.getItem('usertoken') === undefined || localStorage.getItem('usertoken') === null) {
-      console.log("no existe")
+      //console.log("no existe")
     }
     else{
-      console.log("existe")
+      //console.log("existe")
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
       this.setState({
@@ -65,12 +65,10 @@ class Productos extends Component {
     this.getAll()
   }
 
-  componentWillReceiveProps (){
+  /*componentWillReceiveProps (){
       this.getAll()
-      this.setState({precio:this.props.precio});
       this.setState({categoria:this.props.categoria})
-      this.setState({lugar:this.props.lugar})
-  }
+  }*/
 
   eliminarFavoritoPadre(index){
     const fav = {
@@ -128,7 +126,7 @@ class Productos extends Component {
                                              cargar: true})} >
               Ver producto
             </Button>
-            
+
 
           </div> {}
         </div>
@@ -195,64 +193,41 @@ class Productos extends Component {
   getAll = () => {
       if(this.props.mostrar==0){
         getProductos().then(data => {
-            console.log("HOLA2")
             this.setState({
                 productos: [...data]
-            },
-                () => {
-                    console.log(this.state.term)
-                })
+            })
         })
 
         getSubastas().then(data => {
             this.setState({
                 subastas: [...data]
-            },
-                () => {
-                    console.log(this.state.term)
-                })
+            })
         })
       }
       else if(this.props.mostrar==1){
         getProductosMayorMenor().then(data => {
-            console.log("HOLA2")
             this.setState({
                 productos: [...data]
-            },
-                () => {
-                    console.log(this.state.term)
-                })
+            })
         })
 
         getSubastasMayorMenor().then(data => {
-            console.log("HOLA2")
             this.setState({
                 subastas: [...data]
-            },
-                () => {
-                    console.log(this.state.term)
-                })
+            })
         })
       }
       else if(this.props.mostrar==2){
         getProductosMenorMayor().then(data => {
-            console.log("HOLA2")
             this.setState({
                 productos: [...data]
-            },
-                () => {
-                    console.log(this.state.term)
-                })
+            })
         })
 
         getSubastasMenorMayor().then(data => {
-            console.log("HOLA2")
             this.setState({
                 subastas: [...data]
-            },
-                () => {
-                    console.log(this.state.term)
-                })
+            })
         })
       }
   }
@@ -314,12 +289,12 @@ class Productos extends Component {
                 descripcion={this.state.descripcionMostrar}
                 fechaLimite={this.state.fechaLimite}
                 horaLimite={this.state.horaLimite}
-                valoracion={this.state.valoracionMostrar} 
+                valoracion={this.state.valoracionMostrar}
                 fotoP={this.state.fotoMostrar}
                 onHide={modalClose /*modalClose pone a false modalShow*/}
                 callback = {this.eliminarFavoritoPadre.bind(this)}
             />
-                            
+
         </div>
     )
   }

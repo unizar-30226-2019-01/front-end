@@ -151,7 +151,7 @@ class Perfil extends Component {
 
   valorar (id, valoracion) {
     //e.preventDefault()
-    
+
     valorarProducto (id, valoracion)
 
     //this.setState({redirect: true});
@@ -182,17 +182,17 @@ class Perfil extends Component {
         });
       }
       else{
-        //eliminarSubasta(this.state.id)
+        eliminarSubasta(this.state.id)
         this.setState({
           modalShow: false,
           cargar: false,
-          /*subastas: this.state.subastas.filter((elemento, i)=>{
+          subastas: this.state.subastas.filter((elemento, i)=>{
               return  i!==index
               /*esto lo q hace es recorrer el vector productos,
                 y lo modifica eliminando todo aquel que NO cumpla
                 la condicion. en este caso, cuando encuentre la posicion
                 del elemento index, lo eliminara*/
-          //})
+          })
         });
       }
     }
@@ -232,7 +232,7 @@ class Perfil extends Component {
                                       Teléfono:  {this.state.datos[7]}
                                     </h5>
                                      <p class="profile-rating">
-                                    <h5>Valoración: 
+                                    <h5>Valoración:
                                       <span>
                                         <StarRatings
                                           starRatedColor="gold"
@@ -246,7 +246,7 @@ class Perfil extends Component {
                                       </span>
                                       </h5>
                                     </p>
-                      
+
 
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
@@ -282,7 +282,7 @@ class Perfil extends Component {
                             <Link
                                 to={{
                                     pathname: `/favoritos`}} >
-                            <Button className="mr-sm-4" variant="primary" >
+                            <Button className="mr-sm-4" variant="warning" >
                             Favoritos
                             </Button>
                             </Link>
@@ -291,7 +291,7 @@ class Perfil extends Component {
                                 Chats
                             </button>
                             </Link>
-                            <p>Opciones</p>
+                            <p>Gestión del perfil</p>
                             <button className="btn btn-danger mr-sm-2"
                                 onClick={this.cerrarSesion.bind(this)}>
                                 Cerrar Sesión
@@ -400,7 +400,7 @@ class Perfil extends Component {
                                                                        fotoMostrar: productos[6],
                                                                        fechaLimite: "",
                                                                        horaLimite: "",
-                                                                       valoracionMostrar: productos[8], 
+                                                                       valoracionMostrar: productos[8],
                                                                        sePuedeEditar: false,
                                                                        cargar: true})} >
                                         Ver producto
@@ -442,7 +442,7 @@ class Perfil extends Component {
                                                                      valoracionMostrar: productos[10],
                                                                      sePuedeEditar: false,
                                                                      cargar: true})} >
-                                                                       
+
                                       Ver producto
                                     </Button>
                                   </div> {}
@@ -463,7 +463,7 @@ class Perfil extends Component {
                                   </div>
                                   <div className="card-footer"> {}
 
-                              
+
                                     <StarRatings
                                       starRatedColor="gold"
                                       numberOfStars={5}
@@ -471,23 +471,23 @@ class Perfil extends Component {
                                       starSpacing="5px"
                                       name="rating"
                                       rating={this.state.rating}
-                                      
+
                                       changeRating={this.changeRating}
-                                      
+
                                       //onClick={this.valorar(productos[1],this.state.rating)}    Si lo descomento se clica solo
                                     />
 
                                     {console.log("NewRating:")}
                                     {console.log(this.state.rating)}
-                             
+
                                 <button className="btn btn-danger mr-sm-2"
-                                  //onClick={this.valorar.bind(this)} 
-                                  //onClick={valorarProducto(       productos[1]        ,this.state.rating)}  
+                                  //onClick={this.valorar.bind(this)}
+                                  //onClick={valorarProducto(       productos[1]        ,this.state.rating)}
                                                                 //Tengo que sacar el id del producto en concreto: index
                                 >
                                   Valorar
                                 </button>
-                            
+
                                   </div> {}
                                 </div>
                                 </div>

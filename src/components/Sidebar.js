@@ -33,7 +33,11 @@ class Sidebar extends Component {
    //this.state = {isToggleOn: true};
    this.state = {
        precio:"",
-       precio2:""
+       precio2:"",
+       precioAux:this.props.precioText,
+       lugarText:this.props.lugarText,
+       catText:this.props.catText,
+       ubiText:this.props.ubiText
    };
    // This binding is necessary to make `this` work in the callback
    this.precioMaximo = this.precioMaximo.bind(this);
@@ -55,6 +59,8 @@ class Sidebar extends Component {
      else{
        this.setState({precio2:e.target.value,precio:e.target.value});
      }
+     //console.log(this.state.precio)
+     //this.props.callback2(this.state.precio)
   }
 
   cambiarProvincia(prov){
@@ -62,6 +68,41 @@ class Sidebar extends Component {
   }
 
   render() {
+    let money
+    if(this.state.precioAux==""){
+      money = "--"
+    }
+    else if(this.state.precioAux==1000){
+      money = "+1000"
+    }
+    else{
+      money = this.state.precioAux
+    }
+
+    let cat
+    if(this.state.catText==""){
+      cat = "Todas"
+    }
+    else{
+      cat = this.state.catText
+    }
+
+    let ubi
+    if(this.state.ubiText==""){
+      ubi = "--"
+    }
+    else{
+      if(this.state.ubiText.length<=27){
+        ubi = this.state.ubiText
+        console.log(ubi.length)
+      }
+      else{
+        let inicio = 0,
+            fin=24;
+        ubi = (this.state.ubiText).substring(inicio, fin)
+        ubi = ubi + "..."
+      }
+    }
 
     return(
 
@@ -69,6 +110,7 @@ class Sidebar extends Component {
 
           <br />
         <div className="sidebarHijo">
+        <label>Categoría actual: {cat}</label>
           <div className="btn-group dropright">
             <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Categorias
@@ -146,7 +188,7 @@ class Sidebar extends Component {
                 height: 1
             }}
         />
-            <label >Precio maximo</label>
+            <label >Precio máximo: {money}</label>
             <div className="row">
             <div className="col"> </div>
             <div className="col-8">
@@ -165,11 +207,13 @@ class Sidebar extends Component {
               }}
           />
 
+            <label>Ubicación actual: {ubi}</label>
             <MapSidebar
               google={this.props.google}
               center={{lat: 41.6517501, lng: -0.9300005}}
               height='0px' //para que no se vea el mapa
               zoom={5}
+              lugarText={this.state.lugarText}
               callback={this.cambiarProvincia.bind(this)}
             />
             <hr
