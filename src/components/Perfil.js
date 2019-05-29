@@ -17,6 +17,9 @@ import {Redirect } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import * as firebase from 'firebase'
 
+import Chatkit from '@pusher/chatkit-client'
+import { tokenUrl, instanceLocator, key } from './config'
+
 class Perfil extends Component {
   constructor() {
     super()
@@ -139,8 +142,24 @@ class Perfil extends Component {
       login: this.state.login
     }
     console.log(user)
-    deleteUser(user)
-    this.setState({redirect: true});
+    //Eliminamos el usuario de CHATKIT:
+    const ChatkitS = require('@pusher/chatkit-server');
+    //Servidor
+    const chatkit = new ChatkitS.default({
+      instanceLocator: instanceLocator,
+      key: key,
+    })
+    //Eliminamos al usuario del CHAT
+    chatkit.deleteUser({ userId: this.state.login })
+    .then(() => {
+      console.log('Uusario eliminado de CHATKIT correctamente');
+    }).catch((err) => {
+      console.log(err);
+    });
+
+  //Eliminamos al usuario de la BD.
+   deleteUser(user)
+   this.setState({redirect: true});
   }
 
   cerrarSesion = e => {
