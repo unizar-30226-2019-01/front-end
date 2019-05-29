@@ -4,8 +4,8 @@ import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
 import '../css/perfil.css';
 import bichardo from '../images/bichardo.jpg';
-import { deleteUser, infoUsuario } from '../GestionUsuarios';
-import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas, getProductosComprados, valorarProducto } from '../GestionPublicaciones';
+import { deleteUser, infoUsuario, tieneSubastas } from '../GestionUsuarios';
+import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas, getProductosComprados, valorarProducto, deletePublicacionesUser } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
 import VistaProductoPerfil from './VistaProductoPerfil';
 import NavLogReg from './NavLogReg';
@@ -131,17 +131,26 @@ class Perfil extends Component {
 
 }
 
-  onDelete = e => {
-    e.preventDefault()
-    localStorage.removeItem('usertoken')
-    console.log("ENTRA al onDelete")
-    const user = {
-      login: this.state.login
-    }
-    console.log(user)
-   deleteUser(user)
-   this.setState({redirect: true});
+onDelete = e => {
+  e.preventDefault()
+
+  const user = {
+    login: this.state.login
   }
+
+  tieneSubastas(user).then(res => {
+   if(res=="NO"){
+     if(window.confirm("¿Estas seguro?")){
+       localStorage.removeItem('usertoken')
+       deleteUser(user)
+       this.setState({redirect: true});
+     }
+   }
+   else{
+     window.confirm("No puede eliminar su cuenta debido a que tiene subastas abiertas")
+   }
+    })
+}
 
   cerrarSesion = e => {
     e.preventDefault()

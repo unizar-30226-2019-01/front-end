@@ -358,6 +358,7 @@ cambiarProvincia (prov) {
                     <Form.Control placeholder="Introduzca precio"
                     required
                     name="precio"
+                    type="number"
 										value={this.state.precio}
 										onChange={this.onChangePrecio} />
                   </Form.Group>
@@ -441,7 +442,7 @@ cambiarProvincia (prov) {
                     <option>Hogar</option>
                     <option>Moda</option>
                     <option>Electrodomésticos</option>
-                    <option>Libros y Música</option>
+                    <option>Libros</option>
                     <option>Niños</option>
                     <option>Empleo</option>
                     <option>Construcción</option>
@@ -495,7 +496,7 @@ cambiarProvincia (prov) {
                   google={this.props.google}
                   center={{lat: 41.6517501, lng: -0.9300005}}
                   height='200px'
-                  zoom={5}
+                  zoom={10}
                   callback={this.cambiarProvincia.bind(this)}
                 />
                 <br />

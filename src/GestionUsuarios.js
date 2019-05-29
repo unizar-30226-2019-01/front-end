@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const register = newUser => {
   return axios
-  
+
     .post('register', {
       login: newUser.login,
       password: newUser.password,
@@ -78,6 +78,21 @@ export const deleteUser = user => {
       })
 }
 
+export const tieneSubastas = user => {
+
+  return axios
+      .post(`tieneSub`, {
+            login: user.login
+      })
+      .then((res) => {
+        return res.data
+        //localStorage.removeItem('usertoken')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+}
+
 export const infoUsuario = login => {
   return axios
 
@@ -104,7 +119,7 @@ export const infoUsuario = login => {
 
 export const reportar = infoReport => {
   return axios
-  
+
     .post(`reportar/${infoReport.producto}`, {    //pasar el id del producto por parametro xq sino falla
       denunciante: infoReport.denunciante,
       vendedor: infoReport.vendedor,

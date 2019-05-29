@@ -253,17 +253,9 @@ let map;
      />
      <br/>  <br/>  <br/>
      <div>
-      <div className="form-group" >
-       <label htmlFor="">Provincia</label>
-       <input type="text" name="city" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.city }/>
-      </div>
       <div className="form-group">
        <label htmlFor="">Localidad</label>
        <input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
-      </div>
-      <div className="form-group">
-       <label htmlFor="">CCAA</label>
-       <input type="text" name="state" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.state }/>
       </div>
      </div>
      <Button onClick={() => this.props.callback(this.state.area)} className="mr-sm-4" variant="secondary">Confirmar localizacion</Button>
