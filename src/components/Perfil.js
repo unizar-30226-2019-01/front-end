@@ -241,7 +241,7 @@ onDelete = e => {
                                       Teléfono:  {this.state.datos[7]}
                                     </h5>
                                      <p class="profile-rating">
-                                    <h5>Valoración:
+                                    <h5>Valoración:</h5>
                                       <span>
                                         <StarRatings
                                           starRatedColor="gold"
@@ -253,7 +253,6 @@ onDelete = e => {
                                         {console.log("PUNTUACION como vendedor:")}
                                         {console.log(this.state.datos[6])}
                                       </span>
-                                      </h5>
                                     </p>
 
 
