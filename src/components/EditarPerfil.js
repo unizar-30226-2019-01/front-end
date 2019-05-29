@@ -37,9 +37,6 @@ class EditarPerfil extends Component {
         foto:data[4],
         telefono: data[7],
         email: data[3]
-      },
-      () => {
-          console.log("devuelvo")
       })
     })
   }
@@ -100,6 +97,7 @@ class EditarPerfil extends Component {
   render() {
     const { validated } = this.state;
 
+    console.log("AQUIII")
     if (this.state.redirect){
       return <Redirect push to="/" />;
     }
@@ -159,7 +157,6 @@ class EditarPerfil extends Component {
               <Form.Control
                 required
                 name="nombre"
-                id="nombre"
                 defaultValue={this.state.nombre}
 				      	value={this.state.nombre}
                 onChange={this.onChange}
