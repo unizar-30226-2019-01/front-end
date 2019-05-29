@@ -360,7 +360,7 @@ onDelete = e => {
                                 {this.state.subastas.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170"/>
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -395,7 +395,7 @@ onDelete = e => {
                                 {this.state.vendidos.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={productos[6]} />
+                                    <img className="card-img-top" src={productos[6]} width="150" height="170"/>
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -430,7 +430,7 @@ onDelete = e => {
                                 {this.state.subastados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170" />
 
                                   {console.log("IMAGEN de la subasta:")}
                                   {console.log(productos[6])}
@@ -471,7 +471,7 @@ onDelete = e => {
                                 {this.state.comprados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[5]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[5]} width="150" height="170" />
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                   </div>
@@ -494,13 +494,9 @@ onDelete = e => {
                                     {console.log("NewRating:")}
                                     {console.log(this.state.rating)}
 
-                                <button className="btn btn-danger mr-sm-2"
-                                  //onClick={this.valorar.bind(this)}
-                                  //onClick={valorarProducto(       productos[1]        ,this.state.rating)}
-                                                                //Tengo que sacar el id del producto en concreto: index
-                                >
-                                  Valorar
-                                </button>
+                                    <Button className="ml-sm-4" variant="danger" onClick={() => this.valorar(productos[1],this.state.rating)}>
+                                    Valorar
+                                    </Button>
 
                                   </div> {}
                                 </div>
