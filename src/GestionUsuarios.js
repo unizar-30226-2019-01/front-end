@@ -59,7 +59,7 @@ export const actualizarInfo = user => {
       })
 }
 
-
+//Elimina al usuario y los productos que tenga en venta
 export const deleteUser = user => {
 
   console.log("ENTRA al deleteUser de GestionUsuarios")

@@ -133,12 +133,14 @@ class Perfil extends Component {
 
   onDelete = e => {
     e.preventDefault()
+
+    // si tieneSubastasActivas=true -> window.Alert
+
     localStorage.removeItem('usertoken')
     console.log("ENTRA al onDelete")
     const user = {
       login: this.state.login
     }
-    console.log(user)
    deleteUser(user)
    this.setState({redirect: true});
   }
