@@ -333,7 +333,7 @@ onDelete = e => {
                                     <Button
                                         variant="outline-primary"
                                         onClick={() => this.setState({ modalShow: true,
-                                                                       id: productos[5],
+                                                                       id: productos[1],
                                                                        indiceMostrar: index,
                                                                        nombreMostrar: productos[0],
                                                                        vendedorMostrar: productos[3],
