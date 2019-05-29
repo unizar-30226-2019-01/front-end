@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const register = newUser => {
   return axios
-  
+
     .post('register', {
       login: newUser.login,
       password: newUser.password,
@@ -62,16 +62,28 @@ export const actualizarInfo = user => {
 //Elimina al usuario y los productos que tenga en venta
 export const deleteUser = user => {
 
-  console.log("ENTRA al deleteUser de GestionUsuarios")
-  console.log(user)
-
   return axios
       .post(`delete`, {
             login: user.login,
       })
       .then((res) => {
-        console.log(res)
+        //console.log(res)
         localStorage.removeItem('usertoken')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+}
+
+export const tieneSubastas = user => {
+
+  return axios
+      .post(`tieneSub`, {
+            login: user.login
+      })
+      .then((res) => {
+        return res.data
+        //localStorage.removeItem('usertoken')
       })
       .catch(err => {
         console.log(err)
@@ -95,8 +107,8 @@ export const infoUsuario = login => {
         data[6]=res.data.Puntuacion
         data[7]=res.data.Telefono
 
-        console.log("DEVUELVE infousuario")
-        console.log(data)
+        //console.log("DEVUELVE infousuario")
+        //console.log(data)
 
         return data
     })
@@ -104,7 +116,7 @@ export const infoUsuario = login => {
 
 export const reportar = infoReport => {
   return axios
-  
+
     .post(`reportar/${infoReport.producto}`, {    //pasar el id del producto por parametro xq sino falla
       denunciante: infoReport.denunciante,
       vendedor: infoReport.vendedor,

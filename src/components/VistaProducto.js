@@ -60,6 +60,7 @@ class VistaProducto extends Component {
     this.setState({ [e.target.name]: escribir })
   }
 
+
   getlink(id) {
     var aux = document.createElement('input');
     aux.setAttribute('value', "http://localhost:3000/producto?id=" + id);
@@ -180,10 +181,13 @@ class VistaProducto extends Component {
           document.load = setTimeout('document.body.removeChild(aviso)', 2000);
         }
         else{
+          this.setState({
+            magiaPorAquiMagiaPorAlla: true,
+          });
           var aviso = document.createElement('div');
           aviso.setAttribute('id', 'aviso');
-          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: limegreen;border-radius: 8px;color:white; font-family: sans-serif;';
-          aviso.innerHTML = 'Puja realizada';
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: green;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Puja realizada con éxito';
           document.body.appendChild(aviso);
           document.load = setTimeout('document.body.removeChild(aviso)', 2000);
         }
@@ -201,6 +205,9 @@ class VistaProducto extends Component {
 
 
   render() {
+    if(this.state.magiaPorAquiMagiaPorAlla){
+      return <Redirect push to="/Magia" />;
+    }
 
     let fotosMostrar=[[]]
     let contenido
@@ -210,7 +217,8 @@ class VistaProducto extends Component {
         getFotos(this.props.id).then(data => {
           this.setState({
               fot: [...data],
-              primeraVez: false
+              primeraVez: false,
+              path: '/producto?id=' + this.props.id
           },
               () => {
                   console.log(this.state.term)
@@ -242,7 +250,7 @@ class VistaProducto extends Component {
       precio = <h3>Precio: {this.props.precio}€</h3>
     }
     else{
-      precio = <h3>Precio actual: {this.props.precio}€</h3>
+      precio = <h3>Puja actual: {this.props.precio}€</h3>
       horaYFechaSubasta =
       <div><h3>Fecha límite: {this.props.fechaLimite}</h3>
       <h3>Hora límite:  {this.props.horaLimite}</h3></div>
@@ -391,7 +399,7 @@ class VistaProducto extends Component {
     }
     else{
       //No estas logueado
-      console.log("no log")
+      //console.log("no log")
        chatYoferta =
        			<div>
 	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>
@@ -435,7 +443,14 @@ class VistaProducto extends Component {
       >
         <Modal.Header closeButton>
           <Modal.Title bsPrefix="modal-title w-100 text-center" id="contained-modal-title-vcenter">
+          <Link to={{
+              pathname:`/producto`,
+              datos:{
+                id: this.props.id
+              }
+            }}>
            {this.props.nombre /*con el props funciona*/}
+           </Link>
           </Modal.Title>
         </Modal.Header>
 

@@ -21,8 +21,21 @@ class Producto extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-        id: this.getParameterByName('id', window.location.href),
+    if(props.location.datos==undefined){
+      this.state = {
+          id: this.getParameterByName('id', window.location.href),
+          datos1: [],
+          fotos: '',
+          fot: [],
+          primeraVez: true,
+          fechaLimite: '',
+          fav: "Favorito no existe",
+          precioOferta: ''
+      };
+    }
+    else{
+      this.state = {
+        id: props.location.datos.id,
         datos1: [],
         fotos: '',
         fot: [],
@@ -30,10 +43,12 @@ class Producto extends Component {
         fechaLimite: '',
         fav: "Favorito no existe",
         precioOferta: ''
-    };
+      };
+      window.location.href = window.location.href + "?id=" + this.state.id
+    }
     this.onChange = this.onChange.bind(this)
 
-}   
+}
 
   componentDidMount () {
     tipoProducto(this.state.id).then(res => {
@@ -64,7 +79,7 @@ class Producto extends Component {
 onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
-    
+
 
   getParameterByName(name, url) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -396,7 +411,7 @@ marcarFavorito(usu,publicacion){
     }
 
 
-    
+
     let contenido
     let fotosMostrar=[[this.state.fotos]]
     if(this.state.primeraVez){
@@ -453,7 +468,7 @@ marcarFavorito(usu,publicacion){
             <form method="post">
                 <div class="row">
                     <div class="col-md-3">
-                    
+
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
@@ -485,7 +500,7 @@ marcarFavorito(usu,publicacion){
                         </div>
                     </div>
                     <div class="col-md-2">
-                    
+
                     </div>
                 </div>
                 <div class="row">
@@ -543,7 +558,7 @@ marcarFavorito(usu,publicacion){
                         </div>
                     </div>
                 </div>
-            </form>           
+            </form>
         </div>
         </div>)
     }
@@ -555,7 +570,7 @@ marcarFavorito(usu,publicacion){
             <form method="post">
                 <div class="row">
                     <div class="col-md-3">
-                    
+
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
@@ -587,7 +602,7 @@ marcarFavorito(usu,publicacion){
                         </div>
                     </div>
                     <div class="col-md-2">
-                    
+
                     </div>
                 </div>
                 <div class="row">
@@ -668,12 +683,12 @@ marcarFavorito(usu,publicacion){
                         </div>
                     </div>
                 </div>
-            </form>           
+            </form>
         </div>
         </div>)
     }
-      
-    
+
+
   }
 }
 export default Producto

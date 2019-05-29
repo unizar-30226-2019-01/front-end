@@ -69,7 +69,7 @@ class Sidebar extends Component {
 
   render() {
     let money
-    if(this.state.precioAux==""){
+    if(this.state.precioAux=="" || this.state.precioAux==undefined){
       money = "--"
     }
     else if(this.state.precioAux==1000){
@@ -80,7 +80,7 @@ class Sidebar extends Component {
     }
 
     let cat
-    if(this.state.catText==""){
+    if(this.state.catText=="" || this.state.catText==undefined){
       cat = "Todas"
     }
     else{
@@ -88,7 +88,7 @@ class Sidebar extends Component {
     }
 
     let ubi
-    if(this.state.ubiText==""){
+    if(this.state.ubiText=="" || this.state.ubiText==undefined){
       ubi = "--"
     }
     else{

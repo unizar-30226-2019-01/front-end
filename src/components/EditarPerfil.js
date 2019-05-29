@@ -16,11 +16,10 @@ class EditarPerfil extends Component {
       login: '',
       nombre: '',
       apellidos: '',
-      email: '',
-      telefono: '',
-      datos: [],
       foto: '',
-
+      telefono: '',
+      email: '',
+      datos: [],
       validated: false
     }
     this.onChange = this.onChange.bind(this)
@@ -35,11 +34,9 @@ class EditarPerfil extends Component {
         datos: data,
         nombre: data[1],
         apellidos: data[2],
-        email: data[3],
-        telefono: data[7]
-      },
-      () => {
-          console.log("devuelvo")
+        foto:data[4],
+        telefono: data[7],
+        email: data[3]
       })
     })
   }
@@ -51,7 +48,7 @@ class EditarPerfil extends Component {
  handleSubmit(event) {
   const form = event.currentTarget;
   if (form.checkValidity() === false) {
-    event.preventDefault();  
+    event.preventDefault();
     event.stopPropagation();
   }
   else{
@@ -60,7 +57,7 @@ class EditarPerfil extends Component {
     const user = {
       login: this.state.datos[0], // No se permite cambiar
       nombre: this.state.nombre,
-      apellidos: this.state.apellidos,  
+      apellidos: this.state.apellidos,
       email: this.state.datos[3],   // No se permite cambiar
       telefono: this.state.telefono,
       foto: this.state.foto
@@ -91,8 +88,7 @@ class EditarPerfil extends Component {
           this.setState({foto: url});
         });
       })
-
-  }   
+  }
 
   volverMenu(e) {
     this.setState({redirect: true});
@@ -101,6 +97,7 @@ class EditarPerfil extends Component {
   render() {
     const { validated } = this.state;
 
+    console.log("AQUIII")
     if (this.state.redirect){
       return <Redirect push to="/" />;
     }
@@ -128,9 +125,9 @@ class EditarPerfil extends Component {
             <tr>
                 <td>Foto de perfil</td>
 
-                <td> 
-                	<Form.Group controlId="foto"> 
-                   <img src={this.state.datos[4]} alt="" width="100%" height="100%"/> 
+                <td>
+                	<Form.Group controlId="foto">
+                   <img src={this.state.datos[4]} alt="" width="100%" height="100%"/>
                             <div class="file btn btn-lg btn-primary">
                                 Cambiar foto:
                                 <input type='file' onChange={this.handleOnChange.bind(this)}/>
@@ -141,9 +138,9 @@ class EditarPerfil extends Component {
             <tr>
                 <td>Login</td>
 
-                <td> 
+                <td>
                 	<Form.Group controlId="login">
-              <Form.Control 
+              <Form.Control
                 plaintext
                 readOnly
                 name="login"
@@ -155,12 +152,11 @@ class EditarPerfil extends Component {
               </tr>
               <tr>
                 <td>Nombre</td>
-                <td>				    
+                <td>
                 	<Form.Group controlId="nombre">
-              <Form.Control 
+              <Form.Control
                 required
                 name="nombre"
-                id="nombre"
                 defaultValue={this.state.nombre}
 				      	value={this.state.nombre}
                 onChange={this.onChange}
@@ -170,9 +166,9 @@ class EditarPerfil extends Component {
               </tr>
               <tr>
                 <td>Apellidos</td>
-                <td>				    
+                <td>
                 	<Form.Group controlId="apellidos">
-              <Form.Control 
+              <Form.Control
                 required
                 name="apellidos"
                 defaultValue={this.state.apellidos}
@@ -184,12 +180,12 @@ class EditarPerfil extends Component {
               </tr>
               <tr>
                 <td>Email</td>
-                <td>				  
+                <td>
                 	<Form.Group controlId="email">
-            <Form.Control 
+            <Form.Control
               plaintext
               readOnly
-				    	//type="email" 
+				    	//type="email"
               name="email"
               defaultValue={this.state.email}
 				    	value={this.state.email}
@@ -197,14 +193,14 @@ class EditarPerfil extends Component {
 				    	 />
             	</Form.Group>
 				</td>
-        </tr>   
+        </tr>
         <tr>
                 <td>Teléfono</td>
                 <td>
         <Form.Group controlId="telefono">
-            <Form.Control 
+            <Form.Control
               required
-				    	type="number" 
+				    	type="number"
               name="telefono"
               defaultValue={this.state.telefono}
 				    	value={this.state.telefono}
@@ -216,12 +212,12 @@ class EditarPerfil extends Component {
             </tbody>
           </table>
           <div className="text-center">
-          <Button 
+          <Button
 				  	type="submit"
             className="btn btn-primary mr-sm-2 ml-sm-2">
 				    Guardar cambios
 				  </Button>
-          <Button 
+          <Button
             className="btn btn-danger mr-sm-2"
             href="/perfil">
 				    Volver

@@ -4,8 +4,8 @@ import { Route, Switch, Link } from 'react-router-dom';
 //import EditarPerfil from './EditarPerfil';
 import '../css/perfil.css';
 import bichardo from '../images/bichardo.jpg';
-import { deleteUser, infoUsuario } from '../GestionUsuarios';
-import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas, getProductosComprados, valorarProducto } from '../GestionPublicaciones';
+import { deleteUser, infoUsuario, tieneSubastas } from '../GestionUsuarios';
+import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas, getProductosComprados, valorarProducto, deletePublicacionesUser } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
 import VistaProductoPerfil from './VistaProductoPerfil';
 import NavLogReg from './NavLogReg';
@@ -15,7 +15,10 @@ import { eliminarSubasta } from '../GestionPublicaciones';
 
 import {Redirect } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+
+import Chatkit from '@pusher/chatkit-client';
+import { tokenUrl, instanceLocator, key } from './config';
 
 class Perfil extends Component {
   constructor() {
@@ -46,7 +49,8 @@ class Perfil extends Component {
       sePuedeEditar: true,
       categoriaMostrar: '',
       rating: 0,
-      valoracionMostrar: ""
+      valoracionMostrar: "",
+      userBorrado: ""
     }
     this.changeRating = this.changeRating.bind(this)
   }
@@ -57,7 +61,7 @@ class Perfil extends Component {
 
     }
     else{
-        console.log("existe")
+        //console.log("existe")
         const token = localStorage.usertoken
         const decoded = jwt_decode(token)
         const usuario = {
@@ -68,7 +72,7 @@ class Perfil extends Component {
           datos: data
         },
         () => {
-            console.log("devuelvo")
+            //console.log("devuelvo")
         })
       })
         this.getAll(usuario)
@@ -83,14 +87,14 @@ class Perfil extends Component {
 
 
   getAll = (usuario) => {
-    console.log(usuario.login)
+    //console.log(usuario.login)
     getEnVentaUsuario(usuario).then(data => {
         this.setState({
             EnVenta: [...data],
             login: usuario.login
         },
             () => {
-                console.log(this.state.term)
+                //console.log(this.state.term)
             })
     })
 
@@ -99,7 +103,7 @@ class Perfil extends Component {
             subastas: [...data]
         },
             () => {
-                console.log(this.state.term)
+                //console.log(this.state.term)
             })
     })
 
@@ -108,7 +112,7 @@ class Perfil extends Component {
             vendidos: [...data]
         },
             () => {
-                console.log(this.state.term)
+                //console.log(this.state.term)
             })
     })
     getSubastasAcabadas(usuario).then(data => {
@@ -116,7 +120,7 @@ class Perfil extends Component {
           subastados: [...data]
       },
           () => {
-              console.log(this.state.term)
+              //console.log(this.state.term)
           })
   })
 
@@ -125,30 +129,53 @@ class Perfil extends Component {
         comprados: [...data]
     },
         () => {
-            console.log(this.state.term)
+            //console.log(this.state.term)
         })
   })
 
 }
 
-  onDelete = e => {
-    e.preventDefault()
+onDelete = e => {
+  e.preventDefault()
 
-    // si tieneSubastasActivas=true -> window.Alert
-
-    localStorage.removeItem('usertoken')
-    console.log("ENTRA al onDelete")
-    const user = {
-      login: this.state.login
-    }
-   deleteUser(user)
-   this.setState({redirect: true});
+  const user = {
+    login: this.state.login
   }
+
+  tieneSubastas(user).then(res => {
+   if(res=="NO"){
+     if(window.confirm("¿Estas seguro?")){
+      //Eliminamos el usuario de CHATKIT:
+      const ChatkitS = require('@pusher/chatkit-server');
+      //Servidor
+      const chatkit = new ChatkitS.default({
+        instanceLocator: instanceLocator,
+        key: key,
+      })
+      //Eliminamos al usuario del CHAT
+      chatkit.deleteUser({ userId: this.state.login })
+      .then(() => {
+        console.log('Uusario eliminado de CHATKIT correctamente');
+      }).catch((err) => {
+        console.log(err);
+      });
+      //Eliminamos al usuario de la BD.
+       localStorage.removeItem('usertoken')
+       deleteUser(user)
+       this.setState({redirect: true,
+                      userBorrado: user});
+     }
+   }
+   else{
+     window.alert("No puede eliminar su cuenta debido a que tiene subastas abiertas")
+   }
+    })
+}
 
   cerrarSesion = e => {
     e.preventDefault()
     localStorage.removeItem('usertoken')
-    this.setState({redirect: true});
+    this.setState({redirectCerrarSesion: true});
   }
 
   valorar (id, valoracion) {
@@ -205,6 +232,12 @@ class Perfil extends Component {
   render() {
     let modalClose = () => this.setState({ modalShow: false, cargar: false }); //Para gestionar VistaProductoPerfil (guille)
     if (this.state.redirect){
+      console.log("REDIRECT DE ELIMINANDO> USUARIO BORRADO:")
+      console.log(this.state.userBorrado)
+      return <Redirect push to={{pathname: `/`,
+                                 usuario:{userBorrado:this.state.userBorrado}}} />;
+    }
+    if (this.state.redirectCerrarSesion){
       return <Redirect push to="/" />;
     }
     return (
@@ -234,7 +267,7 @@ class Perfil extends Component {
                                       Teléfono:  {this.state.datos[7]}
                                     </h5>
                                      <p class="profile-rating">
-                                    <h5>Valoración:
+                                    <h5>Valoración:</h5>
                                       <span>
                                         <StarRatings
                                           starRatedColor="gold"
@@ -243,10 +276,7 @@ class Perfil extends Component {
                                           starSpacing="5px"
                                           rating={this.state.datos[6]}
                                         />
-                                        {console.log("PUNTUACION como vendedor:")}
-                                        {console.log(this.state.datos[6])}
                                       </span>
-                                      </h5>
                                     </p>
 
 
@@ -321,7 +351,7 @@ class Perfil extends Component {
                                     <Button
                                         variant="outline-primary"
                                         onClick={() => this.setState({ modalShow: true,
-                                                                       id: productos[5],
+                                                                       id: productos[1],
                                                                        indiceMostrar: index,
                                                                        nombreMostrar: productos[0],
                                                                        vendedorMostrar: productos[3],
@@ -348,7 +378,7 @@ class Perfil extends Component {
                                 {this.state.subastas.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170"/>
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -383,7 +413,7 @@ class Perfil extends Component {
                                 {this.state.vendidos.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={productos[6]} />
+                                    <img className="card-img-top" src={productos[6]} width="150" height="170"/>
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -418,7 +448,7 @@ class Perfil extends Component {
                                 {this.state.subastados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170" />
 
                                   {console.log("IMAGEN de la subasta:")}
                                   {console.log(productos[6])}
@@ -459,7 +489,7 @@ class Perfil extends Component {
                                 {this.state.comprados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[5]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[5]} width="150" height="170" />
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                   </div>
@@ -482,13 +512,9 @@ class Perfil extends Component {
                                     {console.log("NewRating:")}
                                     {console.log(this.state.rating)}
 
-                                <button className="btn btn-danger mr-sm-2"
-                                  //onClick={this.valorar.bind(this)}
-                                  //onClick={valorarProducto(       productos[1]        ,this.state.rating)}
-                                                                //Tengo que sacar el id del producto en concreto: index
-                                >
-                                  Valorar
-                                </button>
+                                    <Button className="ml-sm-4" variant="danger" onClick={() => this.valorar(productos[1],this.state.rating)}>
+                                    Valorar
+                                    </Button>
 
                                   </div> {}
                                 </div>

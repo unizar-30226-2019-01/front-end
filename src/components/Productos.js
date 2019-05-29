@@ -22,8 +22,8 @@ import Form from 'react-bootstrap/Form';
 
 class Productos extends Component {
 
-  constructor(args) {
-    super(args)
+  constructor(props) {
+    super(props)
     this.state = {
         modalShow: false,
         id: '',
@@ -44,7 +44,8 @@ class Productos extends Component {
         horaLimite: "",
         cargar: false,
         lugar: this.props.lugar,
-        valoracionMostrar: ""
+        valoracionMostrar: "",
+        userBorrado: this.props.userB
     };
     this.renderProductos = this.renderProductos.bind(this);
     this.renderSubastas = this.renderSubastas.bind(this);
@@ -91,12 +92,13 @@ class Productos extends Component {
     if(this.state.precio !== 0 && this.state.precio<1000 && productos[4] > this.state.precio){
       return null
     }
-
     if( this.state.categoria!== "" && productos[5] !==this.state.categoria){
       return null
     }
-
     if( this.state.lugar!== "" && productos[7] !==this.state.lugar){
+      return null
+    }
+    if( this.state.userBorrado!="" && this.state.userBorrado!=undefined && this.state.userBorrado.login==productos[3]){
       return null
     }
 
@@ -144,12 +146,13 @@ class Productos extends Component {
     if( this.state.precio !== 0 && (subastas[4] > this.state.precio)){
       return null
     }
-
     if( this.state.categoria!== "" && subastas[5] !==this.state.categoria){
       return null
     }
-
     if( this.state.lugar!== "" && subastas[9] !==this.state.lugar){
+      return null
+    }
+    if( this.state.userBorrado!="" && this.state.userBorrado!=undefined && this.state.userBorrado.login==subastas[3]){
       return null
     }
 
@@ -180,11 +183,7 @@ class Productos extends Component {
                                              cargar: true})} >
               Ver producto
             </Button>
-
-                {console.log("ID de la subasta:")}
-                {console.log(this.state.id)}
-
-          </div> {}
+          </div>
         </div>
         </div>
     );
