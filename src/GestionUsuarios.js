@@ -62,15 +62,12 @@ export const actualizarInfo = user => {
 
 export const deleteUser = user => {
 
-  console.log("ENTRA al deleteUser de GestionUsuarios")
-  console.log(user)
-
   return axios
       .post(`delete`, {
             login: user.login,
       })
       .then((res) => {
-        console.log(res)
+        //console.log(res)
         localStorage.removeItem('usertoken')
       })
       .catch(err => {
@@ -110,8 +107,8 @@ export const infoUsuario = login => {
         data[6]=res.data.Puntuacion
         data[7]=res.data.Telefono
 
-        console.log("DEVUELVE infousuario")
-        console.log(data)
+        //console.log("DEVUELVE infousuario")
+        //console.log(data)
 
         return data
     })

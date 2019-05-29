@@ -46,7 +46,8 @@ class Perfil extends Component {
       sePuedeEditar: true,
       categoriaMostrar: '',
       rating: 0,
-      valoracionMostrar: ""
+      valoracionMostrar: "",
+      userBorrado: ""
     }
     this.changeRating = this.changeRating.bind(this)
   }
@@ -57,7 +58,7 @@ class Perfil extends Component {
 
     }
     else{
-        console.log("existe")
+        //console.log("existe")
         const token = localStorage.usertoken
         const decoded = jwt_decode(token)
         const usuario = {
@@ -68,7 +69,7 @@ class Perfil extends Component {
           datos: data
         },
         () => {
-            console.log("devuelvo")
+            //console.log("devuelvo")
         })
       })
         this.getAll(usuario)
@@ -83,14 +84,14 @@ class Perfil extends Component {
 
 
   getAll = (usuario) => {
-    console.log(usuario.login)
+    //console.log(usuario.login)
     getEnVentaUsuario(usuario).then(data => {
         this.setState({
             EnVenta: [...data],
             login: usuario.login
         },
             () => {
-                console.log(this.state.term)
+                //console.log(this.state.term)
             })
     })
 
@@ -99,7 +100,7 @@ class Perfil extends Component {
             subastas: [...data]
         },
             () => {
-                console.log(this.state.term)
+                //console.log(this.state.term)
             })
     })
 
@@ -108,7 +109,7 @@ class Perfil extends Component {
             vendidos: [...data]
         },
             () => {
-                console.log(this.state.term)
+                //console.log(this.state.term)
             })
     })
     getSubastasAcabadas(usuario).then(data => {
@@ -116,7 +117,7 @@ class Perfil extends Component {
           subastados: [...data]
       },
           () => {
-              console.log(this.state.term)
+              //console.log(this.state.term)
           })
   })
 
@@ -125,7 +126,7 @@ class Perfil extends Component {
         comprados: [...data]
     },
         () => {
-            console.log(this.state.term)
+            //console.log(this.state.term)
         })
   })
 
@@ -143,11 +144,12 @@ onDelete = e => {
      if(window.confirm("¿Estas seguro?")){
        localStorage.removeItem('usertoken')
        deleteUser(user)
-       this.setState({redirect: true});
+       this.setState({redirect: true,
+                      userBorrado: user});
      }
    }
    else{
-     window.confirm("No puede eliminar su cuenta debido a que tiene subastas abiertas")
+     window.alert("No puede eliminar su cuenta debido a que tiene subastas abiertas")
    }
     })
 }
@@ -155,7 +157,7 @@ onDelete = e => {
   cerrarSesion = e => {
     e.preventDefault()
     localStorage.removeItem('usertoken')
-    this.setState({redirect: true});
+    this.setState({redirectCerrarSesion: true});
   }
 
   valorar (id, valoracion) {
@@ -212,6 +214,12 @@ onDelete = e => {
   render() {
     let modalClose = () => this.setState({ modalShow: false, cargar: false }); //Para gestionar VistaProductoPerfil (guille)
     if (this.state.redirect){
+      console.log("REDIRECT DE ELIMINANDO> USUARIO BORRADO:")
+      console.log(this.state.userBorrado)
+      return <Redirect push to={{pathname: `/`,
+                                 usuario:{userBorrado:this.state.userBorrado}}} />;
+    }
+    if (this.state.redirectCerrarSesion){
       return <Redirect push to="/" />;
     }
     return (
@@ -250,8 +258,6 @@ onDelete = e => {
                                           starSpacing="5px"
                                           rating={this.state.datos[6]}
                                         />
-                                        {console.log("PUNTUACION como vendedor:")}
-                                        {console.log(this.state.datos[6])}
                                       </span>
                                       </h5>
                                     </p>
