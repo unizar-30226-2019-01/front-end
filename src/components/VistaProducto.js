@@ -59,7 +59,7 @@ class VistaProducto extends Component {
 
     this.setState({ [e.target.name]: escribir })
   }
-  
+
 
   getlink(id) {
     var aux = document.createElement('input');
@@ -391,7 +391,7 @@ class VistaProducto extends Component {
     }
     else{
       //No estas logueado
-      console.log("no log")
+      //console.log("no log")
        chatYoferta =
        			<div>
 	            <Button className="mr-sm-4" variant="success" onClick={() => this.registrese()}>

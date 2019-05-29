@@ -24,7 +24,7 @@ class VistaProductoPerfil extends Component {
       primeraVez: true,
       primeraVezURL: true,
       redirige:false
-    }; 
+    };
 
     //this.changeRating = this.changeRating.bind(this);
   }
@@ -64,7 +64,7 @@ class VistaProductoPerfil extends Component {
         }
         var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
         var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
-  
+
         this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
       }
     }
@@ -89,13 +89,11 @@ class VistaProductoPerfil extends Component {
   }
 
   render() {
-    console.log("ID que le llega al VistaProductoPerfil:")
-    console.log(this.props.id)
 
     if(this.state.redirige){
       return <Redirect push to="/Perfil" />;
     }
-    
+
     let fotosMostrar=[[]]
     if(this.props.show){
       fotosMostrar=[[this.props.fotoP]]
@@ -197,7 +195,7 @@ class VistaProductoPerfil extends Component {
         </ButtonGroup>
       </div>
       }
-      
+
     }
 
     return (

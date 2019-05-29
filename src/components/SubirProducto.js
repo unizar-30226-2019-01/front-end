@@ -58,7 +58,6 @@ class SubirProducto extends Component {
         foto2: "vacio",
         foto3: "vacio"
       })
-      console.log(this.state.vendedor)
     }
   }
 
@@ -79,7 +78,7 @@ class SubirProducto extends Component {
     else if (coma[1] != undefined){
       if(coma[1].length > 2){
         escribir=e.target.value.substring(0,e.target.value.length-1)
-        window.confirm("El limite de decimales es 2")
+        window.alert("El limite de decimales es 2")
       }
     }
 
@@ -101,7 +100,6 @@ class SubirProducto extends Component {
       var mm = day.getMonth()+1;
       var yy = day.getFullYear();
       var fecha = yy+'-'+mm+'-'+dd
-      console.log(this.state.foto1)
 
       if(this.state.venta){
         const newProducto = {
@@ -185,7 +183,7 @@ class SubirProducto extends Component {
                 })
                 if(data=="Exito"){
                   //setTimeout(this.acabarSubasta, 20000);
-                  console.log("puesto")
+                  //console.log("puesto")
                 }
               })
               this.setState({redirect: true});

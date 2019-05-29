@@ -22,17 +22,8 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    if(props.location.prod==undefined){
-      this.state = {
-        mostrar:0,
-        precio:"",
-        precioAnt:"",
-        categoria:"",
-        lugar:"",
-        lugarAnt:""
-      }
-    }
-    else{
+    if(props.location.prod!=undefined){
+      console.log("STATE EN APP DE MAGIA")
       this.state = {
         mostrar:props.location.prod.mostrarMagia,
         mostrarAnt:props.location.prod.mostrarMagia,
@@ -41,7 +32,37 @@ class App extends Component {
         categoria:props.location.prod.categoriaMagia,
         categoriaAnt:props.location.prod.categoriaMagia,
         lugar:props.location.prod.lugarMagia,
-        lugarAnt:props.location.prod.lugarMagia
+        lugarAnt:props.location.prod.lugarMagia,
+        userBorrado: ""
+      }
+    }
+    else if(props.location.usuario!=undefined){
+      console.log("STATE EN APP DE BORRAR USUARIO")
+      console.log(props.location.usuario.userBorrado)
+      this.state = {
+        mostrar:0,
+        mostrarAnt:"",
+        precio:"",
+        precioAnt:"",
+        categoria:"",
+        categoriaAnt:"",
+        lugar:"",
+        lugarAnt:"",
+        userBorrado: props.location.usuario.userBorrado
+      }
+    }
+    else{
+      console.log("STATE EN APP DEFECTO")
+      this.state = {
+        mostrar:0,
+        mostrarAnt:"",
+        precio:"",
+        precioAnt:"",
+        categoria:"",
+        categoriaAnt:"",
+        lugar:"",
+        lugarAnt:"",
+        userBorrado: ""
       }
     }
     this.ordenacion = this.ordenacion.bind(this);
@@ -97,7 +118,7 @@ class App extends Component {
         {barra}
         <Sidebar callback={this.ordenacion.bind(this)} callback2={this.maximoPrecio.bind(this)} callback3={this.categoriaSelec.bind(this)} callback4={this.lugar.bind(this)} precioText={this.state.precio} lugarText={this.state.lugar} catText={this.state.categoria} ubiText={this.state.lugar}/>
         <div className="App-header">
-          <Productos mostrar={this.state.mostrar} precio={precioAPasar} categoria={this.state.categoria} lugar={this.state.lugar}/>
+          <Productos mostrar={this.state.mostrar} precio={precioAPasar} categoria={this.state.categoria} lugar={this.state.lugar} userB={this.state.userBorrado}/>
         </div>
       </div>
     );
