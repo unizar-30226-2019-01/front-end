@@ -15,7 +15,10 @@ import { eliminarSubasta } from '../GestionPublicaciones';
 
 import {Redirect } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+
+import Chatkit from '@pusher/chatkit-client';
+import { tokenUrl, instanceLocator, key } from './config';
 
 class Perfil extends Component {
   constructor() {
@@ -142,6 +145,21 @@ onDelete = e => {
   tieneSubastas(user).then(res => {
    if(res=="NO"){
      if(window.confirm("¿Estas seguro?")){
+      //Eliminamos el usuario de CHATKIT:
+      const ChatkitS = require('@pusher/chatkit-server');
+      //Servidor
+      const chatkit = new ChatkitS.default({
+        instanceLocator: instanceLocator,
+        key: key,
+      })
+      //Eliminamos al usuario del CHAT
+      chatkit.deleteUser({ userId: this.state.login })
+      .then(() => {
+        console.log('Uusario eliminado de CHATKIT correctamente');
+      }).catch((err) => {
+        console.log(err);
+      });
+      //Eliminamos al usuario de la BD.
        localStorage.removeItem('usertoken')
        deleteUser(user)
        this.setState({redirect: true,
