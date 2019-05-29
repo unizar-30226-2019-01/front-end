@@ -20,7 +20,6 @@ class NavLog extends Component {
       login: '',
       password: ''
     }
-    this.state = { validated: false }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.handleSubmit.bind(this)
   }
@@ -31,11 +30,7 @@ class NavLog extends Component {
 
   handleSubmit(e) {
 		e.preventDefault();
-		const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-    }
-    else{
+		
 			const user = {
 				login: this.state.login,
 				password: this.state.password
@@ -47,9 +42,6 @@ class NavLog extends Component {
 				})
 			})
 			this.setState({ redirect: true });
-		}
-	
-			this.setState({ validated: true });
 	}
 
   render() {
@@ -64,7 +56,7 @@ class NavLog extends Component {
 					respuestaBD: undefined});
 			}
 			else if(this.state.respuestaBD != undefined) {
-				return <NavLogReg />
+				return <Redirect push to="/" />
 			}
     }
 
@@ -94,7 +86,7 @@ class NavLog extends Component {
                       className=" mr-sm-4" variant="success">Registrarse</Button>
               <br />
               <br />
-              <Form inline validated={validated}
+              <Form inline 
                     onSubmit={e => this.handleSubmit(e)}>
               <InputGroup>
                 <InputGroup.Prepend>
