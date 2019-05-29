@@ -85,14 +85,16 @@ class Chat extends React.Component {
 
     salir(roomId){
         if (roomId !== null && roomId !== undefined){
-        this.currentUser.leaveRoom({ roomId: roomId })
-          .then(room => {
-            console.log(`Sala abandonada-> ID: ${room.id}`)
-          })
-          .catch(err => {
-            console.log(`Error abandonando la sala ${roomId}: ${err}`)
-          })
-        window.location.reload();
+            if(window.confirm("¿Estas seguro de que quieres abandonar el chat?")){
+		        this.currentUser.leaveRoom({ roomId: roomId })
+		          .then(room => {
+		            console.log(`Sala abandonada-> ID: ${room.id}`)
+		            window.location.reload();
+		          })
+		          .catch(err => {
+		            console.log(`Error abandonando la sala ${roomId}: ${err}`)
+		          })
+	    	}
         }
         else{
             window.alert("Seleccione una conversación para abandonarla.")
