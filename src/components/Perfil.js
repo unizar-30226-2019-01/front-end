@@ -139,8 +139,8 @@ class Perfil extends Component {
       login: this.state.login
     }
     console.log(user)
-   deleteUser(user)
-   this.setState({redirect: true});
+    deleteUser(user)
+    this.setState({redirect: true});
   }
 
   cerrarSesion = e => {
@@ -214,7 +214,7 @@ class Perfil extends Component {
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src={this.state.datos[4]} alt=""/>
+                            <img src={this.state.datos[4]} width="150" height="170"/>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -232,7 +232,7 @@ class Perfil extends Component {
                                       Teléfono:  {this.state.datos[7]}
                                     </h5>
                                      <p class="profile-rating">
-                                    <h5>Valoración:
+                                    <h5>Valoración: </h5>
                                       <span>
                                         <StarRatings
                                           starRatedColor="gold"
@@ -244,7 +244,6 @@ class Perfil extends Component {
                                         {console.log("PUNTUACION como vendedor:")}
                                         {console.log(this.state.datos[6])}
                                       </span>
-                                      </h5>
                                     </p>
 
 
@@ -319,7 +318,7 @@ class Perfil extends Component {
                                     <Button
                                         variant="outline-primary"
                                         onClick={() => this.setState({ modalShow: true,
-                                                                       id: productos[5],
+                                                                       id: productos[1],
                                                                        indiceMostrar: index,
                                                                        nombreMostrar: productos[0],
                                                                        vendedorMostrar: productos[3],
@@ -346,7 +345,7 @@ class Perfil extends Component {
                                 {this.state.subastas.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170"/>
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -381,7 +380,7 @@ class Perfil extends Component {
                                 {this.state.vendidos.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={productos[6]} />
+                                    <img className="card-img-top" src={productos[6]} width="150" height="170"/>
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -416,7 +415,7 @@ class Perfil extends Component {
                                 {this.state.subastados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170" />
 
                                   {console.log("IMAGEN de la subasta:")}
                                   {console.log(productos[6])}
@@ -457,7 +456,7 @@ class Perfil extends Component {
                                 {this.state.comprados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[5]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[5]} width="150" height="170" />
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                   </div>

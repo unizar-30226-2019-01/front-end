@@ -19,6 +19,7 @@ class VistaProductoPerfil extends Component {
       esVenta: true,
       rating: 4,
       id: this.props.id,
+      fotos:this.props.fotoP,
       fot: [],
       primeraVez: true,
       primeraVezURL: true,
@@ -94,6 +95,7 @@ class VistaProductoPerfil extends Component {
     if(this.state.redirige){
       return <Redirect push to="/Perfil" />;
     }
+    
     let fotosMostrar=[[]]
     if(this.props.show){
       fotosMostrar=[[this.props.fotoP]]
@@ -114,10 +116,10 @@ class VistaProductoPerfil extends Component {
     let precio
     let horaYFechaSubasta
     if(this.props.fechaLimite==""){
-      precio = <h3>Precio: {this.props.precio}</h3>
+      precio = <h3>Precio: {this.props.precio}€</h3>
     }
     else{
-      precio = <h3>Precio actual: {this.props.precio}€</h3>
+      precio = <h3>Puja actual: {this.props.precio}€</h3>
       horaYFechaSubasta =
       <div><h3>Fecha límite: {this.props.fechaLimite}</h3>
       <h3>Hora límite:  {this.props.horaLimite}</h3></div>
