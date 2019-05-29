@@ -182,8 +182,14 @@ class VistaProducto extends Component {
         }
         else{
           this.setState({
-            precioPuja: precio
+            magiaPorAquiMagiaPorAlla: true,
           });
+          var aviso = document.createElement('div');
+          aviso.setAttribute('id', 'aviso');
+          aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: green;border-radius: 8px;color:white; font-family: sans-serif;';
+          aviso.innerHTML = 'Puja realizada con éxito';
+          document.body.appendChild(aviso);
+          document.load = setTimeout('document.body.removeChild(aviso)', 2000);
         }
       })
 
@@ -199,6 +205,9 @@ class VistaProducto extends Component {
 
 
   render() {
+    if(this.state.magiaPorAquiMagiaPorAlla){
+      return <Redirect push to="/Magia" />;
+    }
 
     let fotosMostrar=[[]]
     let contenido
@@ -209,7 +218,6 @@ class VistaProducto extends Component {
           this.setState({
               fot: [...data],
               primeraVez: false,
-              precioPuja: this.props.precio,
               path: '/producto?id=' + this.props.id
           },
               () => {
@@ -242,7 +250,7 @@ class VistaProducto extends Component {
       precio = <h3>Precio: {this.props.precio}€</h3>
     }
     else{
-      precio = <h3>Puja actual: {this.state.precioPuja}€</h3>
+      precio = <h3>Puja actual: {this.props.precio}€</h3>
       horaYFechaSubasta =
       <div><h3>Fecha límite: {this.props.fechaLimite}</h3>
       <h3>Hora límite:  {this.props.horaLimite}</h3></div>
