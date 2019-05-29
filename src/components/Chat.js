@@ -192,7 +192,7 @@ class Chat extends React.Component {
                 <div className="chat">
                     <RoomList
                         subscribeToRoom={this.subscribeToRoom}
-                        rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
+                        rooms={[...this.state.joinedRooms]}
                         roomId={this.state.roomId} />
                     <MessageList 
                         roomId={this.state.roomId}
