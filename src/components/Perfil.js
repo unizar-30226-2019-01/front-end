@@ -169,11 +169,9 @@ class Perfil extends Component {
   }
 
   valorar (id, valoracion) {
-    //e.preventDefault()
 
     valorarProducto (id, valoracion)
 
-    //this.setState({redirect: true});
   }
 
 
@@ -489,22 +487,14 @@ class Perfil extends Component {
                                       starSpacing="5px"
                                       name="rating"
                                       rating={this.state.rating}
-
                                       changeRating={this.changeRating}
-
-                                      //onClick={this.valorar(productos[1],this.state.rating)}    Si lo descomento se clica solo
                                     />
 
                                     {console.log("NewRating:")}
                                     {console.log(this.state.rating)}
-
-                                <button className="btn btn-danger mr-sm-2"
-                                  //onClick={this.valorar.bind(this)}
-                                  //onClick={valorarProducto(       productos[1]        ,this.state.rating)}
-                                                                //Tengo que sacar el id del producto en concreto: index
-                                >
+                                <Button className="ml-sm-4" variant="danger" onClick={() => this.valorar(productos[1],this.state.rating)}>
                                   Valorar
-                                </button>
+                                </Button>
 
                                   </div> {}
                                 </div>
