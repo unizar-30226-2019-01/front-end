@@ -436,9 +436,9 @@ class VistaProducto extends Component {
         <Modal.Header closeButton>
           <Modal.Title bsPrefix="modal-title w-100 text-center" id="contained-modal-title-vcenter">
           <Link to={{
-              pathname: this.state.path,
+              pathname:`/producto`,
               datos:{
-                recargar: true
+                id: this.props.id
               }
             }}>
            {this.props.nombre /*con el props funciona*/}
