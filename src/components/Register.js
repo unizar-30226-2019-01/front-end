@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { register } from '../GestionUsuarios';
+import { register, registerTemporal } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
 import Chatkit from '@pusher/chatkit-client'
@@ -31,7 +31,7 @@ class Register extends Component {
 
   onChange(e) {
     //Indica que el campo que se actualiza con el valor obtenido del input
-    this.setState({ [e.target.name]: e.target.value }) 
+    this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit(event) { //Cada vez que se envie el formulario
     const form = event.currentTarget;
@@ -52,12 +52,12 @@ class Register extends Component {
         email: this.state.email,
         foto: this.state.foto
       }
-      register(newUser).then(res => {
+      registerTemporal(newUser).then(res => {
 				this.setState({
 					respuestaBD: res
 				})
         //Si el usuario ha sido registrado correctamente lo añadimos a los usuarios del CHAT
-        if (this.state.respuestaBD != "Error"){
+        /*if (this.state.respuestaBD != "Error"){
         const ChatkitS = require('@pusher/chatkit-server');
 
         //Servidor
@@ -70,17 +70,17 @@ class Register extends Component {
         chatkit.getUser({
           id: this.state.login,
         })
-          .then(user => console.log('Usuario encontrado: ', user))
-          .catch(chatkit.createUser({
-              id: this.state.login,
-              name: this.state.nombre,
-            })
-              .then(() => {
-                console.log('Usuario creado correctamente');
-              }).catch((err) => {
-                console.log(err);
-              }))
-        }
+        .then(user => console.log('Usuario encontrado: ', user))
+        .catch(chatkit.createUser({
+            id: this.state.login,
+            name: this.state.nombre,
+          })
+            .then(() => {
+              console.log('Usuario creado correctamente');
+            }).catch((err) => {
+              console.log(err);
+            }))
+        }*/
 			})
 			this.setState({ redirect: true });
     }
@@ -92,8 +92,6 @@ class Register extends Component {
     const file = event.target.files[0]
     const storageRef = firebase.storage().ref(`fotos/${file.name}`)
     const task = storageRef.put(file)
-
-
 
     task.on('state_changed', (snapshot) => {
         let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -124,7 +122,8 @@ class Register extends Component {
 				this.setState({redirect: false,
 					respuestaBD: undefined});
 			}
-			else if(this.state.respuestaBD != undefined) {
+			else if(this.state.respuestaBD == "OK") {
+        window.alert("Un correo ha sido envíado a su email. Confirme la cuenta por favor")
 				return <Redirect push to="/" />;
 			}
     }
@@ -194,7 +193,7 @@ class Register extends Component {
               placeholder="Contraseña"
               name="password"
               value={this.state.password}
-              onChange={this.onChange} 
+              onChange={this.onChange}
               />
           </Form.Group>
           <Form.Group controlId="telefono">
@@ -204,7 +203,7 @@ class Register extends Component {
               placeholder="Teléfono"
               name="telefono"
               value={this.state.telefono}
-              onChange={this.onChange} 
+              onChange={this.onChange}
               />
           </Form.Group>
           <div>

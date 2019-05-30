@@ -7,15 +7,15 @@ import AppRoutes from './routes';
 import './css/index.css';
 import firebase from 'firebase'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBXsmEEHvGiRwxeMbAO4AejNexD0iCHn_s",
-    authDomain: "proyectosoftware-2397d.firebaseapp.com",
-    databaseURL: "https://proyectosoftware-2397d.firebaseio.com",
-    projectId: "proyectosoftware-2397d",
-    storageBucket: "proyectosoftware-2397d.appspot.com",
-    messagingSenderId: "382506671393",
-    appId: "1:382506671393:web:af9c6a6744e52da2"
-  };
+var firebaseConfig = {
+  apiKey: "AIzaSyDo0sGfSI-KezBTO8UjcnBpfw136aNQ1oY",
+  authDomain: "proyecto2-c9030.firebaseapp.com",
+  databaseURL: "https://proyecto2-c9030.firebaseio.com",
+  projectId: "proyecto2-c9030",
+  storageBucket: "proyecto2-c9030.appspot.com",
+  messagingSenderId: "315438602113",
+  appId: "1:315438602113:web:1425b03ace5242e1"
+};
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 

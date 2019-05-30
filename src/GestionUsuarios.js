@@ -22,6 +22,27 @@ export const register = newUser => {
     })
 }
 
+export const registerTemporal = newUser => {
+  return axios
+
+    .post('registerTemporal', {
+      login: newUser.login,
+      password: newUser.password,
+      nombre: newUser.nombre,
+      apellidos: newUser.apellidos,
+      email: newUser.email,
+      foto: newUser.foto,
+      telefono: newUser.telefono
+      //puntuacion: 2.5   //Inicializamos a 2.5 estrellas
+    })
+    .then(response => {
+      return response.data
+    })
+    .catch(err => {
+      return err
+    })
+}
+
 export const login = user => {
   return axios
     .post('login', {
@@ -109,6 +130,27 @@ export const infoUsuario = login => {
 
         //console.log("DEVUELVE infousuario")
         //console.log(data)
+
+        return data
+    })
+}
+
+export const infoUsuarioTemporal = login => {
+  return axios
+
+      .post('infoUsuarioTemporal', {
+        usuario: login
+      })
+      .then(res => {
+        var data = []
+        data[0]=res.data.Login
+        data[1]=res.data.Nombre
+        data[2]=res.data.Apellidos
+        data[3]=res.data.Email
+        data[4]=res.data.Foto
+        data[5]=res.data.Password
+        data[6]=res.data.Puntuacion
+        data[7]=res.data.Telefono
 
         return data
     })
