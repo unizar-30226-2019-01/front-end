@@ -258,7 +258,7 @@ let map;
        <input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
       </div>
      </div>
-     <Button onClick={() => this.props.callback(this.state.area)} className="mr-sm-4" variant="secondary">Confirmar localizacion</Button>
+     <Button onClick={() => this.props.callback(this.state.area)} className="mr-sm-4" variant="secondary">Quiero subir mi producto</Button>
     </div>
 } else {
    map = <div style={{height: this.props.height}} />

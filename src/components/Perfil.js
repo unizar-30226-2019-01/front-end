@@ -5,7 +5,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import '../css/perfil.css';
 import bichardo from '../images/bichardo.jpg';
 import { deleteUser, infoUsuario, tieneSubastas } from '../GestionUsuarios';
-import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas, getProductosComprados, valorarProducto, deletePublicacionesUser } from '../GestionPublicaciones';
+import { getEnVentaUsuario, getVentasAcabadas, getSubastasEnCurso, getSubastasAcabadas, getProductosComprados, estaValorado, valorarProducto, deletePublicacionesUser } from '../GestionPublicaciones';
 import Button from 'react-bootstrap/Button';
 import VistaProductoPerfil from './VistaProductoPerfil';
 import NavLogReg from './NavLogReg';
@@ -181,7 +181,30 @@ onDelete = e => {
   valorar (id, valoracion) {
     //e.preventDefault()
 
-    valorarProducto (id, valoracion)
+    estaValorado(id, valoracion).then(res => {
+      console.log(res)
+      if(res!="SI"){
+        valorarProducto(id, valoracion)
+        var aviso = document.createElement('div');
+        aviso.setAttribute('id', 'aviso');
+        aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+        aviso.innerHTML = 'Producto valorado';
+        document.body.appendChild(aviso);
+        document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      }
+      else{
+        var aviso = document.createElement('div');
+        aviso.setAttribute('id', 'aviso');
+        aviso.style.cssText = 'position:fixed; z-index: 9999999; top: 50%;left:50%;margin-left: -70px;padding: 20px; background: gold;border-radius: 8px;font-family: sans-serif;';
+        aviso.innerHTML = 'Ya has valorado este producto';
+        document.body.appendChild(aviso);
+        document.load = setTimeout('document.body.removeChild(aviso)', 2000);
+      }
+    })
+
+    this.setState({
+      rating: 0
+    });
 
     //this.setState({redirect: true});
   }
@@ -492,10 +515,6 @@ onDelete = e => {
                                   <img className="card-img-top" src={productos[5]} width="150" height="170" />
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
-                                  </div>
-                                  <div className="card-footer"> {}
-
-
                                     <StarRatings
                                       starRatedColor="gold"
                                       numberOfStars={5}
@@ -505,9 +524,9 @@ onDelete = e => {
                                       rating={this.state.rating}
 
                                       changeRating={this.changeRating}
-
-                                      //onClick={this.valorar(productos[1],this.state.rating)}    Si lo descomento se clica solo
                                     />
+                                  </div>
+                                  <div className="card-footer">
 
                                     {console.log("NewRating:")}
                                     {console.log(this.state.rating)}
@@ -516,7 +535,7 @@ onDelete = e => {
                                     Valorar
                                     </Button>
 
-                                  </div> {}
+                                  </div>
                                 </div>
                                 </div>
                                 ))}

@@ -348,28 +348,6 @@ class VerPerfil extends Component {
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                   </div>
-                            {/*
-                                  <div className="card-footer"> {}       
-                                    <Button
-                                      variant="outline-primary"
-                                      onClick={() => this.setState({ modalShow: true,
-                                                                     id: productos[1],
-                                                                     indiceMostrar: index,
-                                                                     nombreMostrar: productos[0],
-                                                                     vendedorMostrar: productos[3],
-                                                                     precioMostrar: productos[4],
-                                                                     descripcionMostrar: productos[2],
-                                                                     categoriaMostrar: productos[5],
-                                                                     fotoMostrar: productos[8],
-                                                                     fechaLimite: productos[6],
-                                                                     horaLimite: productos[7],
-                                                                     sePuedeEditar: false,
-                                                                     cargar: true})} >
-                                      Ver producto
-                                    </Button>
-                            
-                                  </div> {}
-                            */}
                                 </div>
                                 </div>
                                 ))}
@@ -380,7 +358,7 @@ class VerPerfil extends Component {
                     </div>
                 </div>
             </form>
-            <VistaProductoPerfil
+            <VistaProducto
                 show={this.state.modalShow}
                 id={this.state.id}
                 cargar={this.state.cargar}

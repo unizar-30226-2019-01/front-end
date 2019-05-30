@@ -101,92 +101,97 @@ class SubirProducto extends Component {
       var yy = day.getFullYear();
       var fecha = yy+'-'+mm+'-'+dd
 
-      if(this.state.venta){
-        const newProducto = {
-          nombre: this.state.nombre,
-          descripcion: this.state.descripcion,
-          categoria: this.state.categoria,
-          foto: this.state.foto,
-          foto1: this.state.foto1,
-          foto2: this.state.foto2,
-          foto3: this.state.foto3,
-          precio: this.state.precio,
-          vendedor: this.state.vendedor,
-          provincia: this.state.provincia,
-          fecha: fecha
-        };
-        anadirProducto(newProducto).then(data => {
-          this.setState({
-              respuestaBD: data
-            })
-          })
-        this.setState({redirect: true});
+      if(this.state.precio <= 0){
+        window.alert("Introduzca un precio positivo")
       }
       else{
-        if (this.state.fechaLimite==undefined) {
-          e.preventDefault();
-          e.stopPropagation();
-          window.alert("Seleccione una fecha límite correcta por favor")
+        if(this.state.venta){
+          const newProducto = {
+            nombre: this.state.nombre,
+            descripcion: this.state.descripcion,
+            categoria: this.state.categoria,
+            foto: this.state.foto,
+            foto1: this.state.foto1,
+            foto2: this.state.foto2,
+            foto3: this.state.foto3,
+            precio: this.state.precio,
+            vendedor: this.state.vendedor,
+            provincia: this.state.provincia,
+            fecha: fecha
+          };
+          anadirProducto(newProducto).then(data => {
+            this.setState({
+                respuestaBD: data
+              })
+            })
+          this.setState({redirect: true});
         }
         else{
-          var separador="-",
-              fechaHoy=fecha.split(separador),
-              fechaL=(this.state.fechaLimite).split(separador);
-
-          var anyoInt = +fechaL[0], //El + de delante es para convertirla a entero
-              anyoIntHoy = +fechaHoy[0];
-
-          if((anyoInt)>(anyoIntHoy+2)){ //Si pones de fecha Limite una superior a dos anyos, fail
-            e.preventDefault();
-            e.stopPropagation();
-            window.alert("Seleccione una fecha límite correcta por favor")
-          }
-          else if(this.state.fechaLimite==""){  //Este es el caso en el q metias un dia mayor q 28 en febrero en anyo no bisiesto, saca "" no se sabe por que
+          if (this.state.fechaLimite==undefined) {
             e.preventDefault();
             e.stopPropagation();
             window.alert("Seleccione una fecha límite correcta por favor")
           }
           else{
-            if(fechaHoy[1].length==1){
-              fechaHoy[1]= "0"+fechaHoy[1]
+            var separador="-",
+                fechaHoy=fecha.split(separador),
+                fechaL=(this.state.fechaLimite).split(separador);
+  
+            var anyoInt = +fechaL[0], //El + de delante es para convertirla a entero
+                anyoIntHoy = +fechaHoy[0];
+  
+            if((anyoInt)>(anyoIntHoy+2)){ //Si pones de fecha Limite una superior a dos anyos, fail
+              e.preventDefault();
+              e.stopPropagation();
+              window.alert("Seleccione una fecha límite correcta por favor")
             }
-            if(fechaHoy[2].length==1){
-              fechaHoy[2]= "0"+fechaHoy[2]
-            }
-            var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
-            var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
-            if(fechaLD<fechaHoyD){        // Cambiar para poder meter fecha actual
-              this.setState({
-                  fechaAnterior: true,
-                  redirect: true
-              })
+            else if(this.state.fechaLimite==""){  //Este es el caso en el q metias un dia mayor q 28 en febrero en anyo no bisiesto, saca "" no se sabe por que
+              e.preventDefault();
+              e.stopPropagation();
+              window.alert("Seleccione una fecha límite correcta por favor")
             }
             else{
-              const newProductoSubasta = {
-                nombre: this.state.nombre,
-                fecha: fecha,
-          			categoria: this.state.categoria,
-                descripcion: this.state.descripcion,
-                vendedor: this.state.vendedor,
-                precio: this.state.precio,
-                foto: this.state.foto,
-                foto1: this.state.foto1,
-                foto2: this.state.foto2,
-                foto3: this.state.foto3,
-                fechaLimite: this.state.fechaLimite,
-                horaLimite: this.state.horaLimite,
-                provincia: this.state.provincia
+              if(fechaHoy[1].length==1){
+                fechaHoy[1]= "0"+fechaHoy[1]
               }
-              anadirSubasta(newProductoSubasta).then(data => {
+              if(fechaHoy[2].length==1){
+                fechaHoy[2]= "0"+fechaHoy[2]
+              }
+              var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
+              var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
+              if(fechaLD<fechaHoyD){        // Cambiar para poder meter fecha actual
                 this.setState({
-                    respuestaBDSubasta: data
+                    fechaAnterior: true,
+                    redirect: true
                 })
-                if(data=="Exito"){
-                  //setTimeout(this.acabarSubasta, 20000);
-                  //console.log("puesto")
+              }
+              else{
+                const newProductoSubasta = {
+                  nombre: this.state.nombre,
+                  fecha: fecha,
+                  categoria: this.state.categoria,
+                  descripcion: this.state.descripcion,
+                  vendedor: this.state.vendedor,
+                  precio: this.state.precio,
+                  foto: this.state.foto,
+                  foto1: this.state.foto1,
+                  foto2: this.state.foto2,
+                  foto3: this.state.foto3,
+                  fechaLimite: this.state.fechaLimite,
+                  horaLimite: this.state.horaLimite,
+                  provincia: this.state.provincia
                 }
-              })
-              this.setState({redirect: true});
+                anadirSubasta(newProductoSubasta).then(data => {
+                  this.setState({
+                      respuestaBDSubasta: data
+                  })
+                  if(data=="Exito"){
+                    //setTimeout(this.acabarSubasta, 20000);
+                    //console.log("puesto")
+                  }
+                })
+                this.setState({redirect: true});
+              }
             }
           }
         }
