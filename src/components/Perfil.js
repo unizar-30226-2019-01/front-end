@@ -493,9 +493,10 @@ onDelete = e => {
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                   </div>
-                                  <div className="card-footer"> {}
+                                  <div className="card-footer">
 
-
+                                    {console.log("NewRating:")}
+                                    {console.log(this.state.rating)}
                                     <StarRatings
                                       starRatedColor="gold"
                                       numberOfStars={5}
@@ -505,18 +506,13 @@ onDelete = e => {
                                       rating={this.state.rating}
 
                                       changeRating={this.changeRating}
-
-                                      //onClick={this.valorar(productos[1],this.state.rating)}    Si lo descomento se clica solo
                                     />
-
-                                    {console.log("NewRating:")}
-                                    {console.log(this.state.rating)}
 
                                     <Button className="ml-sm-4" variant="danger" onClick={() => this.valorar(productos[1],this.state.rating)}>
                                     Valorar
                                     </Button>
 
-                                  </div> {}
+                                  </div>
                                 </div>
                                 </div>
                                 ))}

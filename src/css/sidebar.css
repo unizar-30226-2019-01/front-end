@@ -49,7 +49,6 @@ bottom:10px;
   z-index: 999;
   height: 100%;
   top:96px;
-  overflow-y:scroll;
 }
 .sidebar a{
   text-decoration: none;
@@ -78,5 +77,5 @@ bottom:10px;
 .botonSubir{
   position:relative;
   top:-80px;
-  right:10px;
+  right:1px;
 }
