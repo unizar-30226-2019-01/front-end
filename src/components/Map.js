@@ -14,13 +14,14 @@ constructor( props ){
    area: '',
    state: '',
    mapPosition: {
-    lat: this.props.center.lat,
-    lng: this.props.center.lng
+     lat: this.props.center.lat,
+     lng: this.props.center.lng
    },
    markerPosition: {
-    lat: this.props.center.lat,
-    lng: this.props.center.lng
-}
+     lat: this.props.center.lat,
+     lng: this.props.center.lng
+   },
+   abracadabra:true
   }
  }
 /**
@@ -35,7 +36,7 @@ constructor( props ){
      area = this.getArea( addressArray ),
      state = this.getState( addressArray );
 
-    console.log( 'city', city, area, state );
+    //console.log( 'city', city, area, state );
 
     this.setState( {
      address: ( address ) ? address : '',
@@ -49,6 +50,7 @@ constructor( props ){
    }
   );
  };
+
 /**
   * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
   *
@@ -170,6 +172,8 @@ const address = place.formatted_address,
     lng: lngValue
    },
   })
+  this.props.callback(this.state.area)
+  this.setState({abracadabra:false})
  };
 /**
   * When the marker is dragged you get the lat and long using the functions available from event object.
@@ -201,9 +205,21 @@ this.setState( {
     console.error(error);
    }
   );
+  this.props.callback(this.state.area)
+  this.setState({abracadabra:false})
  };
 
 render(){
+  let botonQuieroSubir
+  if(this.state.abracadabra){
+    botonQuieroSubir = <p align="center"> Escoja ubicación</p>
+  }
+  else if(this.state.area==""){
+    botonQuieroSubir = <p align="center"> Escoja ubicación con localidad </p>
+  }
+  else {
+    botonQuieroSubir = ''
+  }
 const AsyncMap = withScriptjs(
    withGoogleMap(
     props => (
@@ -258,7 +274,7 @@ let map;
        <input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
       </div>
      </div>
-     <Button onClick={() => this.props.callback(this.state.area)} className="mr-sm-4" variant="secondary">Quiero subir mi producto</Button>
+     {botonQuieroSubir}
     </div>
 } else {
    map = <div style={{height: this.props.height}} />

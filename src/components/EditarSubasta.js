@@ -104,7 +104,7 @@ class EditarSubasta extends Component {
     var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
     //Los + delante son para tratar las variables como enteros
     if((+fechaHoyD+2)>(+fechaLD)){
-      window.alert("Su subasta termina en un plazo inferior a dos días. Ya no puede editarla ni eliminarla. Póngase en contacto con el ganador cuando finalice el plazo")
+      window.alert("La subasta termina en un plazo inferior a dos días. Ya no puede editarla ni eliminarla. Póngase en contacto con el ganador cuando finalice el plazo")
       this.setState({redirige: true});
     }
   }
