@@ -173,3 +173,4 @@ export const reportar = infoReport => {
       return response.data
     })
 }
+

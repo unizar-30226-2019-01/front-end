@@ -63,7 +63,7 @@ class VistaProducto extends Component {
 
   getlink(id) {
     var aux = document.createElement('input');
-    aux.setAttribute('value', "http://localhost:3000/producto?id=" + id);
+    aux.setAttribute('value', "http://52.151.88.18:8080/producto?id=" + id);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
