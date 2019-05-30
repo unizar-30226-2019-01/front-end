@@ -33,9 +33,9 @@ class VistaProducto extends Component {
     this.onChangePrecio = this.onChangePrecio.bind(this)
   }
 
-  /*componentWillReceiveProps(){
+  componentWillReceiveProps(){
     this.setState({primeraVez:true})
-  }*/
+  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -219,10 +219,7 @@ class VistaProducto extends Component {
               fot: [...data],
               primeraVez: false,
               path: '/producto?id=' + this.props.id
-          },
-              () => {
-                  console.log(this.state.term)
-              })
+          })
         })
 
         if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null){
@@ -260,6 +257,7 @@ class VistaProducto extends Component {
     let botonReportar
     let botonPerfil
     if (localStorage.getItem('usertoken') !== undefined && localStorage.getItem('usertoken') !== null) {
+      //estas logueado
       const token = localStorage.usertoken
       const decoded = jwt_decode(token)
       if (this.props.vendedor != decoded.identity.login){   // Si user != vendedor
@@ -412,16 +410,9 @@ class VistaProducto extends Component {
 
               botonPerfil=
                 <div>
-                  <Link to={{
-                    pathname:'/VerPerfil',
-                    datos:{
-                      vendedor:this.props.vendedor
-                    }
-                  }}>
-                  <Button variant="outline-dark">
+                  <Button variant="outline-dark" onClick={() => this.registrese()}>
                     VENDEDOR: {this.props.vendedor}
                   </Button>
-                  </Link>
                 </div>
 
         botonReportar=

@@ -136,10 +136,10 @@ class SubirProducto extends Component {
             var separador="-",
                 fechaHoy=fecha.split(separador),
                 fechaL=(this.state.fechaLimite).split(separador);
-  
+
             var anyoInt = +fechaL[0], //El + de delante es para convertirla a entero
                 anyoIntHoy = +fechaHoy[0];
-  
+
             if((anyoInt)>(anyoIntHoy+2)){ //Si pones de fecha Limite una superior a dos anyos, fail
               e.preventDefault();
               e.stopPropagation();
@@ -300,7 +300,7 @@ handleOnChange3 (event) {
 
 cambiarProvincia (prov) {
   this.setState({provincia: prov});
-  console.log(this.state.provincia)
+  //console.log(this.state.provincia)
 }
 
   render(){
