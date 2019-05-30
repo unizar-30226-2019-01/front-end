@@ -11,6 +11,7 @@ import NavLogReg from './NavLogReg';
 import StarRatings from 'react-star-ratings';
 import {Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
+import VistaProductoPerfil from './VistaProductoPerfil';
 
 class VerPerfil extends Component {
   constructor(props) {
@@ -140,19 +141,18 @@ class VerPerfil extends Component {
                                       Teléfono:  {this.state.datos[7]}
                                     </h5>
                                     <p class="profile-rating">
-                                    <h5>Valoración: 
+                                    <h5>Valoración: </h5>
                                       <span>
                                         <StarRatings
                                           starRatedColor="gold"
                                           numberOfStars={5}
                                           starDimension="20px"
                                           starSpacing="5px"
-                                          rating={this.state.datos[6] /* Valoracion en la cabecera del perfil */ }  
+                                          rating={this.state.datos[6]}
                                         />
-                                        {console.log("PUNTUACION como vendedor:")} 
+                                        {console.log("PUNTUACION como vendedor:")}
                                         {console.log(this.state.datos[6])}
                                       </span>
-                                      </h5>
                                     </p>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
@@ -202,7 +202,7 @@ class VerPerfil extends Component {
                                 {this.state.EnVenta.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={productos[6]} />
+                                    <img className="card-img-top" src={productos[6]} width="150" height="170"/>
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -237,7 +237,7 @@ class VerPerfil extends Component {
                                 {this.state.subastas.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170"/>
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -272,7 +272,7 @@ class VerPerfil extends Component {
                                 {this.state.vendidos.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                    <img className="card-img-top" src={productos[6]} />
+                                    <img className="card-img-top" src={productos[6]} width="150" height="170"/>
                                     <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -307,7 +307,7 @@ class VerPerfil extends Component {
                                 {this.state.subastados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[8]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[8]} width="150" height="170" />
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                     <p className="card-text">{productos[4]}€</p>
@@ -344,32 +344,10 @@ class VerPerfil extends Component {
                                 {this.state.comprados.map((productos, index) => (
                                 <div className="card-deck" rows="4" columns="4">
                                 <div className="card ml-md-4 mr-md-4">
-                                  <img className="card-img-top" src={productos[5]} width="100" height="170" />
+                                  <img className="card-img-top" src={productos[5]} width="150" height="170" />
                                   <div className="card-body">
                                     <h5 className="card-title">{productos[0]}</h5>
                                   </div>
-                            {/*
-                                  <div className="card-footer"> {}       
-                                    <Button
-                                      variant="outline-primary"
-                                      onClick={() => this.setState({ modalShow: true,
-                                                                     id: productos[1],
-                                                                     indiceMostrar: index,
-                                                                     nombreMostrar: productos[0],
-                                                                     vendedorMostrar: productos[3],
-                                                                     precioMostrar: productos[4],
-                                                                     descripcionMostrar: productos[2],
-                                                                     categoriaMostrar: productos[5],
-                                                                     fotoMostrar: productos[8],
-                                                                     fechaLimite: productos[6],
-                                                                     horaLimite: productos[7],
-                                                                     sePuedeEditar: false,
-                                                                     cargar: true})} >
-                                      Ver producto
-                                    </Button>
-                            
-                                  </div> {}
-                            */}
                                 </div>
                                 </div>
                                 ))}

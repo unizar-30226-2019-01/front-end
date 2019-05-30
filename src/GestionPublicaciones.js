@@ -11,7 +11,7 @@ export const getProductos = () => {
             Object.keys(res.data).forEach((key) => {
                 var val = res.data[key]
                 //var fotos = getFotos(val.id)
-                
+
 
 
                 data.push([val.Nombre, val.id, val.Descripcion, val.Vendedor, val.Precio, val.Categoria, val.FotoPrincipal, val.Provincia, val.Puntuacion])
@@ -207,6 +207,16 @@ export const anadirProducto = newProducto => {
       return err})
 }
 
+export const estaValorado = (producto, valoracion) => {
+
+    return axios.post(`estaValorado/${producto}`, {
+        headers: { "Content-type": "application/json" },
+      })
+      .then(res => {
+          return res.data
+      }).catch(err => {
+        return err})
+  }
 
 export const valorarProducto = (producto, valoracion) => {
     console.log("ENTRA valorar producto FRONT, parametros:")

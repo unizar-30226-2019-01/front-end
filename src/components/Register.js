@@ -6,7 +6,8 @@ import Button from 'react-bootstrap/Button';
 import { register } from '../GestionUsuarios';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase'
-
+import Chatkit from '@pusher/chatkit-client'
+import { tokenUrl, instanceLocator, key } from './config'
 
 class Register extends Component {
 
@@ -35,7 +36,7 @@ class Register extends Component {
   handleSubmit(event) { //Cada vez que se envie el formulario
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      window.alert("Imagen obligatoria")
+      window.alert("Rellene todos los campos")
       event.preventDefault(); //Evita refrescar la pantalla (si hay entradas no validas)
       event.stopPropagation();
     }
@@ -55,6 +56,31 @@ class Register extends Component {
 				this.setState({
 					respuestaBD: res
 				})
+        //Si el usuario ha sido registrado correctamente lo añadimos a los usuarios del CHAT
+        if (this.state.respuestaBD != "Error"){
+        const ChatkitS = require('@pusher/chatkit-server');
+
+        //Servidor
+        const chatkit = new ChatkitS.default({
+          instanceLocator: instanceLocator,
+          key: key,
+        })
+
+        //Obtenemos el usuario, si no existe lo crea
+        chatkit.getUser({
+          id: this.state.login,
+        })
+          .then(user => console.log('Usuario encontrado: ', user))
+          .catch(chatkit.createUser({
+              id: this.state.login,
+              name: this.state.nombre,
+            })
+              .then(() => {
+                console.log('Usuario creado correctamente');
+              }).catch((err) => {
+                console.log(err);
+              }))
+        }
 			})
 			this.setState({ redirect: true });
     }
