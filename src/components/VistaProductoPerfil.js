@@ -62,10 +62,10 @@ class VistaProductoPerfil extends Component {
         if(fechaHoy[2].length==1){
           fechaHoy[2]= "0"+fechaHoy[2]
         }
-        var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
-        var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
+        //var fechaHoyD=fechaHoy[0]+fechaHoy[1]+fechaHoy[2];
+        //var fechaLD=fechaL[0]+fechaL[1]+fechaL[2];
 
-        this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoyD, fechaLD)
+        this.props.callback(this.props.indice, this.props.fechaLimite, fechaHoy, fechaL)
       }
     }
   }

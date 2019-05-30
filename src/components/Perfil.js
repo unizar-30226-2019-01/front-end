@@ -226,7 +226,7 @@ onDelete = e => {
       });
     }
     else{
-      if((+fechaHoy+2)>(+fechaL)){
+      if(!this.compararFechas(fechaHoy, fechaL)){
         window.alert("Su subasta termina en un plazo inferior a dos días. Ya no puede editarla ni eliminarla. Póngase en contacto con el ganador cuando finalice el plazo")
         this.setState({
           modalShow: false,
@@ -250,7 +250,36 @@ onDelete = e => {
     }
   }
 
-
+  compararFechas(fechaHoy,fechaLimite){
+    var modulo
+		if (fechaHoy[1]=="02"){
+			modulo = 28
+		}
+		else if (fechaHoy[1]=="01" || fechaHoy[1]=="03" || fechaHoy[1]=="05" || fechaHoy[1]=="07" || fechaHoy[1]=="08" || [1]=="10" || fechaHoy[1]=="12"){
+			modulo = 31
+		}
+		else{
+			modulo = 30
+		}
+		//Los + delante son para tratar las variables como enteros
+		var diaH = +fechaHoy[2] + 2
+		var mesH = +fechaHoy[1]
+		var anyoH = +fechaHoy[0]
+		var diaL = +fechaLimite[2]
+		var mesL = +fechaLimite[1]
+		var anyoL = +fechaLimite[0]
+		if (diaH>modulo){
+			mesH = mesH + 1
+			diaH = diaH - modulo
+		}
+		if (mesH==13){
+			mesH = 1
+			anyoH = anyoH + 1
+		}
+		var hoy = anyoH*10000 + mesH*100 + diaH
+		var limite = anyoL*10000 + mesL*100 + diaL
+		return (limite-hoy)>0
+	}
 
   render() {
     let modalClose = () => this.setState({ modalShow: false, cargar: false }); //Para gestionar VistaProductoPerfil (guille)

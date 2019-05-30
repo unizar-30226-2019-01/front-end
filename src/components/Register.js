@@ -118,7 +118,7 @@ class Register extends Component {
     if (this.state.redirect){
 			console.log(this.state.respuestaBD)
       if(this.state.respuestaBD=="Error"){
-				window.alert("Error en el login, Intente de nuevo")
+				window.alert("El login o el correo que intenta introducir ya existen. Pruebe con otro")
 				this.setState({redirect: false,
 					respuestaBD: undefined});
 			}

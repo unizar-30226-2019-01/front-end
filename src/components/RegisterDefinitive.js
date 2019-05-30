@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import logo from '../images/logo.png';
 import '../css/App.css';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {infoUsuarioTemporal, register} from '../GestionUsuarios';
 import PropTypes from 'prop-types';
-import { tokenUrl, instanceLocator, key } from './config'
-import Chatkit from '@pusher/chatkit-client'
+import { tokenUrl, instanceLocator, key } from './config';
+import Chatkit from '@pusher/chatkit-client';
+import Navbar from 'react-bootstrap/Navbar';
 
 class RegisterDefinitive extends Component{
   constructor(props) {
@@ -75,20 +79,48 @@ class RegisterDefinitive extends Component{
     if (this.state.redirect){
 			console.log(this.state.respuestaBD)
       if(this.state.respuestaBD=="Error"){
-				window.alert("Error en el login, Intente de nuevo")
+				window.alert("El login o el correo que intenta introducir ya existen. Pruebe con otro")
 				this.setState({redirect: false,
 					respuestaBD: undefined});
 			}
 			else if(this.state.respuestaBD != undefined) {
-        window.alert("Un correo ha sido envíado a su email. Confirme la cuenta por favor")
 				return <Redirect push to="/" />;
 			}
     }
 
     return (
-      <Button className="mr-sm-4" variant="outline-warning" onClick={() => this.confirmar()}>
-         Pulse para confirmar su cuenta
-      </Button>
+      <div>
+        <div>
+          <Navbar collapseOnSelect expand="md"  variant="light" bg="light" fixed="top">
+            <Navbar.Brand href="/">
+              <h2>
+                <img
+                  alt=""
+                  src={logo}
+                  width="50"
+                  height="40"
+                  className="d-inline-block align-top"
+                />
+                Baitu
+              </h2>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          </Navbar>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div className="text-center">
+          <Button variant="primary" size="lg" onClick={() => this.confirmar()}>
+            Pulse para confirmar su cuenta
+          </Button>
+        </div>
+      </div>
     );
   }
 }
