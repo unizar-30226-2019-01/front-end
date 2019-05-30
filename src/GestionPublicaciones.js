@@ -548,3 +548,20 @@ export const eliminarSubasta = subasta => {
             console.log(res)
         })
   }
+
+  export const estaValorado = (id) => {
+    return axios
+        .post(
+            `estaValorado/${id}`, {
+            })
+        .then((res) => {
+            console.log(res.data)
+            return res.data
+        })
+        .catch((res) => {
+            console.log(res)
+        })
+  }
+
+
+  
