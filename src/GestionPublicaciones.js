@@ -207,6 +207,16 @@ export const anadirProducto = newProducto => {
       return err})
 }
 
+export const estaValorado = (producto, valoracion) => {
+
+    return axios.post(`estaValorado/${producto}`, {
+        headers: { "Content-type": "application/json" },
+      })
+      .then(res => {
+          return res.data
+      }).catch(err => {
+        return err})
+  }
 
 export const valorarProducto = (producto, valoracion) => {
     console.log("ENTRA valorar producto FRONT, parametros:")
